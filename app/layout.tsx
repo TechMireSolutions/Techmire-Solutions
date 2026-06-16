@@ -9,7 +9,7 @@ import Grain from '@/components/ui/Grain'
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['200', '300', '400', '500', '600', '700'],
   variable: '--font-inter',
   display: 'swap',
 })

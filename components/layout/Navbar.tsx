@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import LogoMark from '@/components/ui/LogoMark'
 
 const NAV_LEFT = [
   {
@@ -107,31 +107,9 @@ export default function Navbar() {
         </nav>
 
         {/* Logo — center */}
-        <Link
-          href="/"
-          className="flex items-center gap-3 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
-        >
-          <div className="relative w-9 h-9 shrink-0">
-            <Image
-              src="/logo.png"
-              alt="TechmireSolutions"
-              fill
-              className="object-contain"
-              priority
-              onError={(e) => {
-                const el = e.currentTarget as HTMLImageElement
-                el.style.display = 'none'
-                const fallback = el.nextElementSibling as HTMLElement
-                if (fallback) fallback.style.display = 'flex'
-              }}
-            />
-            <div
-              className="absolute inset-0 rounded-full bg-orange items-center justify-center text-white font-semibold text-[10px] tracking-tight hidden"
-            >
-              TMS
-            </div>
-          </div>
-          <span className="text-white font-medium text-[13.5px] tracking-[-0.01em] hidden sm:block">
+        <Link href="/" className="flex items-center gap-3 lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+          <LogoMark size={34} />
+          <span className="text-white font-light text-[13.5px] tracking-[-0.02em] hidden sm:block">
             TechmireSolutions
           </span>
         </Link>

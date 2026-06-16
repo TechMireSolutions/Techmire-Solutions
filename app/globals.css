@@ -3,12 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --orange: #e8522a;
-  --dark: #0a0a0a;
-  --light: #f5f5f0;
-  --body: #6b6b6b;
-  --border: rgba(255,255,255,0.08);
-  --border-light: rgba(0,0,0,0.08);
+  --orange: #E8522A;
+  --dark: #080808;
+  --light: #EDEAE4;
+  --border: rgba(255,255,255,0.07);
 }
 
 * { box-sizing: border-box; padding: 0; margin: 0; }
@@ -17,47 +15,43 @@ html { scroll-behavior: auto; }
 
 body {
   font-family: var(--font-inter), 'Inter', sans-serif;
-  background: #0a0a0a;
-  color: #f5f5f0;
+  background: #080808;
+  color: #EDEAE4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   cursor: none;
+  letter-spacing: -0.01em;
 }
 
 @media (pointer: coarse) {
   body { cursor: auto; }
-}
-
-a, button { cursor: none; }
-@media (pointer: coarse) {
   a, button { cursor: pointer; }
 }
 
-/* Clip-path text reveal utility */
-.reveal-wrap { overflow: hidden; display: inline-block; }
-.reveal-item { display: inline-block; }
+a, button { cursor: none; }
+
+::selection { background: #E8522A; color: #fff; }
 
 /* Lenis */
 html.lenis { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* Selection */
-::selection { background: #e8522a; color: #fff; }
-
 /* Swiper */
 .swiper-button-next::after,
-.swiper-button-prev::after { font-size: 14px !important; color: #f5f5f0 !important; }
+.swiper-button-prev::after { font-size: 14px !important; color: #EDEAE4 !important; }
 .swiper-button-next,
 .swiper-button-prev {
   width: 44px !important;
   height: 44px !important;
-  border: 1px solid rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
   border-radius: 50% !important;
-  background: rgba(10,10,10,0.8) !important;
+  background: rgba(8,8,8,0.8) !important;
 }
-.swiper-button-next:hover,
-.swiper-button-prev:hover { border-color: rgba(255,255,255,0.4) !important; }
 .swiper-pagination-bullet { background: rgba(255,255,255,0.2) !important; }
-.swiper-pagination-bullet-active { background: #f5f5f0 !important; }
+.swiper-pagination-bullet-active { background: #EDEAE4 !important; }
+
+/* Page transition */
+.page-enter { opacity: 0; transform: translateY(12px); }
+.page-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1); }

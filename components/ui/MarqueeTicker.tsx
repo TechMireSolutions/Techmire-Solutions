@@ -3,31 +3,34 @@
 import { motion } from 'framer-motion'
 
 interface MarqueeTickerProps {
-  text: string
+  text?: string
   repeat?: number
   speed?: number
-  dark?: boolean
+  variant?: 'dark' | 'orange' | 'light'
 }
 
-export default function MarqueeTicker({ text, repeat = 8, speed = 40, dark = true }: MarqueeTickerProps) {
-  const items = Array(repeat).fill(text)
+const ITEMS = ['Software House', 'Web Development', 'Design Studio', 'Mobile Apps', 'Branding', 'SEO', 'Digital Marketing', 'UI/UX Design']
+
+export default function MarqueeTicker({ text, repeat = 10, speed = 55, variant = 'orange' }: MarqueeTickerProps) {
+  const items = text
+    ? Array(repeat).fill(text)
+    : [...ITEMS, ...ITEMS, ...ITEMS]
+
+  const bg = variant === 'orange' ? 'bg-orange' : variant === 'light' ? 'bg-light' : 'bg-dark border-y border-white/[0.06]'
+  const fg = variant === 'orange' ? 'text-white/70' : variant === 'light' ? 'text-dark/40' : 'text-white/20'
+  const sep = variant === 'orange' ? 'text-white/30' : 'text-current opacity-30'
 
   return (
-    <div className={`overflow-hidden py-4 border-y ${dark ? 'border-white/[0.07] bg-dark' : 'border-black/[0.07] bg-[#f5f5f0]'}`}>
+    <div className={`overflow-hidden py-5 ${bg}`}>
       <motion.div
-        className="flex gap-0 whitespace-nowrap"
+        className="flex items-center gap-0 whitespace-nowrap"
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}
       >
         {[...items, ...items].map((item, i) => (
-          <span
-            key={i}
-            className={`text-[11px] uppercase tracking-[0.25em] font-medium flex items-center ${
-              dark ? 'text-white/20' : 'text-black/30'
-            }`}
-          >
-            <span className="px-8">{item}</span>
-            <span className={`text-[8px] ${dark ? 'text-white/15' : 'text-black/20'}`}>✦</span>
+          <span key={i} className={`flex items-center gap-0 text-[13px] font-light tracking-[0.08em] uppercase ${fg}`}>
+            <span className="px-7">{item}</span>
+            <span className={`text-[10px] ${sep}`}>✦</span>
           </span>
         ))}
       </motion.div>

@@ -1,169 +1,150 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
+import MagneticButton from '@/components/ui/MagneticButton'
 import type { HomepageData } from '@/sanity/lib/types'
 
-const FALLBACK_WORDS = ['Software', 'Digital', 'Creative', 'AI-Powered', 'Web']
-const FALLBACK_LINE1 = "Building Tomorrow's"
+const WORDS = ['Software', 'Digital', 'Creative', 'Modern', 'AI-Powered']
 
 interface HeroProps { data: HomepageData | null }
 
-function WordReveal({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
-  const words = text.split(' ')
-  return (
-    <span className={className}>
-      {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
-          <motion.span
-            className="inline-block"
-            initial={{ y: '110%' }}
-            animate={{ y: '0%' }}
-            transition={{ duration: 1, delay: delay + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  )
-}
-
 export default function HeroSection({ data }: HeroProps) {
-  const words = data?.heroRotatingWords?.length ? data.heroRotatingWords : FALLBACK_WORDS
-  const [index, setIndex] = useState(0)
+  const words = data?.heroRotatingWords?.length ? data.heroRotatingWords : WORDS
+  const [idx, setIdx] = useState(0)
+  const ref = useRef<HTMLElement>(null)
+  const { scrollY } = useScroll()
+  const y = useTransform(scrollY, [0, 800], [0, -160])
+  const opacity = useTransform(scrollY, [0, 500], [1, 0])
 
   useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i + 1) % words.length), 3000)
+    const t = setInterval(() => setIdx(i => (i + 1) % words.length), 3000)
     return () => clearInterval(t)
   }, [words.length])
 
+  const sz = 'clamp(66px, 15vw, 220px)'
+  const lh = '0.83'
+  const tr = '-0.045em'
+
   return (
-    <section className="relative min-h-screen bg-dark flex flex-col justify-end overflow-hidden">
+    <section ref={ref} className="relative min-h-screen bg-dark flex flex-col justify-center overflow-hidden">
 
-      {/* Subtle dot grid */}
+      {/* Single ambient glow — only one, centred */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-        }}
-      />
-
-      {/* Radial vignette to fade edges */}
-      <div
+        aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, #0a0a0a 100%)',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(232,82,42,0.055) 0%, transparent 70%)',
         }}
       />
 
-      {/* Orange glow — subtle */}
-      <div
-        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(232,82,42,0.06) 0%, transparent 70%)' }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10 pb-20 pt-36">
-
+      <motion.div
+        style={{ y, opacity }}
+        className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10"
+      >
         {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="flex items-center gap-3 mb-10"
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="text-[10px] uppercase tracking-[0.3em] text-white/20 font-medium mb-10 flex items-center gap-4"
         >
-          <span className="inline-block w-5 h-px bg-orange/70" />
-          <span className="text-[11px] uppercase tracking-[0.22em] text-white/30 font-medium">
-            Software House &amp; Design Studio
-          </span>
-        </motion.div>
+          Software House
+          <span className="w-8 h-px bg-white/10 inline-block" />
+          Design Studio
+          <span className="w-8 h-px bg-white/10 inline-block" />
+          Est. 2021
+        </motion.p>
 
-        {/* Main headline — word-by-word clip reveal */}
+        {/* Ultra-large 3-line heading */}
         <h1
-          className="font-normal text-white leading-[0.93]"
-          style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
+          aria-label="We Build [rotating word] Futures"
+          style={{ fontSize: sz, lineHeight: lh, letterSpacing: tr }}
+          className="font-[200] text-white select-none"
         >
-          <WordReveal text={data?.heroHeadingLine1 || FALLBACK_LINE1} delay={0.1} />
-        </h1>
+          {/* Line 1 */}
+          <div className="overflow-hidden">
+            <motion.span
+              className="block"
+              initial={{ y: '105%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              We Build
+            </motion.span>
+          </div>
 
-        {/* Rotating word line */}
-        <div
-          className="flex items-center gap-4 mt-0.5"
-          style={{ height: 'clamp(64px, 9.8vw, 148px)' }}
-        >
-          <div className="overflow-hidden" style={{ height: 'clamp(64px, 9.8vw, 148px)' }}>
+          {/* Line 2 — rotating orange word */}
+          <div className="overflow-hidden" style={{ height: `calc(${sz} * ${lh})` }}>
             <AnimatePresence mode="wait">
               <motion.span
-                key={words[index]}
+                key={words[idx]}
+                className="block text-orange"
                 initial={{ y: '105%' }}
                 animate={{ y: '0%' }}
                 exit={{ y: '-105%' }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                className="block font-normal leading-[0.93] text-orange"
-                style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
-                {words[index]}
+                {words[idx]}
               </motion.span>
             </AnimatePresence>
           </div>
 
-          <div className="overflow-hidden" style={{ height: 'clamp(64px, 9.8vw, 148px)' }}>
+          {/* Line 3 */}
+          <div className="overflow-hidden">
             <motion.span
+              className="block"
               initial={{ y: '105%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="block font-normal leading-[0.93] text-white"
-              style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
+              transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              Solutions
+              Futures.
             </motion.span>
           </div>
-        </div>
+        </h1>
 
-        {/* Bottom row */}
+        {/* Bottom strip */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-14 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 border-t border-white/[0.06] pt-8"
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mt-14 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
         >
-          <p className="text-white/35 text-[14.5px] leading-[1.9] max-w-xs">
-            {data?.heroSubtitle || "From napkin sketches to full-blown digital products — we build, design, and grow businesses."}
+          <p className="text-white/25 text-[13px] leading-[1.8] font-light max-w-sm">
+            {data?.heroSubtitle || 'From napkin sketch to live product — we design and build software that scales.'}
           </p>
-          <div className="flex items-center gap-5">
-            <Link
+          <div className="flex items-center gap-6 shrink-0">
+            <MagneticButton
               href={data?.heroCTALink || '/get-a-quote'}
-              className="group inline-flex items-center gap-2.5 bg-white hover:bg-orange text-dark hover:text-white text-[13px] font-medium px-7 py-3.5 rounded-full transition-all duration-300"
+              className="group inline-flex items-center gap-2 bg-white hover:bg-orange text-dark hover:text-white text-[12px] font-medium px-6 py-3 rounded-full transition-all duration-300"
             >
-              {data?.heroCTALabel || 'Start a Project'}
-              <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
-            </Link>
+              Start a Project
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[9px]">↗</span>
+            </MagneticButton>
             <Link
               href="/about-us"
-              className="text-[13px] text-white/30 hover:text-white/70 transition-colors"
+              className="text-[11.5px] text-white/20 hover:text-white/50 transition-colors tracking-wide"
             >
               Our story ↓
             </Link>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Animated scroll line — right edge */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="absolute bottom-8 right-10 hidden lg:flex flex-col items-center gap-3"
+        transition={{ delay: 1.6 }}
+        className="absolute right-10 bottom-0 hidden lg:flex flex-col items-center gap-2 pb-8"
       >
         <motion.div
-          animate={{ scaleY: [1, 0.4, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-px h-10 bg-white/20 origin-top"
+          className="w-px bg-gradient-to-b from-transparent via-white/15 to-transparent"
+          animate={{ height: [0, 64, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.3 }}
         />
-        <span className="text-[9px] uppercase tracking-[0.2em] text-white/20 rotate-90 origin-center">Scroll</span>
+        <span className="text-[8px] uppercase tracking-[0.3em] text-white/12 mt-1">Scroll</span>
       </motion.div>
     </section>
   )

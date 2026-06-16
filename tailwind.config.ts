@@ -9,12 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        dark: '#0a0a0a',
-        light: '#f5f5f0',
-        orange: '#e8522a',
+        dark: '#080808',
+        light: '#EDEAE4',
+        orange: '#E8522A',
         body: '#6b6b6b',
         card: '#111111',
-        border: 'rgba(255,255,255,0.08)',
+        border: 'rgba(255,255,255,0.07)',
+        'dark-2': '#0f0f0f',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
