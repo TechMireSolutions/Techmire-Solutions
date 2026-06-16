@@ -4,29 +4,31 @@ interface PageHeroProps {
   label?: string
   heading: string
   subheading?: string
-  align?: 'left' | 'center'
 }
 
-export default function PageHero({ label, heading, subheading, align = 'center' }: PageHeroProps) {
+export default function PageHero({ label, heading, subheading }: PageHeroProps) {
   return (
-    <section className="bg-dark pt-36 pb-20 px-6">
-      <div className={`max-w-[1400px] mx-auto ${align === 'center' ? 'text-center' : ''}`}>
+    <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
+      <div className="max-w-[1440px] mx-auto">
         {label && (
           <FadeUp>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-[#e8522a] font-medium">{label}</span>
+            <div className="flex items-center gap-3 mb-8">
+              <span className="w-6 h-px bg-orange" />
+              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">{label}</span>
+            </div>
           </FadeUp>
         )}
-        <FadeUp delay={0.1}>
+        <FadeUp delay={0.05}>
           <h1
-            className="text-light font-normal mt-3"
-            style={{ fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.0 }}
+            className="font-normal text-white leading-[0.95]"
+            style={{ fontSize: 'clamp(52px, 8vw, 120px)' }}
           >
             {heading}
           </h1>
         </FadeUp>
         {subheading && (
-          <FadeUp delay={0.2}>
-            <p className="text-body text-lg mt-5 max-w-2xl mx-auto">{subheading}</p>
+          <FadeUp delay={0.15}>
+            <p className="text-white/40 text-[15px] mt-7 max-w-xl leading-relaxed">{subheading}</p>
           </FadeUp>
         )}
       </div>

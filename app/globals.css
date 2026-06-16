@@ -2,51 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --orange: #e8522a;
   --dark: #0a0a0a;
-  --light: #fcfdff;
-  --warmgray: #e0e1e3;
-  --body: #7f7f7f;
+  --light: #f5f5f0;
+  --body: #6b6b6b;
+  --border: rgba(255,255,255,0.08);
+  --border-light: rgba(0,0,0,0.08);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+* { box-sizing: border-box; padding: 0; margin: 0; }
 
-html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
-}
+html { scroll-behavior: auto; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--dark);
-  color: var(--light);
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #f5f5f0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  cursor: none;
 }
+
+@media (pointer: coarse) {
+  body { cursor: auto; }
+}
+
+a, button { cursor: none; }
+@media (pointer: coarse) {
+  a, button { cursor: pointer; }
+}
+
+/* Clip-path text reveal utility */
+.reveal-wrap { overflow: hidden; display: inline-block; }
+.reveal-item { display: inline-block; }
 
 /* Lenis */
 html.lenis { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
-.lenis.lenis-scrolling iframe { pointer-events: none; }
-
-/* Swiper overrides */
-.swiper-button-next,
-.swiper-button-prev {
-  color: var(--orange) !important;
-}
-.swiper-pagination-bullet-active {
-  background: var(--orange) !important;
-}
 
 /* Selection */
-::selection {
-  background: var(--orange);
-  color: white;
+::selection { background: #e8522a; color: #fff; }
+
+/* Swiper */
+.swiper-button-next::after,
+.swiper-button-prev::after { font-size: 14px !important; color: #f5f5f0 !important; }
+.swiper-button-next,
+.swiper-button-prev {
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  border-radius: 50% !important;
+  background: rgba(10,10,10,0.8) !important;
 }
+.swiper-button-next:hover,
+.swiper-button-prev:hover { border-color: rgba(255,255,255,0.4) !important; }
+.swiper-pagination-bullet { background: rgba(255,255,255,0.2) !important; }
+.swiper-pagination-bullet-active { background: #f5f5f0 !important; }

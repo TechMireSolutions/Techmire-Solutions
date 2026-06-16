@@ -4,6 +4,8 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import LenisProvider from '@/components/providers/LenisProvider'
+import CustomCursor from '@/components/ui/CustomCursor'
+import Grain from '@/components/ui/Grain'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,6 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable}>
       <body className="antialiased font-sans">
         <LenisProvider>
+          <CustomCursor />
+          <Grain />
           <Navbar />
           <main>{children}</main>
           <Footer />

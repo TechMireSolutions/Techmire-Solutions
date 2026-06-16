@@ -9,27 +9,25 @@ interface MarqueeTickerProps {
   dark?: boolean
 }
 
-export default function MarqueeTicker({ text, repeat = 6, speed = 30, dark = true }: MarqueeTickerProps) {
+export default function MarqueeTicker({ text, repeat = 8, speed = 40, dark = true }: MarqueeTickerProps) {
   const items = Array(repeat).fill(text)
 
   return (
-    <div
-      className={`overflow-hidden py-5 ${dark ? 'bg-dark border-y border-border' : 'bg-[#e8522a]'}`}
-    >
+    <div className={`overflow-hidden py-4 border-y ${dark ? 'border-white/[0.07] bg-dark' : 'border-black/[0.07] bg-[#f5f5f0]'}`}>
       <motion.div
-        className="flex gap-8 whitespace-nowrap"
+        className="flex gap-0 whitespace-nowrap"
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}
       >
         {[...items, ...items].map((item, i) => (
           <span
             key={i}
-            className={`text-[13px] uppercase tracking-[0.15em] font-medium flex items-center gap-8 ${
-              dark ? 'text-light/40' : 'text-white/80'
+            className={`text-[11px] uppercase tracking-[0.25em] font-medium flex items-center ${
+              dark ? 'text-white/20' : 'text-black/30'
             }`}
           >
-            {item}
-            <span className={dark ? 'text-[#e8522a]' : 'text-white/50'}>✦</span>
+            <span className="px-8">{item}</span>
+            <span className={`text-[8px] ${dark ? 'text-white/15' : 'text-black/20'}`}>✦</span>
           </span>
         ))}
       </motion.div>

@@ -1,8 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/image'
 import FadeUp from '@/components/ui/FadeUp'
 import type { ClientLogo } from '@/sanity/lib/types'
 
@@ -11,65 +9,44 @@ interface ClientsSectionProps {
   clients: ClientLogo[]
 }
 
-const FALLBACK_CLIENTS = [
-  'Bilal Yaslobi Travel & Tourism',
-  'Bronze Digitals',
-  'Zainab Foes',
-  'Sun Behind The Cloud',
-  'Herbanicm',
-  'Freeway Construction',
-  'Fitson Real Estate',
+const FALLBACK = [
+  'Bilal Yaslobi Travel', 'Bronze Digitals', 'Zainab Foes',
+  'Sun Behind The Cloud', 'Herbanicm', 'Freeway Construction', 'Fitson Real Estate',
 ]
 
 export default function ClientsSection({ heading, clients }: ClientsSectionProps) {
-  const hasLogos = clients.length > 0 && clients.some((c) => c.logo)
+  const names = clients.length > 0 ? clients.map(c => c.company) : FALLBACK
 
   return (
-    <section className="bg-dark py-24 px-6 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto mb-12">
+    <section className="bg-dark py-20 px-6 lg:px-10 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto mb-12">
         <FadeUp>
-          <h2
-            className="text-light font-normal text-center"
-            style={{ fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: 1.1 }}
-          >
-            {heading || 'Our Amazing Clients'}
-          </h2>
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-px bg-orange" />
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">
+              {heading || 'Trusted By'}
+            </span>
+          </div>
         </FadeUp>
       </div>
 
-      {/* Scrolling ticker */}
-      <div className="overflow-hidden">
+      {/* Infinite scroll ticker */}
+      <div className="overflow-hidden relative">
+        <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
         <motion.div
-          className="flex gap-16 whitespace-nowrap"
+          className="flex items-center gap-12 whitespace-nowrap"
           animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         >
-          {[...Array(2)].flatMap(() =>
-            hasLogos
-              ? clients.concat(clients).map((client, i) => (
-                  <div key={i} className="flex items-center justify-center h-16 opacity-50 hover:opacity-100 transition-opacity">
-                    {client.logo ? (
-                      <Image
-                        src={urlFor(client.logo).height(48).url()}
-                        alt={client.company}
-                        width={120}
-                        height={48}
-                        className="object-contain brightness-0 invert"
-                      />
-                    ) : (
-                      <span className="text-light/40 text-lg font-medium whitespace-nowrap">{client.company}</span>
-                    )}
-                  </div>
-                ))
-              : FALLBACK_CLIENTS.concat(FALLBACK_CLIENTS).map((name, i) => (
-                  <span
-                    key={i}
-                    className="text-light/30 text-lg font-medium whitespace-nowrap hover:text-light/70 transition-colors"
-                  >
-                    {name}
-                  </span>
-                ))
-          )}
+          {[...names, ...names, ...names, ...names].map((name, i) => (
+            <span
+              key={i}
+              className="text-[15px] text-white/20 hover:text-white/60 transition-colors font-medium shrink-0 cursor-default"
+            >
+              {name}
+            </span>
+          ))}
         </motion.div>
       </div>
     </section>

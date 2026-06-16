@@ -2,92 +2,107 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-dark border-t border-border">
-      <div className="max-w-[1400px] mx-auto px-6 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          {/* Logo + description */}
+    <footer className="bg-dark border-t border-white/[0.06]">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 pt-20 pb-10">
+
+        {/* Top row: logo + tagline */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 pb-16 border-b border-white/[0.06]">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-full bg-[#e8522a] flex items-center justify-center">
-                <span className="text-white font-bold text-xs">TMS</span>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-full bg-orange flex items-center justify-center">
+                <span className="text-white font-semibold text-[10px]">TMS</span>
               </div>
-              <span className="text-light font-medium">TechmireSolutions</span>
+              <span className="text-white font-medium text-[14px]">TechmireSolutions</span>
             </div>
-            <p className="text-body text-[14px] leading-relaxed">
-              Software House and Design Studio. Building tomorrow&apos;s digital experiences today.
+            <p className="text-white/30 text-[13px] max-w-xs leading-relaxed">
+              Software House and Design Studio — building tomorrow&apos;s digital experiences, today.
             </p>
           </div>
+          <Link
+            href="/get-a-quote"
+            className="inline-flex items-center gap-2 bg-white hover:bg-white/90 text-dark text-[13px] font-medium px-6 py-3 rounded-pill transition-colors shrink-0"
+          >
+            Start a Project ↗
+          </Link>
+        </div>
 
+        {/* Main grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 py-16 border-b border-white/[0.06]">
           {/* Office */}
           <div>
-            <h4 className="text-light text-[13px] uppercase tracking-widest mb-4">Office</h4>
-            <address className="not-italic text-body text-[14px] leading-relaxed space-y-2">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-white/25 mb-5">Office</p>
+            <address className="not-italic space-y-2 text-white/40 text-[13px] leading-relaxed">
               <p>R-591, F.B Area Block 20</p>
               <p>Karachi, Sindh, Pakistan</p>
-              <a href="tel:+923172225152" className="block hover:text-light transition-colors">(+92) 317 222 5152</a>
-              <a href="tel:+447724697972" className="block hover:text-light transition-colors">(+44) 7724 697972</a>
-              <a href="mailto:connect@techmiresolutions.com" className="block hover:text-light transition-colors">connect@techmiresolutions.com</a>
+              <a href="tel:+923172225152" className="block hover:text-white transition-colors">(+92) 317 222 5152</a>
+              <a href="tel:+447724697972" className="block hover:text-white transition-colors">(+44) 7724 697972</a>
+              <a href="mailto:connect@techmiresolutions.com" className="block hover:text-white transition-colors">connect@techmiresolutions.com</a>
             </address>
           </div>
 
-          {/* Links */}
+          {/* Services */}
           <div>
-            <h4 className="text-light text-[13px] uppercase tracking-widest mb-4">Links</h4>
-            <ul className="space-y-2">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-white/25 mb-5">Services</p>
+            <ul className="space-y-2.5">
               {[
-                { label: 'Home', href: '/' },
-                { label: 'About Us', href: '/about-us' },
-                { label: 'Our Team', href: '/meet-our-team' },
-                { label: 'Blogs', href: '/blogs' },
-                { label: 'Techmire Academy', href: '/techmire-academy' },
-                { label: 'Contact Us', href: '/contact-us' },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-body text-[14px] hover:text-light transition-colors">
-                    {l.label} ↗
-                  </Link>
+                { l: 'Web Development', h: '/web-development' },
+                { l: 'Software Dev', h: '/software-solution' },
+                { l: 'Graphic Design', h: '/graphic-design' },
+                { l: 'Digital Marketing', h: '/digital-marketing' },
+                { l: 'SEO', h: '/search-engine-optimization' },
+              ].map((i) => (
+                <li key={i.h}>
+                  <Link href={i.h} className="text-white/40 text-[13px] hover:text-white transition-colors">{i.l}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Get In Touch */}
+          {/* Company */}
           <div>
-            <h4 className="text-light text-[13px] uppercase tracking-widest mb-4">Get In Touch</h4>
-            <div className="flex gap-3 flex-wrap">
+            <p className="text-[11px] uppercase tracking-[0.15em] text-white/25 mb-5">Company</p>
+            <ul className="space-y-2.5">
               {[
-                { label: 'FB', href: 'https://facebook.com/techmiresolutions' },
-                { label: 'TW', href: 'https://twitter.com/techmiresolutions' },
-                { label: 'LI', href: 'https://linkedin.com/company/techmiresolutions' },
-                { label: 'IG', href: 'https://instagram.com/techmiresolutions' },
-                { label: 'TK', href: 'https://tiktok.com/@techmiresolutions' },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 border border-border rounded-full flex items-center justify-center text-body text-[11px] font-medium hover:border-[#e8522a] hover:text-[#e8522a] transition-colors"
-                >
-                  {s.label}
-                </a>
+                { l: 'About Us', h: '/about-us' },
+                { l: 'Our Team', h: '/meet-our-team' },
+                { l: 'Blogs', h: '/blogs' },
+                { l: 'Academy', h: '/techmire-academy' },
+                { l: 'Contact', h: '/contact-us' },
+              ].map((i) => (
+                <li key={i.h}>
+                  <Link href={i.h} className="text-white/40 text-[13px] hover:text-white transition-colors">{i.l}</Link>
+                </li>
               ))}
-            </div>
-            <div className="mt-6">
-              <Link
-                href="/get-a-quote"
-                className="inline-flex items-center gap-2 bg-[#e8522a] hover:bg-[#d4471f] text-white text-[13px] font-medium px-5 py-2.5 rounded-pill transition-colors"
-              >
-                Start a Project ↗
-              </Link>
-            </div>
+            </ul>
+          </div>
+
+          {/* Social */}
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.15em] text-white/25 mb-5">Follow</p>
+            <ul className="space-y-2.5">
+              {[
+                { l: 'LinkedIn', h: 'https://linkedin.com/company/techmiresolutions' },
+                { l: 'Instagram', h: 'https://instagram.com/techmiresolutions' },
+                { l: 'Facebook', h: 'https://facebook.com/techmiresolutions' },
+                { l: 'Twitter / X', h: 'https://twitter.com/techmiresolutions' },
+                { l: 'TikTok', h: 'https://tiktok.com/@techmiresolutions' },
+              ].map((i) => (
+                <li key={i.l}>
+                  <a href={i.h} target="_blank" rel="noopener noreferrer" className="text-white/40 text-[13px] hover:text-white transition-colors flex items-center gap-1.5">
+                    {i.l} <span className="text-[10px] opacity-50">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-body text-[13px]">TechmireSolutions © 2026. All rights reserved.</p>
-          <p className="text-body text-[13px]">Software House and Design Studio</p>
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-8 text-white/20 text-[12px]">
+          <p>TechmireSolutions © 2026. All rights reserved.</p>
+          <p>Software House and Design Studio</p>
         </div>
+
       </div>
     </footer>
   )

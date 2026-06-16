@@ -1,43 +1,30 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        orange: {
-          DEFAULT: "#e8522a",
-          hover: "#d4471f",
-        },
-        dark: "#0a0a0a",
-        light: "#fcfdff",
-        warmgray: "#e0e1e3",
-        body: "#7f7f7f",
-        card: "#141414",
-        border: "#222222",
+        dark: '#0a0a0a',
+        light: '#f5f5f0',
+        orange: '#e8522a',
+        body: '#6b6b6b',
+        card: '#111111',
+        border: 'rgba(255,255,255,0.08)',
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-      },
-      fontSize: {
-        display: ["clamp(56px,8vw,112px)", { lineHeight: "1.0", fontWeight: "400" }],
-        h2: ["clamp(32px,4vw,48px)", { lineHeight: "1.1", fontWeight: "400" }],
-        h3: ["28px", { lineHeight: "1.2", fontWeight: "400" }],
-        overline: ["11px", { lineHeight: "1.5", letterSpacing: "0.1em" }],
+        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
       borderRadius: {
-        pill: "999px",
-      },
-      transitionDuration: {
-        DEFAULT: "300ms",
+        pill: '999px',
       },
     },
   },
   plugins: [],
-};
+}
 
-export default config;
+export default config

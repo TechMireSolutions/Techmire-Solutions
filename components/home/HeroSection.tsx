@@ -3,15 +3,31 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/image'
-import type { HomepageData, SanityImage } from '@/sanity/lib/types'
+import type { HomepageData } from '@/sanity/lib/types'
 
-const FALLBACK_WORDS = ['Software Solutions', 'Digital Products', 'Creative Designs', 'Web Experiences', 'AI-Powered Apps']
-const FALLBACK_HEADLINE = "Building Tomorrow's"
+const FALLBACK_WORDS = ['Software', 'Digital', 'Creative', 'AI-Powered', 'Web']
+const FALLBACK_LINE1 = "Building Tomorrow's"
 
-interface HeroProps {
-  data: HomepageData | null
+interface HeroProps { data: HomepageData | null }
+
+function WordReveal({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
+  const words = text.split(' ')
+  return (
+    <span className={className}>
+      {words.map((word, i) => (
+        <span key={i} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
+          <motion.span
+            className="inline-block"
+            initial={{ y: '110%' }}
+            animate={{ y: '0%' }}
+            transition={{ duration: 1, delay: delay + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  )
 }
 
 export default function HeroSection({ data }: HeroProps) {
@@ -24,130 +40,131 @@ export default function HeroSection({ data }: HeroProps) {
   }, [words.length])
 
   return (
-    <section className="relative bg-dark min-h-screen flex items-center overflow-hidden pt-16">
-      {/* Decorative arc lines */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.04]"
-        viewBox="0 0 1440 900"
-        fill="none"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <circle cx="720" cy="450" r="300" stroke="white" strokeWidth="1" />
-        <circle cx="720" cy="450" r="500" stroke="white" strokeWidth="1" />
-        <circle cx="720" cy="450" r="700" stroke="white" strokeWidth="1" />
-        <line x1="0" y1="450" x2="1440" y2="450" stroke="white" strokeWidth="0.5" />
-        <line x1="720" y1="0" x2="720" y2="900" stroke="white" strokeWidth="0.5" />
-      </svg>
+    <section className="relative min-h-screen bg-dark flex flex-col justify-end overflow-hidden">
 
-      <div className="max-w-[1400px] mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
-        {/* Left */}
-        <div className="relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
-          >
-            <h1
-              className="text-light font-normal leading-[1.0] overflow-hidden"
-              style={{ fontSize: 'clamp(52px, 7.5vw, 112px)' }}
+      {/* Subtle dot grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+        }}
+      />
+
+      {/* Radial vignette to fade edges */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, #0a0a0a 100%)',
+        }}
+      />
+
+      {/* Orange glow — subtle */}
+      <div
+        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(232,82,42,0.06) 0%, transparent 70%)' }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10 pb-20 pt-36">
+
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="flex items-center gap-3 mb-10"
+        >
+          <span className="inline-block w-5 h-px bg-orange/70" />
+          <span className="text-[11px] uppercase tracking-[0.22em] text-white/30 font-medium">
+            Software House &amp; Design Studio
+          </span>
+        </motion.div>
+
+        {/* Main headline — word-by-word clip reveal */}
+        <h1
+          className="font-normal text-white leading-[0.93]"
+          style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
+        >
+          <WordReveal text={data?.heroHeadingLine1 || FALLBACK_LINE1} delay={0.1} />
+        </h1>
+
+        {/* Rotating word line */}
+        <div
+          className="flex items-center gap-4 mt-0.5"
+          style={{ height: 'clamp(64px, 9.8vw, 148px)' }}
+        >
+          <div className="overflow-hidden" style={{ height: 'clamp(64px, 9.8vw, 148px)' }}>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={words[index]}
+                initial={{ y: '105%' }}
+                animate={{ y: '0%' }}
+                exit={{ y: '-105%' }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="block font-normal leading-[0.93] text-orange"
+                style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
+              >
+                {words[index]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+
+          <div className="overflow-hidden" style={{ height: 'clamp(64px, 9.8vw, 148px)' }}>
+            <motion.span
+              initial={{ y: '105%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="block font-normal leading-[0.93] text-white"
+              style={{ fontSize: 'clamp(60px, 9.5vw, 140px)' }}
             >
-              <span className="block">{data?.heroHeadingLine1 || FALLBACK_HEADLINE}</span>
-              <span className="block overflow-hidden h-[1.1em] relative">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={words[index]}
-                    initial={{ y: '110%', opacity: 0 }}
-                    animate={{ y: '0%', opacity: 1 }}
-                    exit={{ y: '-110%', opacity: 0 }}
-                    transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
-                    className="block text-[#e8522a]"
-                  >
-                    {words[index]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </h1>
-          </motion.div>
+              Solutions
+            </motion.span>
+          </div>
+        </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-body text-lg mt-6 max-w-md leading-relaxed"
-          >
-            {data?.heroSubtitle ||
-              "We're on a mission to redefine what a Software House can do. From napkin sketches to full-blown apps — we make magic happen."}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45 }}
-            className="mt-8 flex items-center gap-4"
-          >
+        {/* Bottom row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-14 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 border-t border-white/[0.06] pt-8"
+        >
+          <p className="text-white/35 text-[14.5px] leading-[1.9] max-w-xs">
+            {data?.heroSubtitle || "From napkin sketches to full-blown digital products — we build, design, and grow businesses."}
+          </p>
+          <div className="flex items-center gap-5">
             <Link
               href={data?.heroCTALink || '/get-a-quote'}
-              className="inline-flex items-center gap-2 bg-[#e8522a] hover:bg-[#d4471f] text-white text-[15px] font-medium px-7 py-3.5 rounded-pill transition-colors duration-300"
+              className="group inline-flex items-center gap-2.5 bg-white hover:bg-orange text-dark hover:text-white text-[13px] font-medium px-7 py-3.5 rounded-full transition-all duration-300"
             >
-              {data?.heroCTALabel || 'Start a Project'} <span>↗</span>
+              {data?.heroCTALabel || 'Start a Project'}
+              <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </Link>
             <Link
               href="/about-us"
-              className="inline-flex items-center gap-2 border border-white/20 hover:border-white/60 text-light text-[15px] px-7 py-3.5 rounded-pill transition-colors duration-300"
+              className="text-[13px] text-white/30 hover:text-white/70 transition-colors"
             >
-              Learn More
+              Our story ↓
             </Link>
-          </motion.div>
-        </div>
-
-        {/* Right — vertical image carousel */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="relative hidden lg:block"
-        >
-          <div className="relative h-[600px] w-full overflow-hidden rounded-2xl border border-border">
-            {data?.heroImages && data.heroImages.length > 0 ? (
-              <HeroImageCarousel images={data.heroImages} />
-            ) : (
-              <div className="w-full h-full bg-card flex items-center justify-center">
-                <span className="text-body text-sm">Hero images managed via Sanity CMS</span>
-              </div>
-            )}
           </div>
         </motion.div>
       </div>
-    </section>
-  )
-}
 
-function HeroImageCarousel({ images }: { images: SanityImage[] }) {
-  const [current, setCurrent] = useState(0)
-
-  useEffect(() => {
-    const t = setInterval(() => setCurrent((i) => (i + 1) % images.length), 4000)
-    return () => clearInterval(t)
-  }, [images.length])
-
-  return (
-    <AnimatePresence mode="wait">
+      {/* Scroll indicator */}
       <motion.div
-        key={current}
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        className="absolute bottom-8 right-10 hidden lg:flex flex-col items-center gap-3"
       >
-        <Image
-          src={urlFor(images[current]).width(700).height(600).url()}
-          alt="Project showcase"
-          fill
-          className="object-cover"
-          priority
+        <motion.div
+          animate={{ scaleY: [1, 0.4, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-px h-10 bg-white/20 origin-top"
         />
+        <span className="text-[9px] uppercase tracking-[0.2em] text-white/20 rotate-90 origin-center">Scroll</span>
       </motion.div>
-    </AnimatePresence>
+    </section>
   )
 }

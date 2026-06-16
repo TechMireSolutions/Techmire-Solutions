@@ -8,84 +8,84 @@ import type { ValuePillar } from '@/sanity/lib/types'
 export const revalidate = 60
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about TechmireSolutions — the software house and design studio on a mission to redefine what digital agencies can do.',
+  description: 'TechmireSolutions — the software house and design studio on a mission to redefine digital.',
 }
 
 export default async function AboutPage() {
   const pillars: ValuePillar[] = await client.fetch(valuePillarsQuery).catch(() => [])
 
-  const displayPillars = pillars.length > 0 ? pillars : [
-    { _id: '1', title: 'We Listen', description: "Your ideas are our north star. No jargon, no ego — just solutions that work for you.", iconName: '👂', order: 1 },
-    { _id: '2', title: 'We Build to Last', description: "Our designs and code are solid, dependable, and deliciously efficient.", iconName: '🏗️', order: 2 },
-    { _id: '3', title: 'We Are Young', description: "Young blood makes us agile, open to new ideas and creative.", iconName: '⚡', order: 3 },
-    { _id: '4', title: "We're Fun", description: "Working with us feels more like collaborating with friends than a stiff corporate team.", iconName: '🎉', order: 4 },
-    { _id: '5', title: 'We Take Care Of Community', description: "We strongly believe in supporting the local community and love to collaborate within it.", iconName: '🤝', order: 5 },
-    { _id: '6', title: 'We Deliver On Time', description: "Deadlines are sacred. We plan, communicate, and deliver — always on schedule.", iconName: '⏰', order: 6 },
+  const list = pillars.length > 0 ? pillars : [
+    { _id: '1', title: 'We Listen', description: "Your ideas are our north star. No jargon, no ego.", order: 1 },
+    { _id: '2', title: 'We Build to Last', description: "Solid, dependable, and deliciously efficient.", order: 2 },
+    { _id: '3', title: 'We Are Young', description: "Agile, open to new ideas, relentlessly creative.", order: 3 },
+    { _id: '4', title: "We're Fun", description: "More like collaborating with friends than a corporate team.", order: 4 },
+    { _id: '5', title: 'We Care for Community', description: "Supporting the local community and collaborating within it.", order: 5 },
+    { _id: '6', title: 'We Deliver On Time', description: "Deadlines are sacred. We plan, communicate, and deliver.", order: 6 },
   ]
 
   return (
     <>
       {/* Hero */}
-      <section className="bg-dark pt-36 pb-20 px-6">
-        <div className="max-w-[1400px] mx-auto">
+      <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
+        <div className="max-w-[1440px] mx-auto">
           <FadeUp>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-[#e8522a]">Who We Are</span>
+            <div className="flex items-center gap-3 mb-8">
+              <span className="w-6 h-px bg-orange" />
+              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">Who We Are</span>
+            </div>
           </FadeUp>
-          <FadeUp delay={0.1}>
-            <h1
-              className="text-light font-normal mt-3"
-              style={{ fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.0 }}
-            >
+          <FadeUp delay={0.05}>
+            <h1 className="font-normal text-white leading-[0.95]" style={{ fontSize: 'clamp(52px, 8vw, 120px)' }}>
               About Us
             </h1>
           </FadeUp>
-          <FadeUp delay={0.2}>
-            <p className="text-body text-xl mt-4 max-w-xl">The Software House You Can Trust</p>
+          <FadeUp delay={0.15}>
+            <p className="text-white/40 text-[17px] mt-6 max-w-lg leading-relaxed">The Software House You Can Trust.</p>
           </FadeUp>
         </div>
       </section>
 
       {/* Story */}
-      <section className="bg-light py-20 px-6">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <FadeUp>
-            <div>
-              <h2 className="text-dark font-normal text-4xl mb-6">Our Story</h2>
-              <p className="text-gray-600 text-[16px] leading-relaxed mb-4">
-                At Techmire Solutions, we&apos;re on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we&apos;ve mastered the art of making magic happen.
-              </p>
-              <p className="text-gray-600 text-[16px] leading-relaxed">
-                We&apos;re not here to sell you software, digital design, or a digital transformation deal. We&apos;re here to help you build the future of your business. It&apos;s time to ditch the off-the-shelf solutions and partner with a team that understands and values you and your business like no one else.
-              </p>
-            </div>
+            <h2 className="font-normal text-dark text-4xl mb-6">Our Story</h2>
+            <p className="text-dark/50 text-[15px] leading-[1.8] mb-4">
+              At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we've mastered the art of making magic happen.
+            </p>
+            <p className="text-dark/50 text-[15px] leading-[1.8]">
+              We're not here to sell you software or a digital transformation deal. We're here to help you build the future of your business — ditch the off-the-shelf and partner with a team that understands and values you like no one else.
+            </p>
           </FadeUp>
-          <FadeUp delay={0.1}>
-            <div className="grid grid-cols-2 gap-6">
-              {[{ value: '4+', label: 'Years of Excellence' }, { value: '30+', label: 'Team Members' }, { value: '50+', label: 'Projects Delivered' }, { value: '20+', label: 'Happy Clients' }].map((stat) => (
-                <div key={stat.label} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-                  <p className="text-[#e8522a] font-normal text-5xl">{stat.value}</p>
-                  <p className="text-gray-500 text-[13px] uppercase tracking-wider mt-2">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
+          <div className="grid grid-cols-2 gap-px bg-dark/10">
+            {[
+              { v: '4+', l: 'Years in business' }, { v: '30+', l: 'Team members' },
+              { v: '50+', l: 'Projects delivered' }, { v: '20+', l: 'Happy clients' },
+            ].map((s) => (
+              <FadeUp key={s.l} className="bg-[#f5f5f0] p-8">
+                <p className="font-normal text-dark" style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', lineHeight: 1 }}>{s.v}</p>
+                <p className="text-dark/40 text-[12px] uppercase tracking-[0.12em] mt-3">{s.l}</p>
+              </FadeUp>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="bg-dark py-20 px-6">
-        <div className="max-w-[1400px] mx-auto">
+      <section className="bg-dark py-24 px-6 lg:px-10">
+        <div className="max-w-[1440px] mx-auto">
           <FadeUp>
-            <h2 className="text-light font-normal text-4xl mb-12">Our Values</h2>
+            <div className="flex items-center gap-3 mb-14">
+              <span className="w-6 h-px bg-orange" />
+              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">Our Values</span>
+            </div>
           </FadeUp>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayPillars.slice(0, 6).map((pillar, i) => (
-              <FadeUp key={pillar._id} delay={i * 0.07}>
-                <div className="bg-card border border-border rounded-2xl p-8 hover:border-[#e8522a]/40 transition-colors">
-                  <div className="text-3xl mb-4">{pillar.iconName || '●'}</div>
-                  <h3 className="text-light font-medium text-xl mb-3">{pillar.title}</h3>
-                  <p className="text-body text-[14px] leading-relaxed">{pillar.description}</p>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.05]">
+            {list.slice(0, 6).map((p, i) => (
+              <FadeUp key={p._id} delay={i * 0.05} className="bg-dark p-8 lg:p-10">
+                <span className="text-[11px] text-white/20 uppercase tracking-[0.15em]">0{i + 1}</span>
+                <h3 className="text-white font-normal text-xl mt-4 mb-3">{p.title}</h3>
+                <p className="text-white/30 text-[13px] leading-relaxed">{p.description}</p>
               </FadeUp>
             ))}
           </div>
@@ -93,19 +93,17 @@ export default async function AboutPage() {
       </section>
 
       {/* Team teaser */}
-      <section className="bg-warmgray py-20 px-6 text-center">
-        <FadeUp>
-          <h2 className="text-dark font-normal text-4xl mb-4">The People Behind The Magic</h2>
-          <p className="text-gray-600 text-[15px] mb-8">
-            Meet the talented team that makes it all happen.
-          </p>
-          <Link
-            href="/meet-our-team"
-            className="inline-flex items-center gap-2 bg-dark hover:bg-[#1a1a1a] text-white text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors"
-          >
-            Meet The Team ↗
-          </Link>
-        </FadeUp>
+      <section className="bg-[#f5f5f0] py-20 px-6 lg:px-10 border-t border-dark/10">
+        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <FadeUp>
+            <h2 className="font-normal text-dark text-3xl">The People Behind The Magic</h2>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <Link href="/meet-our-team" className="inline-flex items-center gap-2 bg-dark hover:bg-dark/80 text-white text-[13px] font-medium px-6 py-3 rounded-pill transition-colors shrink-0">
+              Meet The Team ↗
+            </Link>
+          </FadeUp>
+        </div>
       </section>
     </>
   )
