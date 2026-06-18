@@ -28,6 +28,62 @@ const SOCIAL = [
 
 interface NavbarProps { logoUrl?: string | null }
 
+function NavLink({ href, children, dark = false, onClick }: {
+  href: string
+  children: React.ReactNode
+  dark?: boolean
+  onClick?: () => void
+}) {
+  return (
+    <div className="group relative pb-0.5">
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`text-base font-medium leading-[115%] no-underline normal-case block ${
+          dark ? 'text-dark' : 'text-[#fcfdff]'
+        }`}
+      >
+        {children}
+      </Link>
+      <span
+        className={`absolute bottom-0 left-0 block h-px w-0 group-hover:w-full transition-all duration-[350ms] ease-out ${
+          dark ? 'bg-dark/40' : 'bg-[#fcfdff]/50'
+        }`}
+      />
+    </div>
+  )
+}
+
+function StartProjectLink({ dark = false, onClick }: { dark?: boolean; onClick?: () => void }) {
+  return (
+    <div className="group relative hidden sm:block pb-0.5">
+      <Link
+        href="/get-a-quote"
+        onClick={onClick}
+        className={`flex items-center gap-1.5 text-base font-medium leading-[115%] no-underline normal-case ${
+          dark ? 'text-dark' : 'text-[#fcfdff]'
+        }`}
+      >
+        <span>Start a project</span>
+        {/* Dual-arrow animation: primary exits top-right, secondary enters from bottom-left */}
+        <span className="relative overflow-hidden inline-flex w-[14px] h-[14px]">
+          <span className="absolute inset-0 flex items-center justify-center text-[11px] transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">
+            ↗
+          </span>
+          <span className="absolute inset-0 flex items-center justify-center text-[11px] -translate-x-2 translate-y-2 transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">
+            ↗
+          </span>
+        </span>
+      </Link>
+      <span
+        className={`absolute bottom-0 left-0 block h-px w-0 group-hover:w-full transition-all duration-[350ms] ease-out ${
+          dark ? 'bg-dark/40' : 'bg-[#fcfdff]/50'
+        }`}
+      />
+    </div>
+  )
+}
+
 export default function Navbar({ logoUrl }: NavbarProps) {
   const [open, setOpen] = useState(false)
 
@@ -39,17 +95,13 @@ export default function Navbar({ logoUrl }: NavbarProps) {
         {/* Left — 3 links, desktop only */}
         <nav className="hidden lg:flex items-center gap-12">
           {LEFT_NAV.map(item => (
-            <Link
-              key={item.href + item.label}
-              href={item.href}
-              className="text-base font-medium text-[#fcfdff] leading-[115%] no-underline normal-case transition-all duration-300 hover:opacity-70"
-            >
+            <NavLink key={item.href + item.label} href={item.href}>
               {item.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
-        {/* Center — logo mark only */}
+        {/* Center — logo mark */}
         <Link
           href="/"
           onClick={() => setOpen(false)}
@@ -58,14 +110,9 @@ export default function Navbar({ logoUrl }: NavbarProps) {
           <LogoMark size={56} src={logoUrl} />
         </Link>
 
-        {/* Right — "Start a project ↗" + hamburger */}
+        {/* Right — "Start a project" + hamburger */}
         <div className="flex items-center gap-10">
-          <Link
-            href="/get-a-quote"
-            className="hidden sm:block text-base font-medium text-[#fcfdff] leading-[115%] no-underline normal-case transition-all duration-300 hover:opacity-70"
-          >
-            Start a project&nbsp;↗
-          </Link>
+          <StartProjectLink />
 
           {/* Two-line hamburger */}
           <button
@@ -91,7 +138,7 @@ export default function Navbar({ logoUrl }: NavbarProps) {
             className="fixed top-0 inset-x-0 z-[60] bg-white"
             style={{ height: '82vh', minHeight: '560px' }}
           >
-            {/* Column-guide grid lines — large rectangles like the reference */}
+            {/* Column-guide grid lines */}
             <div
               aria-hidden
               className="absolute inset-0 pointer-events-none"
@@ -106,20 +153,12 @@ export default function Navbar({ logoUrl }: NavbarProps) {
 
             {/* Top bar */}
             <div className="relative z-10 h-[95px] px-8 lg:px-16 flex items-center justify-between">
-              {/* Logo */}
               <Link href="/" onClick={() => setOpen(false)}>
                 <LogoMark size={56} src={logoUrl} />
               </Link>
 
-              {/* Right side: Start a project + × */}
-              <div className="flex items-center gap-8">
-                <Link
-                  href="/get-a-quote"
-                  onClick={() => setOpen(false)}
-                  className="hidden sm:block text-[15.5px] font-normal text-dark/60 hover:text-dark transition-colors"
-                >
-                  Start a project&nbsp;↗
-                </Link>
+              <div className="flex items-center gap-10">
+                <StartProjectLink dark onClick={() => setOpen(false)} />
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
@@ -132,7 +171,7 @@ export default function Navbar({ logoUrl }: NavbarProps) {
             </div>
 
             {/* Nav items — centered */}
-            <nav className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-64px-72px)]">
+            <nav className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-95px-72px)]">
               {MENU_ITEMS.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -158,26 +197,40 @@ export default function Navbar({ logoUrl }: NavbarProps) {
               ))}
             </nav>
 
-            {/* Bottom bar */}
+            {/* Bottom bar — socials + copyright */}
             <div
               className="relative z-10 px-8 lg:px-16 flex items-center justify-between"
               style={{ height: '72px' }}
             >
-              <p className="text-[12px] text-dark/35 font-normal">© 2026 TechmireSolutions</p>
-              <div className="flex items-center gap-7">
+              <p className="text-[12px] text-dark/35 font-light">© 2026 TechmireSolutions</p>
+
+              {/* Social links — dual-arrow mainbutton pattern */}
+              <div className="flex items-center gap-6">
                 {SOCIAL.map((s, i) => (
-                  <motion.a
+                  <motion.div
                     key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 + i * 0.04 }}
-                    className="text-[13px] text-dark/50 hover:text-dark transition-colors"
+                    className="group relative flex items-center gap-1.5 cursor-pointer"
                   >
-                    {s.label}&nbsp;↗
-                  </motion.a>
+                    <span className="text-[13px] font-normal text-dark/50 group-hover:text-dark transition-colors duration-200">
+                      {s.label}
+                    </span>
+                    {/* Dual-arrow animation */}
+                    <span className="relative overflow-hidden inline-flex w-3 h-3">
+                      <span className="absolute inset-0 flex items-center justify-center text-[10px] text-dark/50 group-hover:text-dark transition-all duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
+                      <span className="absolute inset-0 flex items-center justify-center text-[10px] text-dark/50 group-hover:text-dark -translate-x-2 translate-y-2 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">↗</span>
+                    </span>
+                    {/* Invisible full-area link overlay */}
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0"
+                      aria-label={s.label}
+                    />
+                  </motion.div>
                 ))}
               </div>
             </div>
