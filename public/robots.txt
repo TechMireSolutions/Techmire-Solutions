@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /studio
+Disallow: /api
+
+# Host
+Host: https://techmiresolutions.com
+
+# Sitemaps
+Sitemap: https://techmiresolutions.com/sitemap.xml

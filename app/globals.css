@@ -59,3 +59,26 @@ html.lenis { height: auto; }
 /* Page transition */
 .page-enter { opacity: 0; transform: translateY(12px); }
 .page-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+
+/* ── Focus visible — keyboard nav accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Light-background context (white menu overlay) */
+.bg-white :focus-visible,
+[style*="background: white"] :focus-visible {
+  outline-color: #0a0a0a;
+}
+
+/* ── Reduced motion — respect OS-level preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

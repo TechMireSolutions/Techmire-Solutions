@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
 import { valuePillarsQuery } from '@/sanity/lib/queries'
@@ -8,7 +8,7 @@ import type { ValuePillar } from '@/sanity/lib/types'
 export const revalidate = 60
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'TechmireSolutions — the software house and design studio on a mission to redefine digital.',
+  description: 'TechmireSolutions â€” the software house and design studio on a mission to redefine digital.',
 }
 
 export default async function AboutPage() {
@@ -27,7 +27,7 @@ export default async function AboutPage() {
     <>
       {/* Hero */}
       <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">
               <span className="w-6 h-px bg-orange" />
@@ -47,14 +47,14 @@ export default async function AboutPage() {
 
       {/* Story */}
       <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <FadeUp>
             <h2 className="font-normal text-dark text-4xl mb-6">Our Story</h2>
             <p className="text-dark/50 text-[15px] leading-[1.8] mb-4">
               At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we've mastered the art of making magic happen.
             </p>
             <p className="text-dark/50 text-[15px] leading-[1.8]">
-              We're not here to sell you software or a digital transformation deal. We're here to help you build the future of your business — ditch the off-the-shelf and partner with a team that understands and values you like no one else.
+              We're not here to sell you software or a digital transformation deal. We're here to help you build the future of your business â€” ditch the off-the-shelf and partner with a team that understands and values you like no one else.
             </p>
           </FadeUp>
           <div className="grid grid-cols-2 gap-px bg-dark/10">
@@ -73,7 +73,7 @@ export default async function AboutPage() {
 
       {/* Values */}
       <section className="bg-dark py-24 px-6 lg:px-10">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="flex items-center gap-3 mb-14">
               <span className="w-6 h-px bg-orange" />
@@ -94,13 +94,13 @@ export default async function AboutPage() {
 
       {/* Team teaser */}
       <section className="bg-[#f5f5f0] py-20 px-6 lg:px-10 border-t border-dark/10">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <FadeUp>
             <h2 className="font-normal text-dark text-3xl">The People Behind The Magic</h2>
           </FadeUp>
           <FadeUp delay={0.1}>
             <Link href="/meet-our-team" className="inline-flex items-center gap-2 bg-dark hover:bg-dark/80 text-white text-[13px] font-medium px-6 py-3 rounded-pill transition-colors shrink-0">
-              Meet The Team ↗
+              Meet The Team â†—
             </Link>
           </FadeUp>
         </div>

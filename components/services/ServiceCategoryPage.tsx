@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import FadeUp from '@/components/ui/FadeUp'
@@ -17,7 +17,7 @@ export default function ServiceCategoryPage({ title, intro, services }: ServiceC
     <>
       {/* Hero */}
       <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">
               <span className="w-6 h-px bg-orange" />
@@ -40,7 +40,7 @@ export default function ServiceCategoryPage({ title, intro, services }: ServiceC
 
       {/* Sub-services list */}
       <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <h2
               className="font-normal text-dark mb-12"
@@ -74,7 +74,7 @@ export default function ServiceCategoryPage({ title, intro, services }: ServiceC
                         {service.shortDescription}
                       </span>
                       <span className="w-9 h-9 rounded-full border border-dark/10 group-hover:border-dark/40 group-hover:bg-dark group-hover:text-white flex items-center justify-center text-[12px] text-dark/40 transition-all shrink-0">
-                        ↗
+                        â†—
                       </span>
                     </div>
                   </Link>
@@ -82,14 +82,14 @@ export default function ServiceCategoryPage({ title, intro, services }: ServiceC
               ))}
             </div>
           ) : (
-            <p className="text-dark/40 text-[14px]">Services coming soon — manage via Sanity CMS.</p>
+            <p className="text-dark/40 text-[14px]">Services coming soon â€” manage via Sanity CMS.</p>
           )}
         </div>
       </section>
 
       {/* CTA strip */}
       <section className="bg-dark py-20 px-6 lg:px-10 border-t border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <FadeUp>
             <h2 className="font-normal text-white text-3xl">Ready to get started?</h2>
           </FadeUp>
@@ -98,7 +98,7 @@ export default function ServiceCategoryPage({ title, intro, services }: ServiceC
               href="/get-a-quote"
               className="inline-flex items-center gap-2 bg-white hover:bg-white/90 text-dark text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors shrink-0"
             >
-              Get a Free Quote ↗
+              Get a Free Quote â†—
             </Link>
           </FadeUp>
         </div>

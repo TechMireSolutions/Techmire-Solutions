@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import Image from 'next/image'
 import { client } from '@/sanity/lib/client'
 import { teamMembersQuery } from '@/sanity/lib/queries'
@@ -19,7 +19,7 @@ export default async function TeamPage() {
     <>
       {/* Hero */}
       <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">
               <span className="w-6 h-px bg-orange" />
@@ -36,7 +36,7 @@ export default async function TeamPage() {
 
       {/* Team grid */}
       <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="mb-14">
               <h2 className="font-normal text-dark text-3xl mb-3">The people behind the magic</h2>
@@ -77,7 +77,7 @@ export default async function TeamPage() {
 
       {/* CTA */}
       <section className="bg-dark py-16 px-6 lg:px-10 border-t border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <FadeUp>
             <p className="text-white/30 text-[14px]">Want to join us?</p>
           </FadeUp>
@@ -86,7 +86,7 @@ export default async function TeamPage() {
               href="mailto:connect@techmiresolutions.com"
               className="inline-flex items-center gap-2 border border-white/10 hover:border-white/30 text-white text-[13px] px-6 py-3 rounded-pill transition-colors"
             >
-              Send us your portfolio ↗
+              Send us your portfolio â†—
             </a>
           </FadeUp>
         </div>

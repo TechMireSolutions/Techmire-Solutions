@@ -1,4 +1,8 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Ear, HardDriveUpload, Zap, Smile, Heart, Clock } from 'lucide-react'
 import FadeUp from '@/components/ui/FadeUp'
 import type { ValuePillar } from '@/sanity/lib/types'
 
@@ -11,53 +15,82 @@ const FALLBACK: ValuePillar[] = [
   { _id: '6', title: 'We Deliver On Time', description: "Deadlines are sacred. We plan, communicate, and deliver — always on schedule.", order: 6 },
 ]
 
+const ICONS = [Ear, HardDriveUpload, Zap, Smile, Heart, Clock]
+
 export default function WhyUsSection({ heading, pillars }: { heading: string; pillars: ValuePillar[] }) {
   const list = pillars.length > 0 ? pillars : FALLBACK
 
   return (
-    <section className="bg-dark py-28 lg:py-40 px-6 lg:px-10">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="bg-dark py-28 lg:py-40 px-8 lg:px-16">
 
-        <FadeUp>
-          <div className="flex items-center gap-3 mb-16">
-            <span className="w-4 h-px bg-orange/50" />
-            <span className="text-[10.5px] uppercase tracking-[0.24em] text-white/20 font-medium">Why Us</span>
-          </div>
-        </FadeUp>
+      <FadeUp>
+        <div className="flex items-center gap-3 mb-16">
+          <span className="w-4 h-px bg-orange/50" />
+          <span className="text-[10.5px] uppercase tracking-[0.24em] text-white/20 font-medium">Why Us</span>
+        </div>
+      </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-16 lg:gap-24">
-          <div>
-            <FadeUp>
-              <h2
-                className="font-[200] text-white leading-[0.88] tracking-[-0.04em]"
-                style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}
-              >
-                {heading || "Why the best choose us."}
-              </h2>
-            </FadeUp>
-            <FadeUp delay={0.12}>
-              <Link
-                href="/about-us"
-                className="group inline-flex items-center gap-2 mt-10 text-[12.5px] text-white/25 hover:text-white transition-colors duration-300"
-              >
-                About us
-                <span className="w-5 h-px bg-white/20 group-hover:bg-white/60 transition-all duration-300 group-hover:w-7 inline-block" />
-              </Link>
-            </FadeUp>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-16 lg:gap-24">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.04]">
-            {list.slice(0, 6).map((p, i) => (
-              <FadeUp key={p._id} delay={i * 0.05} className="group bg-dark hover:bg-[#0f0f0f] transition-colors duration-500 p-8 lg:p-9">
-                <span className="text-[10px] text-white/15 uppercase tracking-[0.18em] font-medium">0{i + 1}</span>
-                <h3 className="text-white font-light text-[17px] tracking-[-0.01em] mt-5 mb-3 group-hover:text-orange transition-colors duration-500">{p.title}</h3>
-                <p className="text-white/25 text-[12.5px] leading-[1.75] font-light">{p.description}</p>
-              </FadeUp>
-            ))}
-          </div>
+        {/* Left — heading + CTA */}
+        <div>
+          <FadeUp>
+            <h2
+              className="font-[200] text-white leading-[0.88] tracking-[-0.04em]"
+              style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}
+            >
+              {heading || "We are on our way to be the best."}
+            </h2>
+          </FadeUp>
+          <FadeUp delay={0.12}>
+            <p className="text-white/22 text-[13.5px] leading-[1.85] font-light mt-7 mb-10 max-w-[280px]">
+              Five reasons our clients stay, grow, and bring their friends.
+            </p>
+            <Link
+              href="/about-us"
+              className="group inline-flex items-center gap-2 text-[12.5px] text-white/25 hover:text-white transition-colors duration-300"
+            >
+              About us
+              <span className="w-5 h-px bg-white/20 group-hover:bg-white/55 transition-all duration-350 group-hover:w-8 inline-block" />
+            </Link>
+          </FadeUp>
         </div>
 
+        {/* Right — values grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.04]">
+          {list.slice(0, 6).map((p, i) => {
+            const Icon = ICONS[i] ?? Zap
+            return (
+              <motion.div
+                key={p._id}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className="group bg-dark hover:bg-[#0f0f0f] transition-colors duration-500 p-8 lg:p-9"
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-7 h-7 rounded-full border border-white/[0.08] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-500">
+                    <Icon
+                      aria-hidden
+                      size={12}
+                      className="text-white/22 group-hover:text-orange transition-colors duration-500"
+                    />
+                  </div>
+                  <span className="text-[9.5px] text-white/14 uppercase tracking-[0.2em] font-medium">
+                    0{i + 1}
+                  </span>
+                </div>
+                <h3 className="text-white font-light text-[16px] tracking-[-0.01em] mb-3 group-hover:text-orange transition-colors duration-400">
+                  {p.title}
+                </h3>
+                <p className="text-white/22 text-[12px] leading-[1.78] font-light">{p.description}</p>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
+
     </section>
   )
 }

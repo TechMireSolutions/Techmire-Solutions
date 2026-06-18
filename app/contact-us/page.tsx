@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import ContactForm from '@/components/forms/ContactForm'
 import FadeUp from '@/components/ui/FadeUp'
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <section className="bg-dark min-h-screen pt-36 pb-24 px-6 lg:px-10">
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
 
         <div>
           <FadeUp>
@@ -26,14 +26,14 @@ export default function ContactPage() {
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="text-white/40 text-[15px] mt-7 leading-relaxed max-w-sm">
-              Whether you have a question, a project idea, or just want to say hi — we're all ears.
+              Whether you have a question, a project idea, or just want to say hi â€” we're all ears.
             </p>
           </FadeUp>
           <FadeUp delay={0.2}>
             <div className="mt-12 space-y-5 border-t border-white/[0.06] pt-10">
               {[
                 { label: 'Address', value: 'R-591, F.B Area Block 20, Karachi, Sindh' },
-                { label: 'Phone', value: '(+92) 317 222 5152  ·  (+44) 7724 697972' },
+                { label: 'Phone', value: '(+92) 317 222 5152  Â·  (+44) 7724 697972' },
                 { label: 'Email', value: 'connect@techmiresolutions.com' },
               ].map((item) => (
                 <div key={item.label} className="flex gap-6">

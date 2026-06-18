@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
@@ -16,7 +16,7 @@ export default async function BlogsPage() {
   return (
     <>
       <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">
               <span className="w-6 h-px bg-orange" />
@@ -32,7 +32,7 @@ export default async function BlogsPage() {
       </section>
 
       <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
-        <div className="max-w-[1440px] mx-auto">
+        <div className="w-full">
           {posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post, i) => (
@@ -43,7 +43,7 @@ export default async function BlogsPage() {
                         <Image src={urlFor(post.coverImage).width(600).height(375).url()} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : (
                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <span className="text-gray-300 text-4xl">◆</span>
+                          <span className="text-gray-300 text-4xl">â—†</span>
                         </div>
                       )}
                     </div>
@@ -53,7 +53,7 @@ export default async function BlogsPage() {
                     </div>
                     <h2 className="text-dark font-normal text-xl leading-tight mb-2 group-hover:text-dark/60 transition-colors">{post.title}</h2>
                     <p className="text-dark/40 text-[13px] leading-relaxed line-clamp-2">{post.excerpt}</p>
-                    <span className="inline-flex items-center gap-1.5 mt-4 text-[13px] text-dark/40 group-hover:text-dark transition-colors">Read more ↗</span>
+                    <span className="inline-flex items-center gap-1.5 mt-4 text-[13px] text-dark/40 group-hover:text-dark transition-colors">Read more â†—</span>
                   </Link>
                 </FadeUp>
               ))}

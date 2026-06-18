@@ -1,4 +1,4 @@
-import FadeUp from './FadeUp'
+﻿import FadeUp from './FadeUp'
 
 interface PageHeroProps {
   label?: string
@@ -9,7 +9,7 @@ interface PageHeroProps {
 export default function PageHero({ label, heading, subheading }: PageHeroProps) {
   return (
     <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-      <div className="max-w-[1440px] mx-auto">
+      <div className="w-full">
         {label && (
           <FadeUp>
             <div className="flex items-center gap-3 mb-8">

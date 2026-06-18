@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import LogoMark from '@/components/ui/LogoMark'
 
 interface FooterProps { logoUrl?: string | null }
@@ -29,7 +29,7 @@ export default function Footer({ logoUrl }: FooterProps) {
     <footer className="bg-dark border-t border-white/[0.05]">
 
       {/* Links grid */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 pt-20 pb-0">
+      <div className="px-6 lg:px-10 pt-20 pb-0">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pb-16 border-b border-white/[0.05]">
 
           <div>
@@ -72,7 +72,7 @@ export default function Footer({ logoUrl }: FooterProps) {
                   <a href={i.h} target="_blank" rel="noopener noreferrer"
                     className="group flex items-center gap-1.5 text-white/30 text-[12.5px] hover:text-white transition-colors font-light">
                     {i.l}
-                    <span className="text-[9px] opacity-0 group-hover:opacity-30 transition-opacity">↗</span>
+                    <span className="text-[9px] opacity-0 group-hover:opacity-30 transition-opacity">â†—</span>
                   </a>
                 </li>
               ))}
@@ -80,7 +80,7 @@ export default function Footer({ logoUrl }: FooterProps) {
             <div className="mt-10">
               <Link href="/get-a-quote"
                 className="inline-flex items-center gap-2 bg-white hover:bg-orange text-dark hover:text-white text-[11.5px] font-medium px-5 py-2.5 rounded-full transition-all duration-300">
-                Start a Project ↗
+                Start a Project â†—
               </Link>
             </div>
           </div>
@@ -90,13 +90,13 @@ export default function Footer({ logoUrl }: FooterProps) {
         <div className="flex items-center justify-between py-5 text-white/12 text-[11px] font-light">
           <div className="flex items-center gap-3">
             <LogoMark size={22} src={logoUrl} />
-            <span>© 2026 TechmireSolutions</span>
+            <span>Â© 2026 TechmireSolutions</span>
           </div>
-          <span className="hidden sm:block tracking-wide">Software House · Design Studio · Karachi</span>
+          <span className="hidden sm:block tracking-wide">Software House Â· Design Studio Â· Karachi</span>
         </div>
       </div>
 
-      {/* MEGA brand display — full bleed */}
+      {/* MEGA brand display â€” full bleed */}
       <div className="overflow-hidden border-t border-white/[0.04]">
         <p
           className="font-[200] text-white/[0.06] leading-[0.82] tracking-[-0.05em] whitespace-nowrap px-2 pt-4 pb-6 select-none"

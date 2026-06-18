@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
 import { homepageQuery, servicesQuery, clientLogosQuery, valuePillarsQuery, promiseItemsQuery } from '@/sanity/lib/queries'
 import HeroSection from '@/components/home/HeroSection'
+import ExpertiseSection from '@/components/home/ExpertiseSection'
 import AboutStrip from '@/components/home/AboutStrip'
 import ServicesCarousel from '@/components/home/ServicesCarousel'
 import WhyUsSection from '@/components/home/WhyUsSection'
@@ -47,6 +48,7 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       <HeroSection data={homepage} />
+      <ExpertiseSection />
       <MarqueeTicker text="SOFTWARE HOUSE AND DESIGN STUDIO" repeat={8} speed={35} />
       <AboutStrip data={homepage} />
       <ServicesCarousel heading={homepage?.servicesHeading || 'What We Do Best'} services={services} />

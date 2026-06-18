@@ -1,108 +1,209 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion, useInView } from 'framer-motion'
+import { ArrowUpRight, MoveRight } from 'lucide-react'
 import type { HomepageData } from '@/sanity/lib/types'
 
-const WORDS = ['Software', 'Digital', 'Creative', 'Modern', 'Tech']
+function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-40px' })
+  const [n, setN] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    let frame = 0
+    const timer = setInterval(() => {
+      frame++
+      setN(Math.floor((1 - Math.pow(1 - frame / 60, 3)) * to))
+      if (frame >= 60) { setN(to); clearInterval(timer) }
+    }, 16)
+    return () => clearInterval(timer)
+  }, [inView, to])
+  return <span ref={ref}>{n}{suffix}</span>
+}
+
+const STATS = [
+  { to: 4, suffix: '+', label: 'Years Active' },
+  { to: 30, suffix: '+', label: 'Team Members' },
+  { to: 50, suffix: '+', label: 'Projects Done' },
+]
 
 interface HeroProps { data: HomepageData | null }
 
 export default function HeroSection({ data }: HeroProps) {
-  const words = data?.heroRotatingWords?.length ? data.heroRotatingWords : WORDS
-  const [idx, setIdx] = useState(0)
-  const ref = useRef<HTMLElement>(null)
-  const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 600], [0, -80])
-
-  useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % words.length), 3000)
-    return () => clearInterval(t)
-  }, [words.length])
-
   return (
-    <section ref={ref} className="relative min-h-screen bg-dark overflow-hidden">
+    <section className="relative min-h-screen bg-dark overflow-hidden">
 
-      {/* Decorative arc lines — top right area, like reference */}
-      <svg
+      {/* ── Subtle grid backdrop ── */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 w-[55%] h-full opacity-[0.12]"
-        viewBox="0 0 800 700"
-        fill="none"
-        preserveAspectRatio="xMaxYMid meet"
-      >
-        {/* Rectangle outlines */}
-        <rect x="200" y="80" width="580" height="340" stroke="white" strokeWidth="0.6" />
-        <rect x="440" y="80" width="340" height="180" stroke="white" strokeWidth="0.6" />
-        {/* Large arc */}
-        <path d="M 800 420 Q 600 200 800 0" stroke="white" strokeWidth="0.6" fill="none" />
-        <path d="M 820 500 Q 500 250 820 -20" stroke="white" strokeWidth="0.6" fill="none" />
-      </svg>
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
+          backgroundSize: '72px 72px',
+        }}
+      />
 
-      <motion.div
-        style={{ y }}
-        className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10 pt-40 pb-24 flex flex-col h-screen justify-between"
-      >
-        <div>
-          {/* Line 1 — bright white, bold */}
+      {/* ── Soft glow orb ── */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none"
+        style={{
+          width: '55vw',
+          height: '55vw',
+          borderRadius: '50%',
+          top: '-15vw',
+          right: '-18vw',
+          background: 'radial-gradient(circle, rgba(232,82,42,0.055) 0%, transparent 70%)',
+        }}
+      />
+
+      {/* ── Bottom fade ── */}
+      <div
+        aria-hidden
+        className="absolute bottom-0 inset-x-0 h-40 pointer-events-none"
+        style={{ background: 'linear-gradient(to top, #080808 0%, transparent 100%)' }}
+      />
+
+      <div className="relative z-10 w-full px-8 lg:px-16 flex flex-col min-h-screen">
+
+        {/* ── Overline bar ── */}
+        <div className="pt-[108px] flex items-center justify-between">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.65, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-3"
+          >
+            <span className="w-5 h-px bg-orange/60" />
+            <span className="text-[10.5px] uppercase tracking-[0.28em] text-white/28 font-medium">
+              Software House · Design Studio · Karachi
+            </span>
+          </motion.div>
+
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-[10.5px] text-white/14 tracking-[0.2em] font-light hidden sm:block"
+          >
+            Est. 2020
+          </motion.span>
+        </div>
+
+        {/* ── Three-line typographic heading ── */}
+        <div className="flex-1 flex flex-col justify-center py-10">
+
+          {/* Line 1 — small muted lead-in */}
+          <div className="overflow-hidden mb-1">
+            <motion.p
+              initial={{ y: '100%', opacity: 0 }}
+              animate={{ y: '0%', opacity: 1 }}
+              transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="font-light text-white/28 leading-[1.15] tracking-[-0.01em]"
+              style={{ fontSize: 'clamp(18px, 2.2vw, 32px)' }}
+            >
+              Believe in the
+            </motion.p>
+          </div>
+
+          {/* Line 2 — GIANT primary statement */}
           <div className="overflow-hidden">
             <motion.h1
-              initial={{ y: '100%' }}
-              animate={{ y: '0%' }}
-              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white font-semibold leading-[1.0] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(52px, 7.5vw, 112px)' }}
+              initial={{ y: '100%', opacity: 0 }}
+              animate={{ y: '0%', opacity: 1 }}
+              transition={{ duration: 0.9, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
+              className="text-white font-[200] leading-[0.86] tracking-[-0.045em]"
+              style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}
             >
-              {data?.heroHeadingLine1 || "Building Today's"}
+              Software House
             </motion.h1>
           </div>
 
-          {/* Line 2 — muted gray, rotating word, same size */}
-          <div className="overflow-hidden" style={{ height: 'clamp(56px, 8vw, 118px)' }}>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={words[idx]}
-                initial={{ y: '100%' }}
-                animate={{ y: '0%' }}
-                exit={{ y: '-100%' }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                className="font-semibold leading-[1.0] tracking-[-0.02em]"
-                style={{
-                  fontSize: 'clamp(52px, 7.5vw, 112px)',
-                  color: 'rgba(255,255,255,0.28)',
-                }}
-              >
-                {words[idx]} Ventures
-              </motion.p>
-            </AnimatePresence>
+          {/* Line 3 — muted echo */}
+          <div className="overflow-hidden mb-14">
+            <motion.p
+              initial={{ y: '100%', opacity: 0 }}
+              animate={{ y: '0%', opacity: 1 }}
+              transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="font-[200] leading-[0.86] tracking-[-0.045em] text-white/16"
+              style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}
+            >
+              You Can Trust
+            </motion.p>
           </div>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-10 text-white/40 text-[14px] leading-[1.7] font-light max-w-[360px]"
-          >
-            {data?.heroSubtitle || "TechmireSolutions crafts award-winning custom digital products driven by strategy, design and technology."}
-          </motion.p>
+          {/* ── Description + Stats row ── */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.68 }}
+              className="text-white/28 font-light leading-[1.82] max-w-[360px]"
+              style={{ fontSize: '14px' }}
+            >
+              {data?.heroSubtitle || "At Techmire Solutions, we're on a mission to redefine what a software house can do — from digital products to full-scale business transformation."}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.82 }}
+              className="flex items-end gap-10 lg:gap-14"
+            >
+              {STATS.map(s => (
+                <div key={s.label}>
+                  <p
+                    className="font-[200] text-white tracking-[-0.045em] tabular-nums"
+                    style={{ fontSize: 'clamp(36px, 3.8vw, 56px)', lineHeight: 1 }}
+                  >
+                    <Counter to={s.to} suffix={s.suffix} />
+                  </p>
+                  <p className="text-white/18 text-[9.5px] uppercase tracking-[0.24em] mt-2 font-medium">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
 
-        {/* Bottom — CTA pill */}
+        {/* ── Bottom CTA bar ── */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.75 }}
+          transition={{ duration: 0.6, delay: 0.98 }}
+          className="flex items-center justify-between pb-10 pt-6 border-t border-white/[0.06]"
         >
           <Link
             href={data?.heroCTALink || '/get-a-quote'}
-            className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white text-[14px] font-medium px-6 py-3.5 rounded-full border border-white/[0.08] transition-colors duration-200"
+            aria-label="Get a quote from TechmireSolutions"
+            className="group inline-flex items-center gap-2.5 text-[13px] font-normal text-white px-6 py-3 min-h-[44px] rounded-full border border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.09] hover:border-white/[0.2] transition-all duration-250"
           >
-            Work with us&nbsp;↗
+            Get a Quote
+            <ArrowUpRight
+              aria-hidden
+              size={13}
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
+
+          <Link
+            href="/about-us"
+            className="group flex items-center gap-3 text-white/22 hover:text-white/55 text-[12px] font-light transition-colors duration-300"
+          >
+            <span>Our Story</span>
+            <MoveRight
+              aria-hidden
+              size={14}
+              className="text-white/20 group-hover:text-white/45 transition-all duration-300 group-hover:translate-x-1.5"
+            />
           </Link>
         </motion.div>
-      </motion.div>
+
+      </div>
     </section>
   )
 }

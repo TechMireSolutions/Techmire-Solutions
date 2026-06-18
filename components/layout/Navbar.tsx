@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import LogoMark from '@/components/ui/LogoMark'
@@ -28,10 +28,10 @@ const SOCIAL = [
 
 interface NavbarProps { logoUrl?: string | null }
 
-function NavLink({ href, children, dark = false, onClick }: {
+function NavLink({ href, children, light = false, onClick }: {
   href: string
   children: React.ReactNode
-  dark?: boolean
+  light?: boolean  // true = on white/light background
   onClick?: () => void
 }) {
   return (
@@ -39,45 +39,44 @@ function NavLink({ href, children, dark = false, onClick }: {
       <Link
         href={href}
         onClick={onClick}
-        className={`text-base font-medium leading-[115%] no-underline normal-case block ${
-          dark ? 'text-dark' : 'text-[#fcfdff]'
+        className={`text-base font-medium leading-[115%] no-underline normal-case block transition-colors duration-200 ${
+          light ? 'text-[#0a0a0a]' : 'text-[#fcfdff]'
         }`}
       >
         {children}
       </Link>
       <span
         className={`absolute bottom-0 left-0 block h-px w-0 group-hover:w-full transition-all duration-[350ms] ease-out ${
-          dark ? 'bg-dark/40' : 'bg-[#fcfdff]/50'
+          light ? 'bg-[#0a0a0a]/40' : 'bg-[#fcfdff]/50'
         }`}
       />
     </div>
   )
 }
 
-function StartProjectLink({ dark = false, onClick }: { dark?: boolean; onClick?: () => void }) {
+function StartProjectLink({ light = false, onClick }: { light?: boolean; onClick?: () => void }) {
   return (
     <div className="group relative hidden sm:block pb-0.5">
       <Link
         href="/get-a-quote"
         onClick={onClick}
-        className={`flex items-center gap-1.5 text-base font-medium leading-[115%] no-underline normal-case ${
-          dark ? 'text-dark' : 'text-[#fcfdff]'
+        className={`flex items-center gap-1.5 text-base font-medium leading-[115%] no-underline normal-case transition-colors duration-200 ${
+          light ? 'text-[#0a0a0a]' : 'text-[#fcfdff]'
         }`}
       >
         <span>Start a project</span>
-        {/* Dual-arrow animation: primary exits top-right, secondary enters from bottom-left */}
-        <span className="relative overflow-hidden inline-flex w-[14px] h-[14px]">
-          <span className="absolute inset-0 flex items-center justify-center text-[11px] transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">
+        <span className="relative overflow-hidden inline-flex w-[13px] h-[13px] self-center mb-[1px]">
+          <span className="absolute inset-0 flex items-center justify-center text-[13px] leading-none transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">
             ↗
           </span>
-          <span className="absolute inset-0 flex items-center justify-center text-[11px] -translate-x-2 translate-y-2 transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">
+          <span className="absolute inset-0 flex items-center justify-center text-[13px] leading-none -translate-x-2 translate-y-2 transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">
             ↗
           </span>
         </span>
       </Link>
       <span
         className={`absolute bottom-0 left-0 block h-px w-0 group-hover:w-full transition-all duration-[350ms] ease-out ${
-          dark ? 'bg-dark/40' : 'bg-[#fcfdff]/50'
+          light ? 'bg-[#0a0a0a]/40' : 'bg-[#fcfdff]/50'
         }`}
       />
     </div>
@@ -86,16 +85,40 @@ function StartProjectLink({ dark = false, onClick }: { dark?: boolean; onClick?:
 
 export default function Navbar({ logoUrl }: NavbarProps) {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
     <>
       {/* ── Fixed navbar bar ── */}
-      <header className="fixed top-0 inset-x-0 z-50 h-[95px] px-8 lg:px-16 flex items-center justify-between bg-dark">
-
+      <header
+        className={`fixed top-0 inset-x-0 z-50 h-[95px] px-8 lg:px-16 flex items-center justify-between transition-all duration-300 ${
+          scrolled
+            ? 'bg-[#fcfdff] shadow-[0_12px_20px_rgba(0,0,0,0.06)]'
+            : 'bg-dark'
+        }`}
+      >
         {/* Left — 3 links, desktop only */}
         <nav className="hidden lg:flex items-center gap-12">
           {LEFT_NAV.map(item => (
-            <NavLink key={item.href + item.label} href={item.href}>
+            <NavLink key={item.href + item.label} href={item.href} light={scrolled}>
               {item.label}
             </NavLink>
           ))}
@@ -107,21 +130,26 @@ export default function Navbar({ logoUrl }: NavbarProps) {
           onClick={() => setOpen(false)}
           className="lg:absolute lg:left-1/2 lg:-translate-x-1/2"
         >
-          <LogoMark size={56} src={logoUrl} />
+          {/* Invert logo when on white background */}
+          <span style={{ filter: scrolled ? 'invert(1)' : 'none', transition: 'filter 0.3s' }}>
+            <LogoMark size={56} src={logoUrl} />
+          </span>
         </Link>
 
         {/* Right — "Start a project" + hamburger */}
         <div className="flex items-center gap-10">
-          <StartProjectLink />
+          <StartProjectLink light={scrolled} />
 
           {/* Two-line hamburger */}
           <button
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className="flex flex-col gap-[6px] items-end py-1 group"
+            aria-label="Open navigation menu"
+            aria-expanded={open}
+            aria-controls="main-menu"
+            className="flex flex-col gap-[6px] items-end justify-center min-h-[44px] min-w-[44px] group"
           >
-            <span className="block h-[2px] w-[32px] bg-white transition-all duration-300 group-hover:w-[36px]" />
-            <span className="block h-[2px] w-[22px] bg-white transition-all duration-300 group-hover:w-[36px]" />
+            <span className={`block h-[2px] w-[32px] transition-all duration-300 group-hover:w-[36px] ${scrolled ? 'bg-[#0a0a0a]' : 'bg-white'}`} />
+            <span className={`block h-[2px] w-[22px] transition-all duration-300 group-hover:w-[36px] ${scrolled ? 'bg-[#0a0a0a]' : 'bg-white'}`} />
           </button>
         </div>
       </header>
@@ -131,6 +159,10 @@ export default function Navbar({ logoUrl }: NavbarProps) {
         {open && (
           <motion.div
             key="overlay"
+            id="main-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -154,15 +186,17 @@ export default function Navbar({ logoUrl }: NavbarProps) {
             {/* Top bar */}
             <div className="relative z-10 h-[95px] px-8 lg:px-16 flex items-center justify-between">
               <Link href="/" onClick={() => setOpen(false)}>
-                <LogoMark size={56} src={logoUrl} />
+                <span style={{ filter: 'invert(1)' }}>
+                  <LogoMark size={56} src={logoUrl} />
+                </span>
               </Link>
 
               <div className="flex items-center gap-10">
-                <StartProjectLink dark onClick={() => setOpen(false)} />
+                <StartProjectLink light onClick={() => setOpen(false)} />
                 <button
                   onClick={() => setOpen(false)}
-                  aria-label="Close menu"
-                  className="text-dark/50 hover:text-dark transition-colors select-none"
+                  aria-label="Close navigation menu"
+                  className="flex items-center justify-center min-h-[44px] min-w-[44px] text-dark/50 hover:text-dark transition-colors select-none"
                   style={{ fontSize: '28px', fontWeight: 300, lineHeight: 1 }}
                 >
                   ×
@@ -204,7 +238,6 @@ export default function Navbar({ logoUrl }: NavbarProps) {
             >
               <p className="text-[12px] text-dark/35 font-light">© 2026 TechmireSolutions</p>
 
-              {/* Social links — dual-arrow mainbutton pattern */}
               <div className="flex items-center gap-6">
                 {SOCIAL.map((s, i) => (
                   <motion.div
@@ -217,19 +250,11 @@ export default function Navbar({ logoUrl }: NavbarProps) {
                     <span className="text-[13px] font-normal text-dark/50 group-hover:text-dark transition-colors duration-200">
                       {s.label}
                     </span>
-                    {/* Dual-arrow animation */}
                     <span className="relative overflow-hidden inline-flex w-3 h-3">
                       <span className="absolute inset-0 flex items-center justify-center text-[10px] text-dark/50 group-hover:text-dark transition-all duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
                       <span className="absolute inset-0 flex items-center justify-center text-[10px] text-dark/50 group-hover:text-dark -translate-x-2 translate-y-2 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">↗</span>
                     </span>
-                    {/* Invisible full-area link overlay */}
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="absolute inset-0"
-                      aria-label={s.label}
-                    />
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="absolute inset-0" aria-label={s.label} />
                   </motion.div>
                 ))}
               </div>

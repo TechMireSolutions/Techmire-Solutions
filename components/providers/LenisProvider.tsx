@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { MotionConfig } from 'framer-motion'
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -21,5 +22,9 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     return () => lenis.destroy()
   }, [])
 
-  return <>{children}</>
+  return (
+    <MotionConfig reducedMotion="user">
+      {children}
+    </MotionConfig>
+  )
 }
