@@ -18,7 +18,7 @@ const config: Config = {
         'dark-2': '#0f0f0f',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
+        sans: ['"Alliance No 2"', 'var(--font-inter)', 'Inter', 'sans-serif'],
       },
       borderRadius: {
         pill: '999px',

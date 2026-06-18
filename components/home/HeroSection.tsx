@@ -3,10 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import MagneticButton from '@/components/ui/MagneticButton'
 import type { HomepageData } from '@/sanity/lib/types'
 
-const WORDS = ['Software', 'Digital', 'Creative', 'Modern', 'AI-Powered']
+const WORDS = ['Software', 'Digital', 'Creative', 'Modern', 'Tech']
 
 interface HeroProps { data: HomepageData | null }
 
@@ -15,136 +14,94 @@ export default function HeroSection({ data }: HeroProps) {
   const [idx, setIdx] = useState(0)
   const ref = useRef<HTMLElement>(null)
   const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 800], [0, -160])
-  const opacity = useTransform(scrollY, [0, 500], [1, 0])
+  const y = useTransform(scrollY, [0, 600], [0, -80])
 
   useEffect(() => {
     const t = setInterval(() => setIdx(i => (i + 1) % words.length), 3000)
     return () => clearInterval(t)
   }, [words.length])
 
-  const sz = 'clamp(66px, 15vw, 220px)'
-  const lh = '0.83'
-  const tr = '-0.045em'
-
   return (
-    <section ref={ref} className="relative min-h-screen bg-dark flex flex-col justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-screen bg-dark overflow-hidden">
 
-      {/* Single ambient glow — only one, centred */}
-      <div
+      {/* Decorative arc lines — top right area, like reference */}
+      <svg
         aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(232,82,42,0.055) 0%, transparent 70%)',
-        }}
-      />
+        className="pointer-events-none absolute right-0 top-0 w-[55%] h-full opacity-[0.12]"
+        viewBox="0 0 800 700"
+        fill="none"
+        preserveAspectRatio="xMaxYMid meet"
+      >
+        {/* Rectangle outlines */}
+        <rect x="200" y="80" width="580" height="340" stroke="white" strokeWidth="0.6" />
+        <rect x="440" y="80" width="340" height="180" stroke="white" strokeWidth="0.6" />
+        {/* Large arc */}
+        <path d="M 800 420 Q 600 200 800 0" stroke="white" strokeWidth="0.6" fill="none" />
+        <path d="M 820 500 Q 500 250 820 -20" stroke="white" strokeWidth="0.6" fill="none" />
+      </svg>
 
       <motion.div
-        style={{ y, opacity }}
-        className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10"
+        style={{ y }}
+        className="relative z-10 max-w-[1440px] mx-auto w-full px-6 lg:px-10 pt-40 pb-24 flex flex-col h-screen justify-between"
       >
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="text-[10px] uppercase tracking-[0.3em] text-white/20 font-medium mb-10 flex items-center gap-4"
-        >
-          Software House
-          <span className="w-8 h-px bg-white/10 inline-block" />
-          Design Studio
-          <span className="w-8 h-px bg-white/10 inline-block" />
-          Est. 2021
-        </motion.p>
-
-        {/* Ultra-large 3-line heading */}
-        <h1
-          aria-label="We Build [rotating word] Futures"
-          style={{ fontSize: sz, lineHeight: lh, letterSpacing: tr }}
-          className="font-[200] text-white select-none"
-        >
-          {/* Line 1 */}
+        <div>
+          {/* Line 1 — bright white, bold */}
           <div className="overflow-hidden">
-            <motion.span
-              className="block"
-              initial={{ y: '105%' }}
+            <motion.h1
+              initial={{ y: '100%' }}
               animate={{ y: '0%' }}
-              transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-white font-semibold leading-[1.0] tracking-[-0.02em]"
+              style={{ fontSize: 'clamp(52px, 7.5vw, 112px)' }}
             >
-              We Build
-            </motion.span>
+              {data?.heroHeadingLine1 || "Building Today's"}
+            </motion.h1>
           </div>
 
-          {/* Line 2 — rotating orange word */}
-          <div className="overflow-hidden" style={{ height: `calc(${sz} * ${lh})` }}>
+          {/* Line 2 — muted gray, rotating word, same size */}
+          <div className="overflow-hidden" style={{ height: 'clamp(56px, 8vw, 118px)' }}>
             <AnimatePresence mode="wait">
-              <motion.span
+              <motion.p
                 key={words[idx]}
-                className="block text-orange"
-                initial={{ y: '105%' }}
+                initial={{ y: '100%' }}
                 animate={{ y: '0%' }}
-                exit={{ y: '-105%' }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ y: '-100%' }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="font-semibold leading-[1.0] tracking-[-0.02em]"
+                style={{
+                  fontSize: 'clamp(52px, 7.5vw, 112px)',
+                  color: 'rgba(255,255,255,0.28)',
+                }}
               >
-                {words[idx]}
-              </motion.span>
+                {words[idx]} Ventures
+              </motion.p>
             </AnimatePresence>
           </div>
 
-          {/* Line 3 */}
-          <div className="overflow-hidden">
-            <motion.span
-              className="block"
-              initial={{ y: '105%' }}
-              animate={{ y: '0%' }}
-              transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Futures.
-            </motion.span>
-          </div>
-        </h1>
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55 }}
+            className="mt-10 text-white/40 text-[14px] leading-[1.7] font-light max-w-[360px]"
+          >
+            {data?.heroSubtitle || "TechmireSolutions crafts award-winning custom digital products driven by strategy, design and technology."}
+          </motion.p>
+        </div>
 
-        {/* Bottom strip */}
+        {/* Bottom — CTA pill */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="mt-14 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.75 }}
         >
-          <p className="text-white/25 text-[13px] leading-[1.8] font-light max-w-sm">
-            {data?.heroSubtitle || 'From napkin sketch to live product — we design and build software that scales.'}
-          </p>
-          <div className="flex items-center gap-6 shrink-0">
-            <MagneticButton
-              href={data?.heroCTALink || '/get-a-quote'}
-              className="group inline-flex items-center gap-2 bg-white hover:bg-orange text-dark hover:text-white text-[12px] font-medium px-6 py-3 rounded-full transition-all duration-300"
-            >
-              Start a Project
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[9px]">↗</span>
-            </MagneticButton>
-            <Link
-              href="/about-us"
-              className="text-[11.5px] text-white/20 hover:text-white/50 transition-colors tracking-wide"
-            >
-              Our story ↓
-            </Link>
-          </div>
+          <Link
+            href={data?.heroCTALink || '/get-a-quote'}
+            className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white text-[14px] font-medium px-6 py-3.5 rounded-full border border-white/[0.08] transition-colors duration-200"
+          >
+            Work with us&nbsp;↗
+          </Link>
         </motion.div>
-      </motion.div>
-
-      {/* Animated scroll line — right edge */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
-        className="absolute right-10 bottom-0 hidden lg:flex flex-col items-center gap-2 pb-8"
-      >
-        <motion.div
-          className="w-px bg-gradient-to-b from-transparent via-white/15 to-transparent"
-          animate={{ height: [0, 64, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.3 }}
-        />
-        <span className="text-[8px] uppercase tracking-[0.3em] text-white/12 mt-1">Scroll</span>
       </motion.div>
     </section>
   )

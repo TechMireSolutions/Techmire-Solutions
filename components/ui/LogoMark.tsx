@@ -3,8 +3,14 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-export default function LogoMark({ size = 36 }: { size?: number }) {
+interface LogoMarkProps {
+  size?: number
+  src?: string | null
+}
+
+export default function LogoMark({ size = 36, src }: LogoMarkProps) {
   const [err, setErr] = useState(false)
+  const imgSrc = src || '/logo.png'
 
   if (err) {
     return (
@@ -20,11 +26,12 @@ export default function LogoMark({ size = 36 }: { size?: number }) {
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <Image
-        src="/logo.png"
+        src={imgSrc}
         alt="TechmireSolutions"
         fill
         className="object-contain"
         onError={() => setErr(true)}
+        unoptimized={!!src}
       />
     </div>
   )

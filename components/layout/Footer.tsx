@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import LogoMark from '@/components/ui/LogoMark'
 
+interface FooterProps { logoUrl?: string | null }
+
 const SERVICES = [
   { l: 'Web Development', h: '/web-development' },
   { l: 'Software Dev', h: '/software-solution' },
@@ -22,7 +24,7 @@ const SOCIAL = [
   { l: 'Twitter / X', h: 'https://twitter.com/techmiresolutions' },
 ]
 
-export default function Footer() {
+export default function Footer({ logoUrl }: FooterProps) {
   return (
     <footer className="bg-dark border-t border-white/[0.05]">
 
@@ -87,7 +89,7 @@ export default function Footer() {
         {/* Copyright strip */}
         <div className="flex items-center justify-between py-5 text-white/12 text-[11px] font-light">
           <div className="flex items-center gap-3">
-            <LogoMark size={22} />
+            <LogoMark size={22} src={logoUrl} />
             <span>© 2026 TechmireSolutions</span>
           </div>
           <span className="hidden sm:block tracking-wide">Software House · Design Studio · Karachi</span>

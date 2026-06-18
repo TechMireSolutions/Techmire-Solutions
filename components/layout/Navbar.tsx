@@ -1,207 +1,189 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import LogoMark from '@/components/ui/LogoMark'
 
-const NAV_LEFT = [
-  {
-    label: 'Services',
-    href: '#',
-    children: [
-      { label: 'Graphic Design', href: '/graphic-design' },
-      { label: 'Digital Marketing', href: '/digital-marketing' },
-      { label: 'Web Development', href: '/web-development' },
-      { label: 'Software Development', href: '/software-solution' },
-      { label: 'SEO', href: '/search-engine-optimization' },
-    ],
-  },
-  { label: 'Work', href: '/blogs' },
-  { label: 'About', href: '/about-us' },
-  { label: 'Team', href: '/meet-our-team' },
+const LEFT_NAV = [
+  { label: 'Our Company', href: '/about-us' },
+  { label: 'Our Expertise', href: '/graphic-design' },
+  { label: 'Our Work', href: '/blogs' },
 ]
 
-const NAV_RIGHT = [
+const MENU_ITEMS = [
+  { label: 'Work', href: '/blogs' },
+  { label: 'Services', href: '/graphic-design' },
+  { label: 'About', href: '/about-us' },
   { label: 'Academy', href: '/techmire-academy' },
   { label: 'Blog', href: '/blogs' },
+  { label: 'Contact', href: '/contact-us' },
 ]
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [mobileOpen, setMobileOpen] = useState(false)
+const SOCIAL = [
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/techmiresolutions' },
+  { label: 'Twitter', href: 'https://twitter.com/techmiresolutions' },
+  { label: 'Instagram', href: 'https://instagram.com/techmiresolutions' },
+]
 
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
+interface NavbarProps { logoUrl?: string | null }
+
+export default function Navbar({ logoUrl }: NavbarProps) {
+  const [open, setOpen] = useState(false)
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-dark/95 backdrop-blur-2xl border-b border-white/[0.05]'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
+    <>
+      {/* ── Fixed navbar bar ── */}
+      <header className="fixed top-0 inset-x-0 z-50 h-[95px] px-8 lg:px-16 flex items-center justify-between bg-dark">
 
-        {/* Left nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {NAV_LEFT.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => item.children && setOpenDropdown(item.label)}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <Link
-                href={item.href}
-                className="group text-[12.5px] text-white/40 hover:text-white transition-colors duration-200 tracking-[0.04em] flex items-center gap-1.5"
-              >
-                {item.label}
-                {item.children && (
-                  <motion.svg
-                    animate={{ rotate: openDropdown === item.label ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    width="8" height="5" viewBox="0 0 8 5" fill="none"
-                    className="opacity-30"
-                  >
-                    <path d="M1 1l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                  </motion.svg>
-                )}
-              </Link>
-
-              <AnimatePresence>
-                {item.children && openDropdown === item.label && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.97 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-full left-0 mt-4 bg-[#0f0f0f] border border-white/[0.07] rounded-2xl py-2 min-w-[220px] shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
-                  >
-                    {item.children.map((child, i) => (
-                      <motion.div
-                        key={child.href}
-                        initial={{ opacity: 0, x: -6 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.03 }}
-                      >
-                        <Link
-                          href={child.href}
-                          className="flex items-center justify-between px-5 py-2.5 text-[12.5px] text-white/40 hover:text-white hover:bg-white/[0.04] transition-all group rounded-lg mx-1"
-                        >
-                          {child.label}
-                          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] translate-x-0 group-hover:translate-x-0.5 transition-transform">↗</span>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </nav>
-
-        {/* Logo — center */}
-        <Link href="/" className="flex items-center gap-3 lg:absolute lg:left-1/2 lg:-translate-x-1/2">
-          <LogoMark size={34} />
-          <span className="text-white font-light text-[13.5px] tracking-[-0.02em] hidden sm:block">
-            TechmireSolutions
-          </span>
-        </Link>
-
-        {/* Right nav */}
-        <div className="hidden lg:flex items-center gap-8">
-          {NAV_RIGHT.map((item) => (
+        {/* Left — 3 links, desktop only */}
+        <nav className="hidden lg:flex items-center gap-12">
+          {LEFT_NAV.map(item => (
             <Link
-              key={item.label}
+              key={item.href + item.label}
               href={item.href}
-              className="text-[12.5px] text-white/40 hover:text-white transition-colors duration-200 tracking-[0.04em]"
+              className="text-base font-medium text-[#fcfdff] leading-[115%] no-underline normal-case transition-all duration-300 hover:opacity-70"
             >
               {item.label}
             </Link>
           ))}
+        </nav>
+
+        {/* Center — logo mark only */}
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="lg:absolute lg:left-1/2 lg:-translate-x-1/2"
+        >
+          <LogoMark size={56} src={logoUrl} />
+        </Link>
+
+        {/* Right — "Start a project ↗" + hamburger */}
+        <div className="flex items-center gap-10">
           <Link
             href="/get-a-quote"
-            className="ml-1 group inline-flex items-center gap-2 bg-white hover:bg-orange text-dark hover:text-white text-[12.5px] font-medium px-5 py-2.5 rounded-full transition-all duration-300"
+            className="hidden sm:block text-base font-medium text-[#fcfdff] leading-[115%] no-underline normal-case transition-all duration-300 hover:opacity-70"
           >
-            Get a Quote
-            <span className="text-[10px] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            Start a project&nbsp;↗
           </Link>
-        </div>
 
-        {/* Hamburger */}
-        <button
-          className="lg:hidden w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-        >
-          <motion.span
-            animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.25 }}
-            className="block w-5 h-px bg-white origin-center"
-          />
-          <motion.span
-            animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.2 }}
-            className="block w-5 h-px bg-white"
-          />
-          <motion.span
-            animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.25 }}
-            className="block w-5 h-px bg-white origin-center"
-          />
-        </button>
-      </div>
-
-      {/* Mobile drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden overflow-hidden border-t border-white/[0.05] bg-dark/98 backdrop-blur-2xl"
+          {/* Two-line hamburger */}
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            className="flex flex-col gap-[6px] items-end py-1 group"
           >
-            <div className="px-6 py-7 flex flex-col gap-1">
-              {[...NAV_LEFT, ...NAV_RIGHT].map((item, i) => (
+            <span className="block h-[2px] w-[32px] bg-white transition-all duration-300 group-hover:w-[36px]" />
+            <span className="block h-[2px] w-[22px] bg-white transition-all duration-300 group-hover:w-[36px]" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── Menu overlay ── */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: 'easeInOut' }}
+            className="fixed top-0 inset-x-0 z-[60] bg-white"
+            style={{ height: '82vh', minHeight: '560px' }}
+          >
+            {/* Column-guide grid lines — large rectangles like the reference */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
+                `,
+                backgroundSize: '30% 34%',
+              }}
+            />
+
+            {/* Top bar */}
+            <div className="relative z-10 h-[95px] px-8 lg:px-16 flex items-center justify-between">
+              {/* Logo */}
+              <Link href="/" onClick={() => setOpen(false)}>
+                <LogoMark size={56} src={logoUrl} />
+              </Link>
+
+              {/* Right side: Start a project + × */}
+              <div className="flex items-center gap-8">
+                <Link
+                  href="/get-a-quote"
+                  onClick={() => setOpen(false)}
+                  className="hidden sm:block text-[15.5px] font-normal text-dark/60 hover:text-dark transition-colors"
+                >
+                  Start a project&nbsp;↗
+                </Link>
+                <button
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="text-dark/50 hover:text-dark transition-colors select-none"
+                  style={{ fontSize: '28px', fontWeight: 300, lineHeight: 1 }}
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Nav items — centered */}
+            <nav className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-64px-72px)]">
+              {MENU_ITEMS.map((item, i) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ delay: i * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
                     href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center justify-between py-3.5 border-b border-white/[0.05] text-[15px] text-white/50 hover:text-white transition-colors"
+                    onClick={() => setOpen(false)}
+                    className="block text-center text-dark hover:text-dark/35 transition-colors duration-200"
+                    style={{
+                      fontSize: 'clamp(42px, 6.5vw, 84px)',
+                      fontWeight: 500,
+                      lineHeight: 1.08,
+                      letterSpacing: '-0.02em',
+                    }}
                   >
-                    {item.label} <span className="text-[10px] opacity-30">↗</span>
+                    {item.label}
                   </Link>
                 </motion.div>
               ))}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.25 }}
-              >
-                <Link
-                  href="/get-a-quote"
-                  onClick={() => setMobileOpen(false)}
-                  className="mt-6 flex items-center justify-center gap-2 bg-white text-dark text-[14px] font-medium px-5 py-3.5 rounded-full"
-                >
-                  Get a Quote ↗
-                </Link>
-              </motion.div>
+            </nav>
+
+            {/* Bottom bar */}
+            <div
+              className="relative z-10 px-8 lg:px-16 flex items-center justify-between"
+              style={{ height: '72px' }}
+            >
+              <p className="text-[12px] text-dark/35 font-normal">© 2026 TechmireSolutions</p>
+              <div className="flex items-center gap-7">
+                {SOCIAL.map((s, i) => (
+                  <motion.a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 + i * 0.04 }}
+                    className="text-[13px] text-dark/50 hover:text-dark transition-colors"
+                  >
+                    {s.label}&nbsp;↗
+                  </motion.a>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   )
 }
