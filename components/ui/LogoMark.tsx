@@ -29,6 +29,7 @@ export default function LogoMark({ size = 36, src }: LogoMarkProps) {
         src={imgSrc}
         alt="TechmireSolutions"
         fill
+        priority
         className="object-contain"
         onError={() => setErr(true)}
         unoptimized={!!src}

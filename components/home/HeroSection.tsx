@@ -50,6 +50,7 @@ export default function HeroSection({ data }: HeroProps) {
           alt="Abstract Digital Background"
           fill
           priority
+          sizes="100vw"
           className="object-cover opacity-60 mix-blend-screen"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/40 to-transparent" />

@@ -79,6 +79,7 @@ export default function AboutStrip({ data }: { data: HomepageData | null }) {
               src={data?.aboutImage ? urlFor(data.aboutImage).url() : "/about-image.png"}
               alt="Techmire Solutions Team"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-dark/60 via-transparent to-transparent pointer-events-none" />
