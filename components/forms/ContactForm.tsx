@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ArrowUpRight } from 'lucide-react'
 
 const fieldCls = 'w-full bg-transparent border-b border-white/[0.12] focus:border-white/40 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none transition-colors duration-200'
 const labelCls = 'block text-[11px] uppercase tracking-[0.15em] text-white/30 mb-2'
@@ -58,7 +59,9 @@ export default function ContactForm() {
           disabled={status === 'loading'}
           className="inline-flex items-center gap-2 bg-white hover:bg-white/90 disabled:opacity-40 text-dark text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors"
         >
-          {status === 'loading' ? 'Sending…' : 'Send Message ↗'}
+          {status === 'loading' ? 'Sending...' : (
+            <><span>Send Message</span><ArrowUpRight aria-hidden size={14} /></>
+          )}
         </button>
         {status === 'error' && <p className="text-red-400 text-[13px]">Something went wrong.</p>}
       </div>

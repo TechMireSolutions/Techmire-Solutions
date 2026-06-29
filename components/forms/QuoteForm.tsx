@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ArrowUpRight } from 'lucide-react'
 
 const SERVICES = ['Web Development', 'Software Development', 'SEO', 'Graphic Design', 'Digital Marketing', 'App Development', 'UI/UX Design', 'Branding', 'Other']
 const BUDGETS = ['< $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000 – $50,000', '$50,000+']
@@ -77,7 +78,9 @@ export default function QuoteForm() {
           disabled={status === 'loading'}
           className="inline-flex items-center gap-2 bg-white hover:bg-white/90 disabled:opacity-40 text-dark text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors"
         >
-          {status === 'loading' ? 'Sending…' : 'Submit Request ↗'}
+          {status === 'loading' ? 'Sending...' : (
+            <><span>Submit Request</span><ArrowUpRight aria-hidden size={14} /></>
+          )}
         </button>
         {status === 'error' && <p className="text-red-400 text-[13px]">Something went wrong.</p>}
       </div>

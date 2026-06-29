@@ -2,8 +2,10 @@
 
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
+import { urlFor } from '@/sanity/lib/image'
 import type { HomepageData } from '@/sanity/lib/types'
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
@@ -32,21 +34,41 @@ const STATS = [
 interface HeroProps { data: HomepageData | null }
 
 export default function HeroSection({ data }: HeroProps) {
+  const { scrollY } = useScroll()
+  const y1 = useTransform(scrollY, [0, 1000], [0, 300])
+  const opacity = useTransform(scrollY, [0, 800], [1, 0])
+
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
+      {/* ── Background Image ── */}
+      <motion.div
+        style={{ y: y1, opacity }}
+        className="absolute inset-0 pointer-events-none"
+      >
+        <Image
+          src={data?.heroBackgroundImage ? urlFor(data.heroBackgroundImage).url() : "/hero-bg.png"}
+          alt="Abstract Digital Background"
+          fill
+          priority
+          className="object-cover opacity-60 mix-blend-screen"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/40 to-transparent" />
+      </motion.div>
 
       {/* ── Subtle grid backdrop ── */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
           backgroundSize: '72px 72px',
         }}
       />
 
       {/* ── Soft glow orb ── */}
-      <div
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden
         className="absolute pointer-events-none"
         style={{
@@ -55,7 +77,7 @@ export default function HeroSection({ data }: HeroProps) {
           borderRadius: '50%',
           top: '-15vw',
           right: '-18vw',
-          background: 'radial-gradient(circle, rgba(232,82,42,0.055) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(232,82,42,0.1) 0%, transparent 70%)',
         }}
       />
 
@@ -78,7 +100,7 @@ export default function HeroSection({ data }: HeroProps) {
           >
             <span className="w-5 h-px bg-orange/60" />
             <span className="text-[10.5px] uppercase tracking-[0.28em] text-white/28 font-medium">
-              Software House · Design Studio · Karachi
+              Software House{' '}&#183;{' '}Design Studio{' '}&#183;{' '}Karachi
             </span>
           </motion.div>
 
@@ -141,10 +163,10 @@ export default function HeroSection({ data }: HeroProps) {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.68 }}
-              className="text-white/28 font-light leading-[1.82] max-w-[360px]"
-              style={{ fontSize: '14px' }}
+              className="text-white/40 font-light leading-[1.82] max-w-[420px]"
+              style={{ fontSize: '15px' }}
             >
-              {data?.heroSubtitle || "At Techmire Solutions, we're on a mission to redefine what a software house can do — from digital products to full-scale business transformation."}
+              {data?.heroSubtitle || "At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we’ve mastered the art of making magic happen."}
             </motion.p>
 
             <motion.div

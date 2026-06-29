@@ -2,28 +2,32 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Pen, Code2, TrendingUp, Target } from 'lucide-react'
+import { Pen, Code2, TrendingUp, Target, ArrowUpRight } from 'lucide-react'
 
 const DISCIPLINES = [
   {
+    num: '01',
     icon: Pen,
     title: 'Design',
     desc: 'UI/UX, Branding, Graphic Design',
     href: '/graphic-design',
   },
   {
+    num: '02',
     icon: Code2,
     title: 'Development',
     desc: 'Web, App & Software Engineering',
     href: '/web-development',
   },
   {
+    num: '03',
     icon: TrendingUp,
     title: 'Marketing',
     desc: 'SEO, Social Media & Campaigns',
     href: '/digital-marketing',
   },
   {
+    num: '04',
     icon: Target,
     title: 'Strategy',
     desc: 'Research, Planning & GTM',
@@ -31,135 +35,127 @@ const DISCIPLINES = [
   },
 ]
 
-function ArrowLink({ href, label }: { href: string; label: string }) {
-  return (
-    <div className="group relative inline-flex pb-0.5">
-      <Link
-        href={href}
-        className="flex items-center gap-1.5 text-[13.5px] font-normal text-[#fcfdff] leading-none no-underline min-h-[44px]"
-      >
-        <span>{label}</span>
-        <span aria-hidden="true" className="relative overflow-hidden inline-flex w-[13px] h-[13px] self-center">
-          <span className="absolute inset-0 flex items-center justify-center text-[11px] leading-none transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
-          <span className="absolute inset-0 flex items-center justify-center text-[11px] leading-none -translate-x-2 translate-y-2 transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0">↗</span>
-        </span>
-      </Link>
-      <span className="absolute bottom-0 left-0 block h-px bg-[#fcfdff]/40 w-0 group-hover:w-full transition-all duration-[350ms] ease-out" />
-    </div>
-  )
-}
+const ease = [0.16, 1, 0.3, 1] as const
 
 export default function ExpertiseSection() {
   return (
-    <section className="bg-dark overflow-hidden">
-      <div className="px-8 lg:px-16 py-20 lg:py-28">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+    <section className="bg-dark">
 
-          {/* ── Left — stadium pill ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-[38%] flex-shrink-0"
-          >
-            <div
-              className="relative overflow-hidden bg-[#0d0d0d] border border-white/[0.07]"
-              style={{ borderRadius: '9999px', aspectRatio: '3 / 4.4' }}
-            >
-              {/* Interior grid */}
-              <svg
-                aria-hidden
-                className="absolute inset-0 w-full h-full"
-                viewBox="0 0 420 620"
-                fill="none"
-                style={{ opacity: 0.06 }}
-                preserveAspectRatio="xMidYMid slice"
-              >
-                {Array.from({ length: 19 }).map((_, i) => (
-                  <line key={`h${i}`} x1={0} y1={i * 35} x2={420} y2={i * 35} stroke="white" strokeWidth="0.4" />
-                ))}
-                {Array.from({ length: 13 }).map((_, i) => (
-                  <line key={`v${i}`} x1={i * 35} y1={0} x2={i * 35} y2={620} stroke="white" strokeWidth="0.4" />
-                ))}
-                {[70, 140, 210, 280, 350].map(r => (
-                  <circle key={r} cx={210} cy={310} r={r} stroke="white" strokeWidth="0.5" fill="none" />
-                ))}
-              </svg>
+      {/* ── Top rule ── */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.1, ease }}
+        className="h-px bg-white/[0.06] origin-left"
+      />
 
-              {/* Bottom gradient */}
-              <div
-                className="absolute bottom-0 left-0 right-0"
-                style={{
-                  height: '62%',
-                  background: 'linear-gradient(to top, rgba(8,8,8,0.97) 20%, rgba(8,8,8,0.6) 60%, transparent 100%)',
-                }}
-              />
-
-              {/* Text inside pill */}
-              <div className="absolute bottom-0 left-0 right-0 px-8 pb-10 lg:px-10 lg:pb-12">
-                <p
-                  className="text-white/42 leading-relaxed font-light mb-7"
-                  style={{ fontSize: '13px', maxWidth: '280px' }}
-                >
-                  We're on a mission to redefine what a software house can do — from turning ideas into apps to spearheading full digital transformation.
-                </p>
-                <ArrowLink href="/contact-us" label="Work with us" />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ── Right — heading + disciplines ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 flex flex-col lg:pt-4"
-          >
-            <h2
-              className="text-white font-normal leading-[1.18] tracking-[-0.025em] mb-12"
-              style={{ fontSize: 'clamp(22px, 2.6vw, 40px)' }}
-            >
-              From ideas to impact — we craft digital products that grow your business.
-            </h2>
-
-            {/* 2×2 disciplines grid */}
-            <div className="grid grid-cols-2 gap-px bg-white/[0.05] border border-white/[0.05] mb-10">
-              {DISCIPLINES.map((d, i) => {
-                const Icon = d.icon
-                return (
-                  <motion.div
-                    key={d.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.07 }}
-                    className="group bg-dark hover:bg-[#0f0f0f] transition-colors duration-500 p-6 lg:p-7"
-                  >
-                    <div className="w-8 h-8 rounded-full border border-white/[0.08] flex items-center justify-center mb-4 group-hover:border-orange/30 transition-colors duration-500">
-                      <Icon
-                        aria-hidden
-                        size={13}
-                        className="text-white/30 group-hover:text-orange transition-colors duration-500"
-                      />
-                    </div>
-                    <p className="text-white font-normal text-[14px] tracking-[-0.01em] mb-1.5 group-hover:text-orange transition-colors duration-400">
-                      {d.title}
-                    </p>
-                    <p className="text-white/28 text-[11.5px] font-light leading-relaxed">
-                      {d.desc}
-                    </p>
-                  </motion.div>
-                )
-              })}
-            </div>
-
-            <ArrowLink href="/graphic-design" label="View all services" />
-          </motion.div>
-
-        </div>
+      {/* ── Label bar ── */}
+      <div className="px-8 lg:px-16 flex items-center justify-between py-5 border-b border-white/[0.06]">
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.15, ease }}
+          className="flex items-center gap-3"
+        >
+          <span className="w-4 h-px bg-orange/50" />
+          <span className="text-[10px] uppercase tracking-[0.3em] text-white/22 font-medium">Our Studio</span>
+        </motion.div>
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.2 }}
+          className="text-[10px] uppercase tracking-[0.28em] text-white/14 font-light"
+        >
+          Since 2020
+        </motion.span>
       </div>
+
+      {/* ── Main: stacked quote left + description right ── */}
+      <div className="px-8 lg:px-16 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-end">
+
+        {/* Left — editorial stacked heading */}
+        <div className="overflow-hidden">
+          <motion.h2
+            initial={{ y: '102%' }}
+            whileInView={{ y: '0%' }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.9, ease }}
+            className="font-[200] text-white leading-[0.88] tracking-[-0.045em]"
+            style={{ fontSize: 'clamp(52px, 7vw, 100px)' }}
+          >
+            From ideas<br />to impact.
+          </motion.h2>
+        </div>
+
+        {/* Right — description + CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.75, delay: 0.18, ease }}
+          className="flex flex-col justify-between gap-10 lg:pb-2"
+        >
+          <p className="text-white/30 font-light leading-[1.85]" style={{ fontSize: '14px' }}>
+            We're on a mission to redefine what a software house can do — from turning ideas into apps to spearheading digital transformation for businesses that want to lead.
+          </p>
+          <div className="group relative inline-flex pb-0.5 self-start">
+            <Link
+              href="/contact-us"
+              className="flex items-center gap-2 text-[13.5px] font-normal text-white/80 hover:text-white no-underline min-h-[44px] transition-colors duration-200"
+            >
+              <span>Work with us</span>
+              <ArrowUpRight
+                aria-hidden
+                size={13}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+            <span className="absolute bottom-0 left-0 block h-px bg-white/40 w-0 group-hover:w-full transition-all duration-[350ms] ease-out" />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* ── Bottom: 4-column disciplines row ── */}
+      <div className="border-t border-white/[0.06] grid grid-cols-2 lg:grid-cols-4">
+        {DISCIPLINES.map((d, i) => {
+          const Icon = d.icon
+          return (
+            <motion.div
+              key={d.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.55, delay: i * 0.08, ease }}
+              className={`group px-8 lg:px-10 py-10 lg:py-12 hover:bg-[#0e0e0e] transition-colors duration-500 ${
+                i < DISCIPLINES.length - 1 ? 'border-b lg:border-b-0 border-r border-white/[0.06]' : ''
+              }`}
+            >
+              <div className="flex items-center justify-between mb-7">
+                <span className="text-[9px] text-white/14 uppercase tracking-[0.22em] font-medium tabular-nums">
+                  {d.num}
+                </span>
+                <div className="w-7 h-7 rounded-full border border-white/[0.07] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-400">
+                  <Icon
+                    aria-hidden
+                    size={11}
+                    className="text-white/22 group-hover:text-orange transition-colors duration-400"
+                  />
+                </div>
+              </div>
+              <p className="text-white font-normal text-[15px] tracking-[-0.01em] mb-2 group-hover:text-orange transition-colors duration-400">
+                {d.title}
+              </p>
+              <p className="text-white/22 text-[11.5px] font-light leading-relaxed">
+                {d.desc}
+              </p>
+            </motion.div>
+          )
+        })}
+      </div>
+
     </section>
   )
 }

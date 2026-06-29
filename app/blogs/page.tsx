@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
@@ -43,7 +43,7 @@ export default async function BlogsPage() {
                         <Image src={urlFor(post.coverImage).width(600).height(375).url()} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                       ) : (
                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <span className="text-gray-300 text-4xl">â—†</span>
+                          <span className="text-gray-300 text-4xl">·</span>
                         </div>
                       )}
                     </div>
@@ -53,7 +53,7 @@ export default async function BlogsPage() {
                     </div>
                     <h2 className="text-dark font-normal text-xl leading-tight mb-2 group-hover:text-dark/60 transition-colors">{post.title}</h2>
                     <p className="text-dark/40 text-[13px] leading-relaxed line-clamp-2">{post.excerpt}</p>
-                    <span className="inline-flex items-center gap-1.5 mt-4 text-[13px] text-dark/40 group-hover:text-dark transition-colors">Read more â†—</span>
+                    <span className="inline-flex items-center gap-1.5 mt-4 text-[13px] text-dark/40 group-hover:text-dark transition-colors">Read more -&gt;</span>
                   </Link>
                 </FadeUp>
               ))}

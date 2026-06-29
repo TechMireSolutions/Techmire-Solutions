@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { MoveRight } from 'lucide-react'
+import { urlFor } from '@/sanity/lib/image'
 import FadeUp from '@/components/ui/FadeUp'
 import type { HomepageData } from '@/sanity/lib/types'
 
@@ -68,33 +70,49 @@ export default function AboutStrip({ data }: { data: HomepageData | null }) {
         </div>
       </FadeUp>
 
-      {/* Text + CTA */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 items-end">
+      {/* Image + Text + CTA */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Left Side: Image */}
         <FadeUp>
-          <h2
-            className="font-[200] text-white leading-[0.9] tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(36px, 4.5vw, 64px)' }}
-          >
-            {data?.aboutHeading || "The Software House You Can Trust"}
-          </h2>
+          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+            <Image
+              src={data?.aboutImage ? urlFor(data.aboutImage).url() : "/about-image.png"}
+              alt="Techmire Solutions Team"
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-dark/60 via-transparent to-transparent pointer-events-none" />
+          </div>
         </FadeUp>
 
-        <FadeUp delay={0.1}>
-          <p className="text-white/22 text-[14px] leading-[1.9] font-light mb-8">
-            {data?.aboutParagraph || "At Techmire Solutions, we're on a mission to redefine what a software house can do. From turning napkin sketches into full-blown apps to spearheading digital transformation."}
-          </p>
-          <Link
-            href="/about-us"
-            className="group inline-flex items-center gap-3 text-[12px] text-white/25 hover:text-white transition-colors duration-300 min-h-[44px]"
-          >
-            Read our story
-            <MoveRight
-              aria-hidden
-              size={14}
-              className="text-white/20 group-hover:text-white/50 transition-transform duration-350 group-hover:translate-x-1.5"
-            />
-          </Link>
-        </FadeUp>
+        {/* Right Side: Text */}
+        <div>
+          <FadeUp delay={0.1}>
+            <h2
+              className="font-[200] text-white leading-[0.9] tracking-[-0.04em] mb-10"
+              style={{ fontSize: 'clamp(36px, 4.5vw, 64px)' }}
+            >
+              {data?.aboutHeading || "The Software House You Can Trust"}
+            </h2>
+          </FadeUp>
+
+          <FadeUp delay={0.2}>
+            <p className="text-white/40 text-[15px] leading-[1.9] font-light mb-10">
+              {data?.aboutParagraph || "At Techmire Solutions, we're on a mission to redefine what a software house can do. We're not here to just sell you software; we are here to partner with you and ensure your digital footprint is strong, fast, and scalable."}
+            </p>
+            <Link
+              href="/about-us"
+              className="group inline-flex items-center gap-3 text-[13px] text-orange hover:text-white transition-colors duration-300 min-h-[44px]"
+            >
+              <span className="border-b border-orange/30 group-hover:border-white/50 pb-1 transition-colors">Read our story</span>
+              <MoveRight
+                aria-hidden
+                size={16}
+                className="group-hover:translate-x-2 transition-transform duration-350"
+              />
+            </Link>
+          </FadeUp>
+        </div>
       </div>
 
     </section>

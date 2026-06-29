@@ -51,7 +51,7 @@ export default async function HomePage() {
       <ExpertiseSection />
       <MarqueeTicker text="SOFTWARE HOUSE AND DESIGN STUDIO" repeat={8} speed={35} />
       <AboutStrip data={homepage} />
-      <ServicesCarousel heading={homepage?.servicesHeading || 'What We Do Best'} services={services} />
+      <ServicesCarousel heading={homepage?.servicesHeading || 'What We Do Best'} backgroundImage={homepage?.servicesBackgroundImage} services={services} />
       <WhyUsSection heading={homepage?.whyUsHeading || 'We Are On Our Way To Be The Best'} pillars={pillars} />
       <CTABanner data={homepage} />
       <ClientsSection heading={homepage?.clientsHeading || 'Our Amazing Clients'} clients={clients} />

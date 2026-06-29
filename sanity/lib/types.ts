@@ -26,13 +26,14 @@ export interface HomepageData {
   heroSubtitle: string
   heroCTALabel: string
   heroCTALink: string
-  heroImages: SanityImage[]
+  heroBackgroundImage?: SanityImage
   aboutHeading: string
   aboutParagraph: string
   statYears: string
   statPeople: string
   aboutImage?: SanityImage
   servicesHeading: string
+  servicesBackgroundImage?: SanityImage
   whyUsHeading: string
   ctaBannerHeading: string
   ctaBannerParagraph: string
