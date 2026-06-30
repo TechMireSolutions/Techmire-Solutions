@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import NavbarWrapper from '@/components/layout/NavbarWrapper'
 import FooterWrapper from '@/components/layout/FooterWrapper'
+import ClientLayoutWrapper from '@/components/layout/ClientLayoutWrapper'
 import LenisProvider from '@/components/providers/LenisProvider'
 import Grain from '@/components/ui/Grain'
 
@@ -38,9 +39,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased font-sans" suppressHydrationWarning>
         <LenisProvider>
           <Grain />
-          <NavbarWrapper />
-          <main>{children}</main>
-          <FooterWrapper />
+          <ClientLayoutWrapper
+            navbar={<NavbarWrapper />}
+            footer={<FooterWrapper />}
+          >
+            <main>{children}</main>
+          </ClientLayoutWrapper>
         </LenisProvider>
       </body>
     </html>

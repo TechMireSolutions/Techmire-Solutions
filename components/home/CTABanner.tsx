@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import FadeUp from '@/components/ui/FadeUp'
+import MagneticButton from '@/components/ui/MagneticButton'
 import type { HomepageData } from '@/sanity/lib/types'
 
 export default function CTABanner({ data }: { data: HomepageData | null }) {
@@ -37,7 +38,7 @@ export default function CTABanner({ data }: { data: HomepageData | null }) {
 
           <FadeUp delay={0.2}>
             <div className="flex items-center gap-6 mt-10">
-              <Link
+              <MagneticButton
                 href="/contact-us"
                 className="group inline-flex items-center gap-2.5 bg-dark hover:bg-orange text-white text-[12.5px] font-medium px-7 py-3.5 min-h-[44px] rounded-full transition-all duration-300"
               >
@@ -47,7 +48,7 @@ export default function CTABanner({ data }: { data: HomepageData | null }) {
                   size={13}
                   className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
-              </Link>
+              </MagneticButton>
 
               <Link
                 href="/get-a-quote"

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
+import MagneticButton from '@/components/ui/MagneticButton'
 import type { HomepageData } from '@/sanity/lib/types'
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
@@ -200,9 +201,8 @@ export default function HeroSection({ data }: HeroProps) {
           transition={{ duration: 0.6, delay: 0.98 }}
           className="flex items-center justify-between pb-10 pt-6 border-t border-white/[0.06]"
         >
-          <Link
+          <MagneticButton
             href={data?.heroCTALink || '/get-a-quote'}
-            aria-label="Get a quote from TechmireSolutions"
             className="group inline-flex items-center gap-2.5 text-[13px] font-normal text-white px-6 py-3 min-h-[44px] rounded-full border border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.09] hover:border-white/[0.2] transition-all duration-250"
           >
             Get a Quote
@@ -211,7 +211,7 @@ export default function HeroSection({ data }: HeroProps) {
               size={13}
               className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
-          </Link>
+          </MagneticButton>
 
           <Link
             href="/about-us"

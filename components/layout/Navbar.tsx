@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, X } from 'lucide-react'
 import LogoMark from '@/components/ui/LogoMark'
+import MagneticButton from '@/components/ui/MagneticButton'
 
 const LEFT_NAV = [
   { label: 'Our Company',  href: '/about-us' },
@@ -53,7 +54,7 @@ function NavLink({ href, children, onClick }: {
 function StartProjectBtn({ onClick }: { onClick?: () => void }) {
   return (
     <div className="hidden sm:block">
-      <Link
+      <MagneticButton
         href="/get-a-quote"
         onClick={onClick}
         className="group relative flex items-center gap-2.5 px-5 py-2.5 overflow-hidden rounded-full border border-white/10 bg-white/[0.02] transition-all duration-500 hover:border-white/30 hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]"
@@ -75,7 +76,7 @@ function StartProjectBtn({ onClick }: { onClick?: () => void }) {
             className="absolute -translate-x-3 translate-y-3 transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
           />
         </span>
-      </Link>
+      </MagneticButton>
     </div>
   )
 }

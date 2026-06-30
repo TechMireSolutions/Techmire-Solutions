@@ -9,9 +9,10 @@ interface MagneticButtonProps {
   children: React.ReactNode
   className?: string
   external?: boolean
+  onClick?: () => void
 }
 
-export default function MagneticButton({ href, children, className = '', external }: MagneticButtonProps) {
+export default function MagneticButton({ href, children, className = '', external, onClick }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [xy, setXY] = useState({ x: 0, y: 0 })
 
@@ -33,7 +34,7 @@ export default function MagneticButton({ href, children, className = '', externa
         animate={xy}
         transition={{ type: 'spring', stiffness: 400, damping: 28, mass: 0.4 }}
       >
-        <Link {...props} className={className}>
+        <Link {...props} className={className} onClick={onClick}>
           {children}
         </Link>
       </motion.div>
