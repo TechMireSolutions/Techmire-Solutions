@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
@@ -43,11 +42,22 @@ export default function HeroSection({ data }: HeroProps) {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
-  const smoothX = useSpring(mouseX, { damping: 50, stiffness: 400 })
-  const smoothY = useSpring(mouseY, { damping: 50, stiffness: 400 })
+  // Use a softer spring for background elements
+  const smoothX = useSpring(mouseX, { damping: 50, stiffness: 100 })
+  const smoothY = useSpring(mouseY, { damping: 50, stiffness: 100 })
 
-  const orbX = useTransform(smoothX, [-1, 1], [-30, 30])
-  const orbY = useTransform(smoothY, [-1, 1], [-30, 30])
+  // Use a snappier spring for the "spotlight" aura
+  const fastX = useSpring(mouseX, { damping: 30, stiffness: 200 })
+  const fastY = useSpring(mouseY, { damping: 30, stiffness: 200 })
+
+  const orbX = useTransform(smoothX, [-1, 1], [-50, 50])
+  const orbY = useTransform(smoothY, [-1, 1], [-50, 50])
+  
+  const spotlightX = useTransform(fastX, [-1, 1], [-200, 200])
+  const spotlightY = useTransform(fastY, [-1, 1], [-200, 200])
+  
+  const gridX = useTransform(smoothX, [-1, 1], [-20, 20])
+  const gridY = useTransform(smoothY, [-1, 1], [-20, 20])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -63,48 +73,82 @@ export default function HeroSection({ data }: HeroProps) {
 
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
-      {/* ── Background Image ── */}
+      {/* ── Dynamic Aurora Background ── */}
       <motion.div
         style={{ y: y1, opacity }}
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none overflow-hidden bg-dark"
       >
-        <Image
-          src={data?.heroBackgroundImage ? urlFor(data.heroBackgroundImage).url() : "/hero-bg.png"}
-          alt="Abstract Digital Background"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-60 mix-blend-screen"
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            x: ['0%', '10%', '0%'],
+            y: ['0%', '10%', '0%'],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full mix-blend-screen filter blur-[100px] opacity-80 bg-orange/40"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/40 to-transparent" />
+        
+        <motion.div
+          animate={{
+            scale: [1, 1.4, 1],
+            rotate: [0, -90, 0],
+            x: ['0%', '-10%', '0%'],
+            y: ['0%', '-5%', '0%'],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] max-w-[900px] max-h-[900px] rounded-full mix-blend-screen filter blur-[120px] opacity-70 bg-[#ff3300]/30"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
       </motion.div>
 
-      {/* ── Subtle grid backdrop ── */}
-      <div
+      {/* ── Dynamic Grid backdrop ── */}
+      <motion.div
         aria-hidden
-        className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
+        className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-60"
         style={{
+          x: gridX,
+          y: gridY,
           backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
           backgroundSize: '72px 72px',
         }}
       />
 
-      {/* ── Soft glow orb ── */}
+      {/* ── Soft floating orb (background) ── */}
       <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3], rotate: [0, 90, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         style={{
           x: orbX,
           y: orbY,
-          width: '55vw',
-          height: '55vw',
+          width: '70vw',
+          height: '70vw',
           borderRadius: '50%',
-          top: '-15vw',
-          right: '-18vw',
-          background: 'radial-gradient(circle, rgba(232,82,42,0.1) 0%, transparent 70%)',
+          top: '-20vw',
+          right: '-20vw',
+          background: 'radial-gradient(circle, rgba(232,82,42,0.15) 0%, transparent 60%)',
+          filter: 'blur(40px)'
         }}
         aria-hidden
         className="absolute pointer-events-none"
+      />
+
+      {/* ── Snappy Spotlight (foreground) ── */}
+      <motion.div
+        style={{
+          x: spotlightX,
+          y: spotlightY,
+          width: '800px',
+          height: '800px',
+          borderRadius: '50%',
+          left: 'calc(50% - 400px)',
+          top: 'calc(50% - 400px)',
+          background: 'radial-gradient(circle, rgba(232,82,42,0.4) 0%, rgba(232,82,42,0.15) 30%, transparent 70%)',
+          mixBlendMode: 'screen',
+        }}
+        aria-hidden
+        className="absolute pointer-events-none z-10"
       />
 
       {/* ── Bottom fade ── */}
@@ -145,15 +189,15 @@ export default function HeroSection({ data }: HeroProps) {
 
           {/* Line 1 — small muted lead-in */}
           <div className="overflow-hidden mb-1">
-            <motion.p
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: '0%', opacity: 1 }}
-              transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="font-light text-white/28 leading-[1.15] tracking-[-0.01em]"
-              style={{ fontSize: 'clamp(18px, 2.2vw, 32px)' }}
-            >
-              Believe in the
-            </motion.p>
+            <div style={{ fontSize: 'clamp(18px, 2.2vw, 32px)' }}>
+              <AnimatedText
+                el="p"
+                text="Believe in the"
+                type="word"
+                delay={0.1}
+                className="font-light text-white/28 leading-[1.15] tracking-[-0.01em]"
+              />
+            </div>
           </div>
 
           {/* Line 2 — GIANT primary statement */}
@@ -164,22 +208,22 @@ export default function HeroSection({ data }: HeroProps) {
                 text="Software House"
                 type="character"
                 delay={0.3}
-                className="text-white font-[200] leading-[0.86] tracking-[-0.045em]"
+                className="text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50 font-[200] leading-[0.86] tracking-[-0.045em] pb-2"
               />
             </div>
           </div>
 
           {/* Line 3 — muted echo */}
           <div className="overflow-hidden mb-14">
-            <motion.p
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: '0%', opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="font-[200] leading-[0.86] tracking-[-0.045em] text-white/16"
-              style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}
-            >
-              You Can Trust
-            </motion.p>
+            <div style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}>
+              <AnimatedText
+                el="p"
+                text="You Can Trust"
+                type="word"
+                delay={0.9}
+                className="font-[200] leading-[0.86] tracking-[-0.045em] text-white/16"
+              />
+            </div>
           </div>
 
           {/* ── Description + Stats row ── */}
