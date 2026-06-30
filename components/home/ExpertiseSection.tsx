@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Pen, Code2, TrendingUp, Target, ArrowUpRight } from 'lucide-react'
+import AnimatedText from '@/components/ui/AnimatedText'
+import { MouseEvent, useRef } from 'react'
 
 const DISCIPLINES = [
   {
@@ -36,6 +38,60 @@ const DISCIPLINES = [
 ]
 
 const ease = [0.16, 1, 0.3, 1] as const
+
+function DisciplineCard({ d, i }: { d: typeof DISCIPLINES[0], i: number }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`)
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`)
+  }
+
+  const Icon = d.icon
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, delay: i * 0.08, ease }}
+      className={`group relative overflow-hidden px-8 lg:px-10 py-10 lg:py-12 transition-colors duration-500 ${
+        i < DISCIPLINES.length - 1 ? 'border-b lg:border-b-0 border-r border-white/[0.06]' : ''
+      }`}
+    >
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(circle 250px at var(--mouse-x, 0) var(--mouse-y, 0), rgba(232,82,42,0.06), transparent 80%)'
+        }}
+      />
+      
+      <div className="relative z-10 flex items-center justify-between mb-7">
+        <span className="text-[9px] text-white/14 uppercase tracking-[0.22em] font-medium tabular-nums">
+          {d.num}
+        </span>
+        <div className="w-7 h-7 rounded-full border border-white/[0.07] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-400">
+          <Icon
+            aria-hidden
+            size={11}
+            className="text-white/22 group-hover:text-orange transition-colors duration-400"
+          />
+        </div>
+      </div>
+      <p className="relative z-10 text-white font-normal text-[15px] tracking-[-0.01em] mb-2 group-hover:text-orange transition-colors duration-400">
+        {d.title}
+      </p>
+      <p className="relative z-10 text-white/22 text-[11.5px] font-light leading-relaxed">
+        {d.desc}
+      </p>
+    </motion.div>
+  )
+}
 
 export default function ExpertiseSection() {
   return (
@@ -78,16 +134,15 @@ export default function ExpertiseSection() {
 
         {/* Left — editorial stacked heading */}
         <div className="overflow-hidden">
-          <motion.h2
-            initial={{ y: '102%' }}
-            whileInView={{ y: '0%' }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.9, ease }}
-            className="font-[200] text-white leading-[0.88] tracking-[-0.045em]"
-            style={{ fontSize: 'clamp(52px, 7vw, 100px)' }}
-          >
-            From ideas<br />to impact.
-          </motion.h2>
+          <div style={{ fontSize: 'clamp(52px, 7vw, 100px)' }}>
+            <AnimatedText
+              el="h2"
+              text="From ideas to impact."
+              type="word"
+              delay={0.1}
+              className="font-[200] text-white leading-[0.88] tracking-[-0.045em]"
+            />
+          </div>
         </div>
 
         {/* Right — description + CTA */}
@@ -120,40 +175,9 @@ export default function ExpertiseSection() {
 
       {/* ── Bottom: 4-column disciplines row ── */}
       <div className="border-t border-white/[0.06] grid grid-cols-2 lg:grid-cols-4">
-        {DISCIPLINES.map((d, i) => {
-          const Icon = d.icon
-          return (
-            <motion.div
-              key={d.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, delay: i * 0.08, ease }}
-              className={`group px-8 lg:px-10 py-10 lg:py-12 hover:bg-[#0e0e0e] transition-colors duration-500 ${
-                i < DISCIPLINES.length - 1 ? 'border-b lg:border-b-0 border-r border-white/[0.06]' : ''
-              }`}
-            >
-              <div className="flex items-center justify-between mb-7">
-                <span className="text-[9px] text-white/14 uppercase tracking-[0.22em] font-medium tabular-nums">
-                  {d.num}
-                </span>
-                <div className="w-7 h-7 rounded-full border border-white/[0.07] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-400">
-                  <Icon
-                    aria-hidden
-                    size={11}
-                    className="text-white/22 group-hover:text-orange transition-colors duration-400"
-                  />
-                </div>
-              </div>
-              <p className="text-white font-normal text-[15px] tracking-[-0.01em] mb-2 group-hover:text-orange transition-colors duration-400">
-                {d.title}
-              </p>
-              <p className="text-white/22 text-[11.5px] font-light leading-relaxed">
-                {d.desc}
-              </p>
-            </motion.div>
-          )
-        })}
+        {DISCIPLINES.map((d, i) => (
+          <DisciplineCard key={d.title} d={d} i={i} />
+        ))}
       </div>
 
     </section>

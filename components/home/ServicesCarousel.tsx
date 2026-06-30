@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import {
   Globe, Code2, TrendingUp, Palette,
   Megaphone, Smartphone, Layers, Zap, ArrowUpRight,
@@ -47,8 +47,17 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
     ? `/${active.slug.current}`
     : `/services/${active.slug.current}`
 
+  const containerRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["0 1", "0.5 1"]
+  })
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.5, 1])
+
   return (
-    <section className="bg-dark py-24 lg:py-36 px-8 lg:px-16">
+    <section ref={containerRef} className="bg-dark py-24 lg:py-36 px-8 lg:px-16 overflow-hidden">
+      <motion.div style={{ scale, opacity }} className="origin-center">
 
       {/* ── Section header ── */}
       <FadeUp>
@@ -182,7 +191,7 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
         </div>
 
       </div>
-
+      </motion.div>
     </section>
   )
 }

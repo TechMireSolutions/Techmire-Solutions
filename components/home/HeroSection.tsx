@@ -3,10 +3,11 @@
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
 import MagneticButton from '@/components/ui/MagneticButton'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { HomepageData } from '@/sanity/lib/types'
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
@@ -38,6 +39,27 @@ export default function HeroSection({ data }: HeroProps) {
   const { scrollY } = useScroll()
   const y1 = useTransform(scrollY, [0, 1000], [0, 300])
   const opacity = useTransform(scrollY, [0, 800], [1, 0])
+
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const smoothX = useSpring(mouseX, { damping: 50, stiffness: 400 })
+  const smoothY = useSpring(mouseY, { damping: 50, stiffness: 400 })
+
+  const orbX = useTransform(smoothX, [-1, 1], [-30, 30])
+  const orbY = useTransform(smoothY, [-1, 1], [-30, 30])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window
+      const x = (e.clientX / innerWidth) * 2 - 1
+      const y = (e.clientY / innerHeight) * 2 - 1
+      mouseX.set(x)
+      mouseY.set(y)
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [mouseX, mouseY])
 
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
@@ -71,9 +93,9 @@ export default function HeroSection({ data }: HeroProps) {
       <motion.div
         animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden
-        className="absolute pointer-events-none"
         style={{
+          x: orbX,
+          y: orbY,
           width: '55vw',
           height: '55vw',
           borderRadius: '50%',
@@ -81,6 +103,8 @@ export default function HeroSection({ data }: HeroProps) {
           right: '-18vw',
           background: 'radial-gradient(circle, rgba(232,82,42,0.1) 0%, transparent 70%)',
         }}
+        aria-hidden
+        className="absolute pointer-events-none"
       />
 
       {/* ── Bottom fade ── */}
@@ -134,15 +158,15 @@ export default function HeroSection({ data }: HeroProps) {
 
           {/* Line 2 — GIANT primary statement */}
           <div className="overflow-hidden">
-            <motion.h1
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: '0%', opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white font-[200] leading-[0.86] tracking-[-0.045em]"
-              style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}
-            >
-              Software House
-            </motion.h1>
+            <div style={{ fontSize: 'clamp(60px, 10vw, 140px)' }}>
+              <AnimatedText
+                el="h1"
+                text="Software House"
+                type="character"
+                delay={0.3}
+                className="text-white font-[200] leading-[0.86] tracking-[-0.045em]"
+              />
+            </div>
           </div>
 
           {/* Line 3 — muted echo */}
