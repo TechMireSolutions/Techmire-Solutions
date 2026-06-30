@@ -7,6 +7,7 @@ import { motion, useInView } from 'framer-motion'
 import { MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
 import FadeUp from '@/components/ui/FadeUp'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { HomepageData } from '@/sanity/lib/types'
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
@@ -88,14 +89,15 @@ export default function AboutStrip({ data }: { data: HomepageData | null }) {
 
         {/* Right Side: Text */}
         <div>
-          <FadeUp delay={0.1}>
-            <h2
-              className="font-[200] text-white leading-[0.9] tracking-[-0.04em] mb-10"
-              style={{ fontSize: 'clamp(36px, 4.5vw, 64px)' }}
-            >
-              {data?.aboutHeading || "The Software House You Can Trust"}
-            </h2>
-          </FadeUp>
+          <div className="mb-10" style={{ fontSize: 'clamp(36px, 4.5vw, 64px)' }}>
+            <AnimatedText
+              el="h2"
+              text={data?.aboutHeading || "The Software House You Can Trust"}
+              type="word"
+              delay={0.1}
+              className="font-[200] text-white leading-[0.9] tracking-[-0.04em]"
+            />
+          </div>
 
           <FadeUp delay={0.2}>
             <p className="text-white/40 text-[15px] leading-[1.9] font-light mb-10">

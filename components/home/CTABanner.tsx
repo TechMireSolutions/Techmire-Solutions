@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import FadeUp from '@/components/ui/FadeUp'
 import MagneticButton from '@/components/ui/MagneticButton'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { HomepageData } from '@/sanity/lib/types'
 
 export default function CTABanner({ data }: { data: HomepageData | null }) {
@@ -20,14 +21,15 @@ export default function CTABanner({ data }: { data: HomepageData | null }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-28 items-end">
 
-        <FadeUp>
-          <h2
+        <div style={{ fontSize: 'clamp(44px, 6.5vw, 96px)' }}>
+          <AnimatedText
+            el="h2"
+            text={data?.ctaBannerHeading || "Let's build something extraordinary."}
+            type="word"
+            delay={0.1}
             className="font-[200] text-dark leading-[0.86] tracking-[-0.045em]"
-            style={{ fontSize: 'clamp(44px, 6.5vw, 96px)' }}
-          >
-            {data?.ctaBannerHeading || "Let's build something extraordinary."}
-          </h2>
-        </FadeUp>
+          />
+        </div>
 
         <div>
           <FadeUp delay={0.1}>

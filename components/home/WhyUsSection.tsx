@@ -3,7 +3,9 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Ear, HardDriveUpload, Zap, Smile, Heart, Clock } from 'lucide-react'
+import { MouseEvent, useRef } from 'react'
 import FadeUp from '@/components/ui/FadeUp'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { ValuePillar } from '@/sanity/lib/types'
 
 const FALLBACK: ValuePillar[] = [
@@ -16,6 +18,56 @@ const FALLBACK: ValuePillar[] = [
 ]
 
 const ICONS = [Ear, HardDriveUpload, Zap, Smile, Heart, Clock]
+
+function WhyUsCard({ p, i }: { p: ValuePillar, i: number }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`)
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`)
+  }
+
+  const Icon = ICONS[i] ?? Zap
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative overflow-hidden bg-dark transition-colors duration-500 p-8 lg:p-9"
+    >
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(circle 200px at var(--mouse-x, 0) var(--mouse-y, 0), rgba(232,82,42,0.06), transparent 80%)'
+        }}
+      />
+      <div className="relative z-10 flex items-center gap-3 mb-5">
+        <div className="w-7 h-7 rounded-full border border-white/[0.08] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-500">
+          <Icon
+            aria-hidden
+            size={12}
+            className="text-white/22 group-hover:text-orange transition-colors duration-500"
+          />
+        </div>
+        <span className="text-[9.5px] text-white/14 uppercase tracking-[0.2em] font-medium">
+          0{i + 1}
+        </span>
+      </div>
+      <h3 className="relative z-10 text-white font-light text-[16px] tracking-[-0.01em] mb-3 group-hover:text-orange transition-colors duration-400">
+        {p.title}
+      </h3>
+      <p className="relative z-10 text-white/22 text-[12px] leading-[1.78] font-light">{p.description}</p>
+    </motion.div>
+  )
+}
 
 export default function WhyUsSection({ heading, pillars }: { heading: string; pillars: ValuePillar[] }) {
   const list = pillars.length > 0 ? pillars : FALLBACK
@@ -34,14 +86,15 @@ export default function WhyUsSection({ heading, pillars }: { heading: string; pi
 
         {/* Left — heading + CTA */}
         <div>
-          <FadeUp>
-            <h2
+          <div style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}>
+            <AnimatedText
+              el="h2"
+              text={heading || "We are on our way to be the best."}
+              type="word"
+              delay={0.1}
               className="font-[200] text-white leading-[0.88] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}
-            >
-              {heading || "We are on our way to be the best."}
-            </h2>
-          </FadeUp>
+            />
+          </div>
           <FadeUp delay={0.12}>
             <p className="text-white/22 text-[13.5px] leading-[1.85] font-light mt-7 mb-10 max-w-[280px]">
               Five reasons our clients stay, grow, and bring their friends.
@@ -58,36 +111,9 @@ export default function WhyUsSection({ heading, pillars }: { heading: string; pi
 
         {/* Right — values grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.04]">
-          {list.slice(0, 6).map((p, i) => {
-            const Icon = ICONS[i] ?? Zap
-            return (
-              <motion.div
-                key={p._id}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                className="group bg-dark hover:bg-[#0f0f0f] transition-colors duration-500 p-8 lg:p-9"
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-7 h-7 rounded-full border border-white/[0.08] flex items-center justify-center group-hover:border-orange/25 transition-colors duration-500">
-                    <Icon
-                      aria-hidden
-                      size={12}
-                      className="text-white/22 group-hover:text-orange transition-colors duration-500"
-                    />
-                  </div>
-                  <span className="text-[9.5px] text-white/14 uppercase tracking-[0.2em] font-medium">
-                    0{i + 1}
-                  </span>
-                </div>
-                <h3 className="text-white font-light text-[16px] tracking-[-0.01em] mb-3 group-hover:text-orange transition-colors duration-400">
-                  {p.title}
-                </h3>
-                <p className="text-white/22 text-[12px] leading-[1.78] font-light">{p.description}</p>
-              </motion.div>
-            )
-          })}
+          {list.slice(0, 6).map((p, i) => (
+            <WhyUsCard key={p._id} p={p} i={i} />
+          ))}
         </div>
       </div>
 

@@ -3,7 +3,9 @@
 import { motion } from 'framer-motion'
 import { HeartHandshake, Shield, Cpu, Star, Coins, Clock, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
+import { MouseEvent, useRef } from 'react'
 import FadeUp from '@/components/ui/FadeUp'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { PromiseItem } from '@/sanity/lib/types'
 
 const FALLBACK_ITEMS: PromiseItem[] = [
@@ -26,6 +28,71 @@ const DESCRIPTIONS: Record<string, string> = {
 
 const ICONS = [HeartHandshake, Shield, Cpu, Star, Coins, Clock]
 
+function PromiseCard({ item, i, Icon, desc }: { item: PromiseItem, i: number, Icon: any, desc: string }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`)
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`)
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, x: -16 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative overflow-hidden flex items-start lg:items-center justify-between gap-6 py-7 hover:bg-[#0d0d0d] -mx-8 lg:-mx-16 px-8 lg:px-16 transition-colors duration-400"
+    >
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(circle 300px at var(--mouse-x, 0) var(--mouse-y, 0), rgba(232,82,42,0.06), transparent 80%)'
+        }}
+      />
+      
+      <div className="relative z-10 flex items-start lg:items-center gap-5 lg:gap-8 flex-1">
+        {/* Index */}
+        <span className="text-[9.5px] text-white/14 uppercase tracking-[0.2em] font-medium tabular-nums shrink-0 pt-1 lg:pt-0 w-4">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+
+        {/* Icon circle */}
+        <div className="w-9 h-9 rounded-full border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-orange/30 transition-colors duration-400">
+          <Icon
+            aria-hidden
+            size={14}
+            className="text-white/25 group-hover:text-orange transition-colors duration-400"
+          />
+        </div>
+
+        {/* Label + description */}
+        <div className="flex flex-col lg:flex-row lg:items-center gap-1.5 lg:gap-8 flex-1">
+          <p className="text-white font-normal text-[15px] lg:text-[17px] tracking-[-0.01em] shrink-0 group-hover:text-orange transition-colors duration-400">
+            {item.label}
+          </p>
+          <p className="text-white/20 text-[12px] font-light leading-relaxed lg:max-w-[380px]">
+            {desc}
+          </p>
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <ArrowUpRight
+        aria-hidden
+        size={14}
+        className="relative z-10 text-white/10 group-hover:text-orange/60 transition-all duration-400 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      />
+    </motion.div>
+  )
+}
+
 export default function PromiseSection({ heading, items }: { heading: string; items: PromiseItem[] }) {
   const list = items.length > 0 ? items : FALLBACK_ITEMS
 
@@ -41,14 +108,15 @@ export default function PromiseSection({ heading, items }: { heading: string; it
               <span className="text-[10.5px] uppercase tracking-[0.24em] text-white/22 font-medium">Our Commitment</span>
             </div>
           </FadeUp>
-          <FadeUp delay={0.06}>
-            <h2
+          <div style={{ fontSize: 'clamp(36px, 4.8vw, 68px)' }}>
+            <AnimatedText
+              el="h2"
+              text={heading || 'Pinky Promise'}
+              type="word"
+              delay={0.1}
               className="font-[200] text-white leading-[0.9] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(36px, 4.8vw, 68px)' }}
-            >
-              {heading || 'Pinky Promise'}
-            </h2>
-          </FadeUp>
+            />
+          </div>
         </div>
 
         <FadeUp delay={0.1}>
@@ -64,47 +132,7 @@ export default function PromiseSection({ heading, items }: { heading: string; it
           const Icon = ICONS[i] ?? Star
           const desc = DESCRIPTIONS[item.label] ?? 'A commitment we take seriously on every project.'
           return (
-            <motion.div
-              key={item._id}
-              initial={{ opacity: 0, x: -16 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-              className="group flex items-start lg:items-center justify-between gap-6 py-7 hover:bg-[#0d0d0d] -mx-8 lg:-mx-16 px-8 lg:px-16 transition-colors duration-400"
-            >
-              <div className="flex items-start lg:items-center gap-5 lg:gap-8 flex-1">
-                {/* Index */}
-                <span className="text-[9.5px] text-white/14 uppercase tracking-[0.2em] font-medium tabular-nums shrink-0 pt-1 lg:pt-0 w-4">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-
-                {/* Icon circle */}
-                <div className="w-9 h-9 rounded-full border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-orange/30 transition-colors duration-400">
-                  <Icon
-                    aria-hidden
-                    size={14}
-                    className="text-white/25 group-hover:text-orange transition-colors duration-400"
-                  />
-                </div>
-
-                {/* Label + description */}
-                <div className="flex flex-col lg:flex-row lg:items-center gap-1.5 lg:gap-8 flex-1">
-                  <p className="text-white font-normal text-[15px] lg:text-[17px] tracking-[-0.01em] shrink-0 group-hover:text-orange transition-colors duration-400">
-                    {item.label}
-                  </p>
-                  <p className="text-white/20 text-[12px] font-light leading-relaxed lg:max-w-[380px]">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-
-              {/* Arrow */}
-              <ArrowUpRight
-                aria-hidden
-                size={14}
-                className="text-white/10 group-hover:text-orange/60 transition-all duration-400 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </motion.div>
+            <PromiseCard key={item._id} item={item} i={i} Icon={Icon} desc={desc} />
           )
         })}
       </div>
