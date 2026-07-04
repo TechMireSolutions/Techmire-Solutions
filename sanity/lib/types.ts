@@ -62,7 +62,6 @@ export interface TeamMember {
   name: string
   role: string
   photo?: SanityImage
-  bio?: string
   linkedin?: string
   order: number
 }

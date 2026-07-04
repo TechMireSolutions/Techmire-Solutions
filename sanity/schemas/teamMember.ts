@@ -8,7 +8,6 @@ export default defineType({
     defineField({ name: 'name', title: 'Name', type: 'string' }),
     defineField({ name: 'role', title: 'Role / Title', type: 'string' }),
     defineField({ name: 'photo', title: 'Photo', type: 'image', options: { hotspot: true } }),
-    defineField({ name: 'bio', title: 'Bio', type: 'text' }),
     defineField({ name: 'linkedin', title: 'LinkedIn URL', type: 'url' }),
     defineField({ name: 'order', title: 'Display Order', type: 'number' }),
   ],
