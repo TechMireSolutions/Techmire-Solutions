@@ -7,6 +7,7 @@ import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
 import MagneticButton from '@/components/ui/MagneticButton'
 import AnimatedText from '@/components/ui/AnimatedText'
+import FloatingLines from '@/components/FloatingLines'
 import type { HomepageData } from '@/sanity/lib/types'
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
@@ -73,34 +74,24 @@ export default function HeroSection({ data }: HeroProps) {
 
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
-      {/* ── Dynamic Aurora Background ── */}
+      {/* ── Dynamic Floating Lines Background ── */}
       <motion.div
         style={{ y: y1, opacity }}
-        className="absolute inset-0 pointer-events-none overflow-hidden bg-dark"
+        className="absolute inset-0 overflow-hidden"
       >
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: ['0%', '10%', '0%'],
-            y: ['0%', '10%', '0%'],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full mix-blend-screen filter blur-[100px] opacity-80 bg-orange/40"
+        <FloatingLines 
+          enabledWaves={["top","middle","bottom"]}
+          topWavePosition={undefined as any}
+          middleWavePosition={undefined as any}
+          lineCount={[8, 8, 8]}
+          lineDistance={[8, 8, 8]}
+          bendRadius={8}
+          bendStrength={-2}
+          interactive
+          parallax={true}
+          animationSpeed={1}
+          linesGradient={["#EF6525", "#6f6f6f", "#6a6a6a"]}
         />
-        
-        <motion.div
-          animate={{
-            scale: [1, 1.4, 1],
-            rotate: [0, -90, 0],
-            x: ['0%', '-10%', '0%'],
-            y: ['0%', '-5%', '0%'],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] max-w-[900px] max-h-[900px] rounded-full mix-blend-screen filter blur-[120px] opacity-70 bg-[#ff3300]/30"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
       </motion.div>
 
       {/* ── Dynamic Grid backdrop ── */}

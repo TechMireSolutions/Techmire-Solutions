@@ -1,8 +1,11 @@
-﻿import { Metadata } from 'next'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
 import { valuePillarsQuery } from '@/sanity/lib/queries'
 import FadeUp from '@/components/ui/FadeUp'
+import InnerPageHero from '@/components/ui/InnerPageHero'
+import MagneticHoverCard from '@/components/ui/MagneticHoverCard'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { ValuePillar } from '@/sanity/lib/types'
 
 export const revalidate = 60
@@ -26,45 +29,41 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="w-full">
-          <FadeUp>
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-6 h-px bg-orange" />
-              <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">Who We Are</span>
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.05}>
-            <h1 className="font-normal text-white leading-[0.95]" style={{ fontSize: 'clamp(52px, 8vw, 120px)' }}>
-              About Us
-            </h1>
-          </FadeUp>
-          <FadeUp delay={0.15}>
-            <p className="text-white/40 text-[17px] mt-6 max-w-lg leading-relaxed">The Software House You Can Trust.</p>
-          </FadeUp>
-        </div>
-      </section>
+      <InnerPageHero 
+        title="About Us"
+        subtitle="The Software House You Can Trust."
+        overline="Who We Are"
+      />
 
       {/* Story */}
-      <section className="bg-[#f5f5f0] py-24 px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          <FadeUp>
-            <h2 className="font-normal text-dark text-4xl mb-6">Our Story</h2>
-            <p className="text-dark/50 text-[15px] leading-[1.8] mb-4">
-              At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we've mastered the art of making magic happen.
-            </p>
-            <p className="text-dark/50 text-[15px] leading-[1.8]">
-              We're not here to sell you software or a digital transformation deal. We're here to help you build the future of your business â€” ditch the off-the-shelf and partner with a team that understands and values you like no one else.
-            </p>
-          </FadeUp>
+      <section className="bg-light py-24 px-6 lg:px-10 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start max-w-[1200px] mx-auto">
+          <div>
+            <div style={{ fontSize: '36px' }} className="mb-8">
+              <AnimatedText
+                el="h2"
+                text="Our Story"
+                type="word"
+                className="font-[200] text-dark leading-[0.9]"
+              />
+            </div>
+            <FadeUp delay={0.2}>
+              <p className="text-dark/50 text-[15px] leading-[1.8] mb-6">
+                At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we've mastered the art of making magic happen.
+              </p>
+              <p className="text-dark/50 text-[15px] leading-[1.8]">
+                We're not here to sell you software or a digital transformation deal. We're here to help you build the future of your business — ditch the off-the-shelf and partner with a team that understands and values you like no one else.
+              </p>
+            </FadeUp>
+          </div>
           <div className="grid grid-cols-2 gap-px bg-dark/10">
             {[
               { v: '4+', l: 'Years in business' }, { v: '30+', l: 'Team members' },
               { v: '50+', l: 'Projects delivered' }, { v: '20+', l: 'Happy clients' },
             ].map((s) => (
-              <FadeUp key={s.l} className="bg-[#f5f5f0] p-8">
-                <p className="font-normal text-dark" style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', lineHeight: 1 }}>{s.v}</p>
-                <p className="text-dark/40 text-[12px] uppercase tracking-[0.12em] mt-3">{s.l}</p>
+              <FadeUp key={s.l} className="bg-light p-8 group hover:bg-[#e6e6e2] transition-colors duration-500">
+                <p className="font-[200] text-dark group-hover:text-orange transition-colors duration-400" style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', lineHeight: 1 }}>{s.v}</p>
+                <p className="text-dark/40 text-[10px] uppercase tracking-[0.2em] mt-3 font-medium">{s.l}</p>
               </FadeUp>
             ))}
           </div>
@@ -72,8 +71,8 @@ export default async function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-dark py-24 px-6 lg:px-10">
-        <div className="w-full">
+      <section className="bg-dark py-24 px-6 lg:px-10 border-t border-white/[0.05]">
+        <div className="w-full max-w-[1200px] mx-auto">
           <FadeUp>
             <div className="flex items-center gap-3 mb-14">
               <span className="w-6 h-px bg-orange" />
@@ -82,25 +81,31 @@ export default async function AboutPage() {
           </FadeUp>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.05]">
             {list.slice(0, 6).map((p, i) => (
-              <FadeUp key={p._id} delay={i * 0.05} className="bg-dark p-8 lg:p-10">
-                <span className="text-[11px] text-white/20 uppercase tracking-[0.15em]">0{i + 1}</span>
-                <h3 className="text-white font-normal text-xl mt-4 mb-3">{p.title}</h3>
-                <p className="text-white/30 text-[13px] leading-relaxed">{p.description}</p>
-              </FadeUp>
+              <MagneticHoverCard key={p._id} delay={0.1} index={i} className="p-8 lg:p-10">
+                <span className="text-[11px] text-white/20 uppercase tracking-[0.15em] font-medium">0{i + 1}</span>
+                <h3 className="text-white font-[200] text-xl mt-4 mb-3 group-hover:text-orange transition-colors duration-400">{p.title}</h3>
+                <p className="text-white/30 text-[13px] leading-relaxed font-light">{p.description}</p>
+              </MagneticHoverCard>
             ))}
           </div>
         </div>
       </section>
 
       {/* Team teaser */}
-      <section className="bg-[#f5f5f0] py-20 px-6 lg:px-10 border-t border-dark/10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <FadeUp>
-            <h2 className="font-normal text-dark text-3xl">The People Behind The Magic</h2>
-          </FadeUp>
-          <FadeUp delay={0.1}>
-            <Link href="/meet-our-team" className="inline-flex items-center gap-2 bg-dark hover:bg-dark/80 text-white text-[13px] font-medium px-6 py-3 rounded-pill transition-colors shrink-0">
-              Meet The Team â†—
+      <section className="bg-light py-20 px-6 lg:px-10 border-t border-dark/10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 max-w-[1200px] mx-auto">
+          <div style={{ fontSize: 'clamp(24px, 4vw, 36px)' }}>
+            <AnimatedText
+              el="h2"
+              text="The People Behind The Magic"
+              type="word"
+              className="font-[200] text-dark"
+            />
+          </div>
+          <FadeUp delay={0.2}>
+            <Link href="/meet-our-team" className="group inline-flex items-center gap-2 bg-dark hover:bg-orange text-white text-[13px] font-medium px-7 py-3.5 rounded-full transition-all duration-300 shrink-0">
+              Meet The Team
+              <span className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">↗</span>
             </Link>
           </FadeUp>
         </div>

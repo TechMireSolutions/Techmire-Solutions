@@ -7,6 +7,8 @@ import { client } from '@/sanity/lib/client'
 import { serviceBySlugQuery, servicesQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import FadeUp from '@/components/ui/FadeUp'
+import InnerPageHero from '@/components/ui/InnerPageHero'
+import AnimatedText from '@/components/ui/AnimatedText'
 import type { Service } from '@/sanity/lib/types'
 
 export const revalidate = 60
@@ -32,37 +34,22 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
   return (
     <>
       {/* Hero */}
-      <section className="bg-dark pt-36 pb-20 px-6 lg:px-10 border-b border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
-          <div>
-            <FadeUp>
-              <div className="flex items-center gap-3 mb-8">
-                <span className="w-6 h-px bg-orange" />
-                <span className="text-[11px] uppercase tracking-[0.18em] text-white/30 font-medium">Service</span>
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.05}>
-              <h1 className="font-normal text-white leading-[0.95]" style={{ fontSize: 'clamp(44px, 6.5vw, 96px)' }}>
-                {service.title}
-              </h1>
-            </FadeUp>
-            {service.tagline && (
-              <FadeUp delay={0.15}>
-                <p className="text-white/40 text-[16px] mt-6 leading-relaxed max-w-md">{service.tagline}</p>
-              </FadeUp>
-            )}
-          </div>
-          {service.coverImage && (
-            <FadeUp delay={0.1} className="relative h-[300px] lg:h-[380px]">
-              <Image src={urlFor(service.coverImage).width(700).height(450).url()} alt={service.title} fill className="object-cover rounded-xl" priority />
-            </FadeUp>
-          )}
-        </div>
-      </section>
+      <InnerPageHero
+        title={service.title}
+        subtitle={service.tagline || service.shortDescription}
+        overline="Service"
+      />
 
       {/* Content */}
-      <section className="bg-[#f5f5f0] py-20 px-6 lg:px-10">
-        <div className="max-w-[860px] mx-auto">
+      <section className="bg-light py-20 px-6 lg:px-10">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          <div className="lg:col-span-8">
+            {service.coverImage && (
+              <FadeUp delay={0.1} className="relative w-full aspect-[16/9] mb-16">
+                <Image src={urlFor(service.coverImage).width(1200).height(675).url()} alt={service.title} fill className="object-cover rounded-2xl shadow-2xl" priority />
+              </FadeUp>
+            )}
           {service.fullDescription && (
             <FadeUp>
               <div className="prose prose-lg prose-gray max-w-none">
@@ -70,33 +57,41 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
               </div>
             </FadeUp>
           )}
-          {service.featureList && service.featureList.length > 0 && (
-            <FadeUp delay={0.1}>
-              <div className="mt-14">
-                <h2 className="text-dark font-normal text-2xl mb-8">What&apos;s Included</h2>
+          </div>
+
+          <div className="lg:col-span-4 sticky top-32">
+            {service.featureList && service.featureList.length > 0 && (
+              <FadeUp delay={0.2} className="bg-white p-8 rounded-2xl shadow-xl border border-dark/5">
+                <h2 className="text-dark font-[200] text-2xl mb-6">What's Included</h2>
                 <div className="border-t border-dark/10">
                   {service.featureList.map((f, i) => (
-                    <div key={i} className="flex items-center gap-5 py-4 border-b border-dark/10">
-                      <span className="text-orange text-sm shrink-0">✓</span>
-                      <span className="text-dark/70 text-[15px]">{f}</span>
+                    <div key={i} className="flex items-center gap-4 py-4 border-b border-dark/10">
+                      <span className="text-orange text-lg shrink-0">✓</span>
+                      <span className="text-dark/70 text-[15px] font-light">{f}</span>
                     </div>
                   ))}
                 </div>
-              </div>
-            </FadeUp>
-          )}
+              </FadeUp>
+            )}
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-dark py-20 px-6 lg:px-10 border-t border-white/[0.06]">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <FadeUp>
-            <h2 className="font-normal text-white text-3xl">Ready to start?</h2>
-          </FadeUp>
-          <FadeUp delay={0.1}>
-            <Link href="/get-a-quote" className="inline-flex items-center gap-2 bg-white hover:bg-white/90 text-dark text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors shrink-0">
-              Get a Free Quote ↗
+      <section className="bg-light py-20 px-6 lg:px-10 border-t border-dark/10">
+        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div style={{ fontSize: 'clamp(24px, 4vw, 36px)' }}>
+            <AnimatedText
+              el="h2"
+              text="Ready to start?"
+              type="word"
+              className="font-[200] text-dark"
+            />
+          </div>
+          <FadeUp delay={0.2}>
+            <Link href="/get-a-quote" className="group inline-flex items-center gap-2 bg-dark hover:bg-orange text-white text-[13px] font-medium px-7 py-3.5 rounded-full transition-all duration-300 shrink-0">
+              Get a Free Quote
+              <span className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">↗</span>
             </Link>
           </FadeUp>
         </div>
