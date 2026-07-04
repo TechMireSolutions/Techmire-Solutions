@@ -9,13 +9,13 @@ import MagneticButton from '@/components/ui/MagneticButton'
 
 const LEFT_NAV = [
   { label: 'Our Company',  href: '/about-us' },
-  { label: 'Our Expertise', href: '/graphic-design' },
+  { label: 'Our Expertise', href: '/services' },
   { label: 'Our Work',     href: '/blogs' },
 ]
 
 const MENU_ITEMS = [
   { label: 'Work',     href: '/blogs' },
-  { label: 'Services', href: '/graphic-design' },
+  { label: 'Services', href: '/services' },
   { label: 'About',    href: '/about-us' },
   { label: 'Academy',  href: '/techmire-academy' },
   { label: 'Blog',     href: '/blogs' },
@@ -113,22 +113,25 @@ export default function Navbar({ logoUrl }: NavbarProps) {
             : 'bg-transparent'
         }`}
       >
-        {/* Left — nav links */}
-        <nav className="hidden lg:flex items-center gap-9" aria-label="Primary">
-          {LEFT_NAV.map(item => (
-            <NavLink key={item.label} href={item.href}>{item.label}</NavLink>
-          ))}
-        </nav>
-
-        {/* Center — logo (absolutely centered) */}
+        {/* Left — logo */}
         <Link
           href="/"
           onClick={() => setOpen(false)}
           aria-label="TechmireSolutions home"
-          className="lg:absolute lg:left-1/2 lg:-translate-x-1/2"
+          className="shrink-0"
         >
           <LogoMark size={50} src={logoUrl} />
         </Link>
+
+        {/* Center — nav links */}
+        <nav
+          className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2"
+          aria-label="Primary"
+        >
+          {LEFT_NAV.map(item => (
+            <NavLink key={item.label} href={item.href}>{item.label}</NavLink>
+          ))}
+        </nav>
 
         {/* Right — CTA + hamburger */}
         <div className="flex items-center gap-8">

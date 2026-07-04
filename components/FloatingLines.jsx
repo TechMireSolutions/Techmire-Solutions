@@ -282,12 +282,21 @@ export default function FloatingLines({
 
     let active = true;
 
-    const scene = new Scene();
+    try {
+      const testCanvas = document.createElement('canvas');
+      const testGl = testCanvas.getContext('webgl') || testCanvas.getContext('webgl2');
+      if (!testGl) return;
+    } catch {
+      return;
+    }
 
-    const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    camera.position.z = 1;
+    let renderer;
+    try {
+      renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    } catch {
+      return;
+    }
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -359,6 +368,10 @@ export default function FloatingLines({
       vertexShader,
       fragmentShader
     });
+
+    const scene = new Scene();
+    const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    camera.position.z = 1;
 
     const geometry = new PlaneGeometry(2, 2);
     const mesh = new Mesh(geometry, material);

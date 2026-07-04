@@ -5,11 +5,12 @@ import LogoMark from '@/components/ui/LogoMark'
 interface FooterProps { logoUrl?: string | null }
 
 const SERVICES = [
-  { l: 'Web Development',    h: '/web-development' },
-  { l: 'Software Dev',       h: '/software-solution' },
-  { l: 'Graphic Design',     h: '/graphic-design' },
-  { l: 'Digital Marketing',  h: '/digital-marketing' },
-  { l: 'SEO',                h: '/search-engine-optimization' },
+  { l: 'All Services',       h: '/services' },
+  { l: 'Web Development',    h: '/services/web-development' },
+  { l: 'Software Dev',       h: '/services/software-solution' },
+  { l: 'Graphic Design',     h: '/services/graphic-design' },
+  { l: 'Digital Marketing',  h: '/services/digital-marketing' },
+  { l: 'SEO',                h: '/services/search-engine-optimization' },
 ]
 const COMPANY = [
   { l: 'About Us',   h: '/about-us' },

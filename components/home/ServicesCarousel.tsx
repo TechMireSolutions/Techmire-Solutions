@@ -43,9 +43,7 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
   const activeIndex = list.findIndex(s => s._id === activeId)
   const active = list[activeIndex] ?? list[0]
   const ActiveIcon = ICON_MAP[active.slug.current] ?? Globe
-  const activeHref = active.parentCategory === 'top-level'
-    ? `/${active.slug.current}`
-    : `/services/${active.slug.current}`
+  const activeHref = `/services/${active.slug.current}`
 
   const containerRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
@@ -75,7 +73,7 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
             </h2>
           </div>
           <Link
-            href="/graphic-design"
+            href="/services"
             className="hidden sm:inline-flex items-center gap-1.5 text-[11px] text-white/25 hover:text-white transition-colors duration-300 min-h-[44px] pb-1 border-b border-white/10 hover:border-white/30"
           >
             All services
