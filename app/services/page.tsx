@@ -34,7 +34,7 @@ export default async function ServicesPage() {
       />
 
       {/* Intro Text */}
-      <section className="bg-light pt-24 pb-16 px-6 lg:px-10">
+      <section className="bg-dark pt-24 pb-16 px-6 lg:px-10 border-b border-white/5">
         <div className="max-w-[1200px] mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
@@ -42,11 +42,11 @@ export default async function ServicesPage() {
                 el="h2"
                 text={pageData?.cta?.title || "All Services"}
                 type="word"
-                className="font-[200] text-dark leading-[0.95]"
+                className="font-[200] text-white leading-[0.95]"
               />
             </div>
-            <p className="text-dark/45 text-[14px] leading-[1.8] max-w-md font-light">
-              {pageData?.cta?.subtitle || "Add, edit, reorder, or publish services in Sanity. This page updates from the same CMS data."}
+            <p className="text-white/50 text-[14px] leading-[1.8] max-w-md font-light">
+              {pageData?.cta?.subtitle || "Discover our comprehensive suite of digital solutions designed to elevate your brand and drive measurable growth."}
             </p>
           </div>
         </div>
