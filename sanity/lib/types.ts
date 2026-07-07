@@ -43,6 +43,13 @@ export interface HomepageData {
   promiseHeading: string
 }
 
+export interface SubService {
+  _key: string
+  title: string
+  description?: string
+  image?: SanityImage
+}
+
 export interface Service {
   _id: string
   title: string
@@ -51,7 +58,9 @@ export interface Service {
   tagline?: string
   shortDescription: string
   fullDescription?: any[]
-  featureList?: string[]
+  // featureList?: string[]
+  processSteps?: { _key: string, title: string, description: string, icon?: string }[]
+  subServices?: SubService[]
   coverImage?: SanityImage
   order: number
   seo?: SEO

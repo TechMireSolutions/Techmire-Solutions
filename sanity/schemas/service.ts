@@ -25,8 +25,41 @@ export default defineType({
     defineField({ name: 'tagline', title: 'Tagline', type: 'string' }),
     defineField({ name: 'shortDescription', title: 'Short Description (for cards)', type: 'text' }),
     defineField({ name: 'fullDescription', title: 'Full Description', type: 'array', of: [{ type: 'block' }] }),
-    defineField({ name: 'featureList', title: 'Feature List', type: 'array', of: [{ type: 'string' }] }),
+    defineField({
+      name: 'processSteps',
+      title: 'Process Steps / How it Works',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text' },
+            { name: 'icon', title: 'Icon (Lucide Icon Name)', type: 'string', description: 'e.g. Lightbulb, Users, Search, CheckCircle' }
+          ]
+        }
+      ]
+    }),
+    // defineField({ name: 'featureList', title: 'Feature List', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'coverImage', title: 'Cover Image', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'subServices',
+      title: 'Sub Services / Capabilities',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text' },
+            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } }
+          ],
+          preview: {
+            select: { title: 'title', media: 'image' }
+          }
+        }
+      ]
+    }),
     defineField({ name: 'order', title: 'Display Order', type: 'number' }),
     defineField({
       name: 'seo',

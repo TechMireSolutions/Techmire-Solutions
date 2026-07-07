@@ -122,7 +122,7 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
         </div>
 
         {/* Right — animated detail panel */}
-        <div className="flex-1 relative overflow-hidden min-h-[320px] lg:min-h-0 group/panel">
+        <div className="flex-1 relative overflow-hidden min-h-[400px] lg:min-h-[500px] group/panel">
           <Image
             src={backgroundImage ? urlFor(backgroundImage).url() : "/services-bg.png"}
             alt="Services Background"
