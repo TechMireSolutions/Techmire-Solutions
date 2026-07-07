@@ -22,6 +22,16 @@ export default defineConfig({
               .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
             S.listItem().title('Homepage').id('homepage')
               .child(S.document().schemaType('homepage').documentId('homepage')),
+            S.listItem().title('About Page').id('aboutPage')
+              .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
+            S.listItem().title('Team Page').id('teamPage')
+              .child(S.document().schemaType('teamPage').documentId('teamPage')),
+            S.listItem().title('Services Page').id('servicesPage')
+              .child(S.document().schemaType('servicesPage').documentId('servicesPage')),
+            S.listItem().title('Contact Page').id('contactPage')
+              .child(S.document().schemaType('contactPage').documentId('contactPage')),
+            S.listItem().title('Academy Page').id('academyPage')
+              .child(S.document().schemaType('academyPage').documentId('academyPage')),
             S.divider(),
             S.documentTypeListItem('service').title('Services'),
             S.documentTypeListItem('teamMember').title('Team Members'),

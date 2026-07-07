@@ -3,12 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { client } from '@/sanity/lib/client'
-import { servicesQuery } from '@/sanity/lib/queries'
+import { servicesQuery, servicesPageQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import InnerPageHero from '@/components/ui/InnerPageHero'
 import FadeUp from '@/components/ui/FadeUp'
 import AnimatedText from '@/components/ui/AnimatedText'
-import type { Service } from '@/sanity/lib/types'
+import type { Service, ServicesPageData } from '@/sanity/lib/types'
 
 export const revalidate = 60
 
@@ -28,13 +28,14 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 export default async function ServicesPage() {
   const services: Service[] = await client.fetch(servicesQuery).catch(() => [])
+  const pageData: ServicesPageData | null = await client.fetch(servicesPageQuery).catch(() => null)
 
   return (
     <>
       <InnerPageHero
-        title="Services"
-        subtitle="Explore our complete service lineup, managed from Sanity CMS and connected to dedicated detail pages."
-        overline="Our Expertise"
+        title={pageData?.hero?.title || "Services"}
+        subtitle={pageData?.hero?.subtitle || "Explore our complete service lineup, managed from Sanity CMS and connected to dedicated detail pages."}
+        overline={pageData?.hero?.overline || "Our Expertise"}
       />
 
       <section className="bg-light py-24 px-6 lg:px-10">
@@ -43,13 +44,13 @@ export default async function ServicesPage() {
             <div style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
               <AnimatedText
                 el="h2"
-                text="All Services"
+                text={pageData?.cta?.title || "All Services"}
                 type="word"
                 className="font-[200] text-dark leading-[0.95]"
               />
             </div>
             <p className="text-dark/45 text-[14px] leading-[1.8] max-w-md font-light">
-              Add, edit, reorder, or publish services in Sanity. This page updates from the same CMS data.
+              {pageData?.cta?.subtitle || "Add, edit, reorder, or publish services in Sanity. This page updates from the same CMS data."}
             </p>
           </div>
 

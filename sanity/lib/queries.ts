@@ -37,3 +37,10 @@ export const valuePillarsQuery = groq`*[_type == "valuePillar"] | order(order as
 export const topLevelServicesQuery = groq`
   *[_type == "service" && parentCategory == "top-level"] | order(order asc)
 `
+
+export const aboutPageQuery = groq`*[_type == "aboutPage"][0]`
+export const teamPageQuery = groq`*[_type == "teamPage"][0]`
+export const servicesPageQuery = groq`*[_type == "servicesPage"][0]`
+export const contactPageQuery = groq`*[_type == "contactPage"][0]`
+export const academyPageQuery = groq`*[_type == "academyPage"][0]`
+

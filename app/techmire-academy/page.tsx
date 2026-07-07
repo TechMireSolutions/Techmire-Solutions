@@ -2,10 +2,10 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
-import { academyCoursesQuery } from '@/sanity/lib/queries'
+import { academyCoursesQuery, academyPageQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import FadeUp from '@/components/ui/FadeUp'
-import type { AcademyCourse } from '@/sanity/lib/types'
+import type { AcademyCourse, AcademyPageData } from '@/sanity/lib/types'
 
 export const revalidate = 60
 export const metadata: Metadata = {
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
 export default async function AcademyPage() {
   const courses: AcademyCourse[] = await client.fetch(academyCoursesQuery).catch(() => [])
+  const pageData: AcademyPageData | null = await client.fetch(academyPageQuery).catch(() => null)
 
   return (
     <>
@@ -22,18 +23,18 @@ export default async function AcademyPage() {
       <section className="bg-dark pt-36 pb-20 px-6">
         <div className="max-w-[1400px] mx-auto text-center">
           <FadeUp>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-[#e8522a]">Learning & Growth</span>
+            <span className="text-[11px] uppercase tracking-[0.15em] text-[#e8522a]">{pageData?.hero?.overline || "Learning & Growth"}</span>
           </FadeUp>
           <FadeUp delay={0.1}>
             <h1
               className="text-light font-normal mt-3"
               style={{ fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.0 }}
             >
-              Techmire Academy
+              {pageData?.hero?.title || "Techmire Academy"}
             </h1>
           </FadeUp>
           <FadeUp delay={0.2}>
-            <p className="text-body text-xl mt-5 max-w-xl mx-auto">Level Up Your Skills</p>
+            <p className="text-body text-xl mt-5 max-w-xl mx-auto">{pageData?.hero?.subtitle || "Level Up Your Skills"}</p>
           </FadeUp>
         </div>
       </section>
@@ -43,7 +44,7 @@ export default async function AcademyPage() {
         <div className="max-w-[800px] mx-auto text-center">
           <FadeUp>
             <p className="text-body text-lg leading-relaxed">
-              Techmire Academy is our in-house learning program designed to equip professionals, students, and entrepreneurs with practical digital skills. From web development to digital marketing — learn from the same team that builds real products for real businesses.
+              {pageData?.intro?.description || "Techmire Academy is our in-house learning program designed to equip professionals, students, and entrepreneurs with practical digital skills. From web development to digital marketing — learn from the same team that builds real products for real businesses."}
             </p>
           </FadeUp>
         </div>

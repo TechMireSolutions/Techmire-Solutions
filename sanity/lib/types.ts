@@ -119,3 +119,31 @@ export interface SEO {
   metaDescription?: string
   ogImage?: SanityImage
 }
+
+export interface AboutPageData {
+  hero: { title: string; subtitle: string; overline: string }
+  story: { title: string; paragraph1: string; paragraph2: string }
+  stats: { value: string; label: string }[]
+  teamTeaser: { title: string; buttonText: string }
+}
+
+export interface TeamPageData {
+  hero: { title: string; subtitle: string; overline: string }
+  cta: { title: string; subtitle: string; buttonText: string; email: string }
+}
+
+export interface ServicesPageData {
+  hero: { title: string; subtitle: string; overline: string }
+  cta: { title: string; subtitle: string; buttonText: string }
+}
+
+export interface ContactPageData {
+  hero: { title: string; subtitle: string; overline: string }
+  locations: { title: string; address: string; phone: string }[]
+  emails: { support: string; sales: string; general: string }
+}
+
+export interface AcademyPageData {
+  hero: { title: string; subtitle: string; overline: string }
+  intro: { title: string; description: string }
+}
