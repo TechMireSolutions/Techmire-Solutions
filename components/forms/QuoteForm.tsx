@@ -1,13 +1,89 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { ArrowUpRight, ChevronDown } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const SERVICES = ['Web Development', 'Software Development', 'SEO', 'Graphic Design', 'Digital Marketing', 'App Development', 'UI/UX Design', 'Branding', 'Other']
 const BUDGETS = ['< $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000 – $50,000', '$50,000+']
 
 const fieldCls = 'w-full bg-transparent border-b border-white/[0.12] focus:border-white/40 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none transition-colors duration-200'
 const labelCls = 'block text-[11px] uppercase tracking-[0.15em] text-white/30 mb-2'
+
+const CustomSelect = ({
+  options,
+  value,
+  onChange,
+  placeholder,
+  name,
+  required
+}: {
+  options: string[]
+  value: string
+  onChange: (name: string, val: string) => void
+  placeholder: string
+  name: string
+  required?: boolean
+}) => {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  return (
+    <div className="relative w-full" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className={`${fieldCls} flex items-center justify-between text-left`}
+      >
+        <span className={value ? 'text-white' : 'text-white/20'}>
+          {value || placeholder}
+        </span>
+        <ChevronDown size={16} className={`transition-transform duration-300 text-white/40 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-[calc(100%+4px)] left-0 w-full bg-[#111] border border-white/10 rounded-xl overflow-hidden z-50 max-h-[220px] overflow-y-auto shadow-2xl"
+          >
+            {options.map((opt) => (
+              <div
+                key={opt}
+                onClick={() => { onChange(name, opt); setOpen(false) }}
+                className="px-4 py-3 text-[14px] text-white/60 hover:text-white hover:bg-white/10 cursor-pointer transition-colors"
+              >
+                {opt}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Hidden native select for HTML5 validation if required */}
+      <select
+        name={name}
+        value={value}
+        onChange={() => {}}
+        required={required}
+        className="absolute opacity-0 pointer-events-none inset-0 w-full h-full"
+        tabIndex={-1}
+      >
+        <option value="" disabled>{placeholder}</option>
+        {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+      </select>
+    </div>
+  )
+}
 
 export default function QuoteForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -55,17 +131,24 @@ export default function QuoteForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div>
           <label className={labelCls}>Service</label>
-          <select name="service" value={form.service} onChange={set} required className={`${fieldCls} bg-dark`}>
-            <option value="">Select a service</option>
-            {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
-          </select>
+          <CustomSelect
+            name="service"
+            options={SERVICES}
+            value={form.service}
+            onChange={(n, v) => setForm(f => ({ ...f, [n]: v }))}
+            placeholder="Select a service"
+            required
+          />
         </div>
         <div>
           <label className={labelCls}>Budget</label>
-          <select name="budget" value={form.budget} onChange={set} className={`${fieldCls} bg-dark`}>
-            <option value="">Select a range</option>
-            {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
-          </select>
+          <CustomSelect
+            name="budget"
+            options={BUDGETS}
+            value={form.budget}
+            onChange={(n, v) => setForm(f => ({ ...f, [n]: v }))}
+            placeholder="Select a range"
+          />
         </div>
       </div>
       <div>
@@ -76,7 +159,7 @@ export default function QuoteForm() {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 bg-white hover:bg-white/90 disabled:opacity-40 text-dark text-[14px] font-medium px-7 py-3.5 rounded-pill transition-colors"
+          className="inline-flex items-center gap-2 bg-white hover:bg-white/90 disabled:opacity-40 text-black text-[14px] font-medium px-7 py-3.5 rounded-full transition-colors"
         >
           {status === 'loading' ? 'Sending...' : (
             <><span>Submit Request</span><ArrowUpRight aria-hidden size={14} /></>
@@ -87,3 +170,4 @@ export default function QuoteForm() {
     </form>
   )
 }
+

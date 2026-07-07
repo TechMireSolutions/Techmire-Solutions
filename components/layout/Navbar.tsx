@@ -10,7 +10,7 @@ import MagneticButton from '@/components/ui/MagneticButton'
 const LEFT_NAV = [
   { label: 'Our Company',  href: '/about-us' },
   { label: 'Our Expertise', href: '/services' },
-  { label: 'Our Work',     href: '/blogs' },
+  { label: 'Blogs',     href: '/blogs' },
   { label: 'Our Team',     href: '/meet-our-team' },
 ]
 
