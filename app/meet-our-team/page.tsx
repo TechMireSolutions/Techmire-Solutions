@@ -5,7 +5,6 @@ import FadeUp from '@/components/ui/FadeUp'
 import InnerPageHero from '@/components/ui/InnerPageHero'
 import TeamScrollWrapper from '@/components/ui/TeamScrollWrapper'
 import type { TeamMember } from '@/sanity/lib/types'
-import Lightfall from '@/components/Lightfall'
 
 export const revalidate = 60
 export const metadata: Metadata = {
@@ -18,11 +17,6 @@ export default async function TeamPage() {
 
   return (
     <div className="relative min-h-screen bg-dark text-white">
-      {/* Dynamic Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen">
-        <Lightfall colors={['#ffffff']} speed={0.5} density={0.3} className="" dpr={1} mixBlendMode="screen" />
-      </div>
-
       <div className="relative z-10">
         {/* Hero */}
         <InnerPageHero

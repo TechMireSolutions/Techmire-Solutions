@@ -135,7 +135,7 @@ function Card({ member, index }: { member: TeamMember, index: number }) {
             className="mt-6 inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm font-light uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
           >
             <span className="w-8 h-[1px] bg-white/40 group-hover:bg-white transition-colors" />
-            Connect
+            LinkedIn
           </a>
         )}
       </div>

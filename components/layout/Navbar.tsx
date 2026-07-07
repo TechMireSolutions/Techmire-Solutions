@@ -11,12 +11,14 @@ const LEFT_NAV = [
   { label: 'Our Company',  href: '/about-us' },
   { label: 'Our Expertise', href: '/services' },
   { label: 'Our Work',     href: '/blogs' },
+  { label: 'Our Team',     href: '/meet-our-team' },
 ]
 
 const MENU_ITEMS = [
   { label: 'Work',     href: '/blogs' },
   { label: 'Services', href: '/services' },
   { label: 'About',    href: '/about-us' },
+  { label: 'Team',     href: '/meet-our-team' },
   { label: 'Academy',  href: '/techmire-academy' },
   { label: 'Blog',     href: '/blogs' },
   { label: 'Contact',  href: '/contact-us' },
