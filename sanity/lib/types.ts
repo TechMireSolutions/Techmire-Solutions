@@ -17,6 +17,7 @@ export interface SiteSettings {
   linkedin?: string
   twitter?: string
   tiktok?: string
+  whatsapp?: string
   footerText: string
 }
 

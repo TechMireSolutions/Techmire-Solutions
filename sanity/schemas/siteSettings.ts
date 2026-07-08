@@ -17,6 +17,7 @@ export default defineType({
     defineField({ name: 'linkedin', title: 'LinkedIn URL', type: 'url' }),
     defineField({ name: 'twitter', title: 'Twitter/X URL', type: 'url' }),
     defineField({ name: 'tiktok', title: 'TikTok URL', type: 'url' }),
+    defineField({ name: 'whatsapp', title: 'WhatsApp Number (e.g. +923172225152)', type: 'string' }),
     defineField({ name: 'footerText', title: 'Footer Copyright Text', type: 'string' }),
   ],
 })

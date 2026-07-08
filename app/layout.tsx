@@ -6,6 +6,7 @@ import FooterWrapper from '@/components/layout/FooterWrapper'
 import ClientLayoutWrapper from '@/components/layout/ClientLayoutWrapper'
 import LenisProvider from '@/components/providers/LenisProvider'
 import Grain from '@/components/ui/Grain'
+import WhatsAppWrapper from '@/components/layout/WhatsAppWrapper'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             <main>{children}</main>
           </ClientLayoutWrapper>
+          <WhatsAppWrapper />
         </LenisProvider>
       </body>
     </html>
