@@ -29,6 +29,52 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
+// Custom serializers for PortableText to style rich text with Tailwind
+const portableTextComponents = {
+  types: {
+    image: ({ value }: any) => {
+      if (!value?.asset?._ref) return null
+      return (
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden my-10 border border-white/[0.05] shadow-2xl">
+          <Image src={urlFor(value).url()} alt={value.alt || 'Blog Image'} fill className="object-cover" />
+        </div>
+      )
+    }
+  },
+  block: {
+    normal: ({ children }: any) => <p className="text-white/70 text-[16px] leading-[1.8] mb-6">{children}</p>,
+    h1: ({ children }: any) => <h1 className="text-white font-normal text-4xl sm:text-5xl mb-6 mt-14 leading-tight">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-white font-normal text-3xl sm:text-4xl mb-5 mt-12 leading-tight">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-white font-normal text-2xl sm:text-3xl mb-4 mt-10 leading-tight">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-white font-normal text-xl sm:text-2xl mb-3 mt-8 leading-tight">{children}</h4>,
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l-4 border-orange pl-6 py-2 my-10 text-white/50 italic text-xl sm:text-2xl leading-relaxed">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }: any) => <ul className="list-disc list-outside ml-5 mb-8 space-y-3 text-white/70 marker:text-orange/80">{children}</ul>,
+    number: ({ children }: any) => <ol className="list-decimal list-outside ml-5 mb-8 space-y-3 text-white/70 marker:text-orange/80">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }: any) => <li className="pl-2 leading-relaxed">{children}</li>,
+    number: ({ children }: any) => <li className="pl-2 leading-relaxed">{children}</li>,
+  },
+  marks: {
+    strong: ({ children }: any) => <strong className="font-semibold text-white">{children}</strong>,
+    em: ({ children }: any) => <em className="italic text-white/80">{children}</em>,
+    link: ({ children, value }: any) => {
+      const target = (value?.href || '').startsWith('http') ? '_blank' : undefined
+      return (
+        <a href={value?.href} target={target} rel={target === '_blank' ? 'noindex nofollow' : ''} className="text-orange hover:text-orange/80 underline underline-offset-4 decoration-orange/30 hover:decoration-orange transition-all duration-300">
+          {children}
+        </a>
+      )
+    },
+  },
+}
+
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const post: BlogPost = await client.fetch(blogPostBySlugQuery, { slug: params.slug }).catch(() => null)
   if (!post) notFound()
@@ -94,8 +140,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="max-w-[800px] mx-auto">
           {post.body && (
             <FadeUp delay={0.4}>
-              <div className="prose prose-lg prose-invert prose-orange max-w-none prose-headings:font-normal prose-a:text-orange hover:prose-a:text-orange/80 prose-img:rounded-2xl">
-                <PortableText value={post.body} />
+              <div className="font-light">
+                <PortableText value={post.body} components={portableTextComponents} />
               </div>
             </FadeUp>
           )}
