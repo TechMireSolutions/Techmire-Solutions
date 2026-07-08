@@ -75,7 +75,7 @@ export default function EnrollmentButtonModal({ courseTitle }: { courseTitle: st
             {status === 'success' ? (
               <div className="text-center py-10">
                 <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6 text-green-400 text-2xl">✓</div>
-                <h3 className="text-white font-normal text-2xl mb-3">Enrollment Request Sent!</h3>
+                <h3 className="text-white font-normal text-2xl mb-3">asfsa Request Sent!</h3>
                 <p className="text-white/50 text-[15px]">We have received your details for <strong>{courseTitle}</strong>. Our team will contact you shortly.</p>
               </div>
             ) : (
