@@ -66,7 +66,7 @@ function StartProjectBtn({ onClick }: { onClick?: () => void }) {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
         
         <span className="relative z-10 text-[14px] tracking-wide font-semibold text-white/80 group-hover:text-white transition-colors duration-300">
-          Request
+          Start a project
         </span>
         
         <span className="relative z-10 overflow-hidden inline-flex w-3.5 h-3.5 items-center justify-center text-white/70 group-hover:text-white transition-colors duration-300">
