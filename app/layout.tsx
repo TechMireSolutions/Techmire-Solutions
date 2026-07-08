@@ -22,16 +22,37 @@ export const viewport: Viewport = {
   userScalable: true,
 }
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s | TechmireSolutions',
-    default: 'TechmireSolutions — Software House and Design Studio',
-  },
-  description:
-    "At Techmire Solutions, we're on a mission to redefine what a Software House can do. From web development to digital marketing, we build the future of your business.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'),
-  openGraph: { siteName: 'TechmireSolutions', type: 'website' },
-  robots: { index: true, follow: true },
+export async function generateMetadata(): Promise<Metadata> {
+  let settings = null
+  try {
+    const { client } = await import('@/sanity/lib/client')
+    const { siteSettingsQuery } = await import('@/sanity/lib/queries')
+    settings = await client.fetch(siteSettingsQuery)
+  } catch (err) {
+    console.error('Failed to fetch site settings for metadata:', err)
+  }
+
+  let icons = {}
+  if (settings?.favicon) {
+    const { urlFor } = await import('@/sanity/lib/image')
+    icons = { icon: urlFor(settings.favicon).url() }
+  }
+
+  const siteName = settings?.siteName || 'TechmireSolutions'
+  const defaultTitle = `${siteName} — Software House and Design Studio`
+  const description = settings?.tagline || "At Techmire Solutions, we're on a mission to redefine what a Software House can do. From web development to digital marketing, we build the future of your business."
+
+  return {
+    title: {
+      template: `%s | ${siteName}`,
+      default: defaultTitle,
+    },
+    description,
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'),
+    openGraph: { siteName, type: 'website' },
+    robots: { index: true, follow: true },
+    icons,
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

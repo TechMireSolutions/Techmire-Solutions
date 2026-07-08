@@ -8,6 +8,7 @@ export default defineType({
     defineField({ name: 'siteName', title: 'Site Name', type: 'string' }),
     defineField({ name: 'tagline', title: 'Tagline', type: 'string' }),
     defineField({ name: 'logo', title: 'Logo', type: 'image' }),
+    defineField({ name: 'favicon', title: 'Favicon', type: 'image', description: 'Upload a small square image (e.g., 32x32 or 192x192) to display in browser tabs.' }),
     defineField({ name: 'email', title: 'Public Email (Footer/Header)', type: 'string' }),
     defineField({ 
       name: 'receiverEmail', 

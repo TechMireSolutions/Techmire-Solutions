@@ -8,6 +8,7 @@ export interface SiteSettings {
   siteName: string
   tagline: string
   logo?: SanityImage
+  favicon?: SanityImage
   email: string
   receiverEmail?: string
   phone1: string
