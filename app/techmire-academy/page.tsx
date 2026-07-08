@@ -88,6 +88,8 @@ export default async function AcademyPage() {
                           src={urlFor(course.coverImage).width(600).height(350).url()}
                           alt={course.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority={i < 3}
                           className="object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)]"
                         />
                       ) : (

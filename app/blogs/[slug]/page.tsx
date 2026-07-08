@@ -43,7 +43,7 @@ const portableTextComponents = {
       if (!value?.asset?._ref) return null
       return (
         <div className="relative w-full aspect-[16/9] rounded-[24px] overflow-hidden my-12 border border-white/[0.05] shadow-2xl group">
-          <Image src={urlFor(value).url()} alt={value.alt || 'Blog Image'} fill className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" />
+          <Image src={urlFor(value).url()} alt={value.alt || 'Blog Image'} fill sizes="(max-width: 1200px) 100vw, 800px" className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" />
         </div>
       )
     }
@@ -169,6 +169,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   src={urlFor(post.coverImage).width(1600).height(800).url()}
                   alt={post.title}
                   fill
+                  sizes="100vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)]"
                   priority
                 />
