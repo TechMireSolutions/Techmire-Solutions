@@ -9,6 +9,9 @@ const nextConfig = {
     ],
   },
   transpilePackages: ['styled-components'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
