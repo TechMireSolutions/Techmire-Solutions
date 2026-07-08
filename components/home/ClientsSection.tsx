@@ -42,35 +42,29 @@ export default function ClientsSection({ heading, clients }: { heading: string; 
         <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
 
         <motion.div
-          className="flex items-center gap-12 whitespace-nowrap"
+          className="flex items-center gap-16 md:gap-24 whitespace-nowrap px-4"
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
         >
           {track.map((item, i) => {
             const hasLogo = 'logo' in item && !!item.logo;
             return (
-              <div key={i} className="flex items-center gap-12 shrink-0">
+              <div key={i} className="flex items-center justify-center shrink-0">
                 {hasLogo ? (
-                  <div className="relative h-12 w-auto min-w-[100px] flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity duration-500">
+                  <div className="relative h-[80px] md:h-[120px] w-auto flex items-center justify-center hover:scale-105 transition-all duration-300">
                     <Image 
                       src={urlFor((item as ClientLogo).logo).url()} 
                       alt={item.company} 
-                      width={160}
-                      height={60}
-                      className="object-contain max-h-12 w-auto"
+                      width={400}
+                      height={200}
+                      className="object-contain w-auto h-full"
                     />
                   </div>
                 ) : (
-                  <span className="text-[13.5px] font-light text-white/16 hover:text-white/45 transition-colors duration-500 tracking-[-0.01em]">
+                  <span className="text-[24px] font-bold text-white/80 hover:text-white transition-colors duration-300 tracking-wider">
                     {item.company}
                   </span>
                 )}
-                <Diamond
-                  aria-hidden
-                  size={6}
-                  className="text-white/8 shrink-0"
-                  fill="currentColor"
-                />
               </div>
             )
           })}
