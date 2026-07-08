@@ -23,6 +23,7 @@ export interface SiteSettings {
   twitter?: string
   tiktok?: string
   whatsapp?: string
+  googleSiteVerification?: string
   footerText: string
 }
 

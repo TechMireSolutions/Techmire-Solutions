@@ -26,6 +26,7 @@ export default defineType({
     defineField({ name: 'twitter', title: 'Twitter/X URL', type: 'url' }),
     defineField({ name: 'tiktok', title: 'TikTok URL', type: 'url' }),
     defineField({ name: 'whatsapp', title: 'WhatsApp Number (e.g. +923172225152)', type: 'string' }),
+    defineField({ name: 'googleSiteVerification', title: 'Google Site Verification Code', type: 'string', description: 'Paste the content of the Google Search Console HTML tag (e.g., "ABcdEFg123456").' }),
     defineField({ name: 'footerText', title: 'Footer Copyright Text', type: 'string' }),
   ],
 })

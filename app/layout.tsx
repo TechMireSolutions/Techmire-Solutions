@@ -65,6 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       images: ogImage ? [ogImage] : undefined,
     },
+    verification: settings?.googleSiteVerification ? { google: settings.googleSiteVerification } : undefined,
     robots: { index: true, follow: true },
     icons,
   }
