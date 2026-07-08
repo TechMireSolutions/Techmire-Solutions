@@ -10,9 +10,10 @@ interface MagneticButtonProps {
   className?: string
   external?: boolean
   onClick?: () => void
+  prefetch?: boolean
 }
 
-export default function MagneticButton({ href, children, className = '', external, onClick }: MagneticButtonProps) {
+export default function MagneticButton({ href, children, className = '', external, onClick, prefetch }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [xy, setXY] = useState({ x: 0, y: 0 })
 
@@ -26,7 +27,7 @@ export default function MagneticButton({ href, children, className = '', externa
 
   const onLeave = () => setXY({ x: 0, y: 0 })
 
-  const props = external ? { href, target: '_blank', rel: 'noopener noreferrer' } : { href }
+  const props = external ? { href, target: '_blank', rel: 'noopener noreferrer' } : { href, prefetch }
 
   return (
     <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} className="inline-block">

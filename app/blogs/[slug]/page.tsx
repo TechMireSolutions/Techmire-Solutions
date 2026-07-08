@@ -79,8 +79,29 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const post: BlogPost = await client.fetch(blogPostBySlugQuery, { slug: params.slug }).catch(() => null)
   if (!post) notFound()
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    image: post.coverImage ? [urlFor(post.coverImage).width(1200).height(630).url()] : [],
+    datePublished: post.publishDate || new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: post.author || 'TechmireSolutions Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'TechmireSolutions',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://techmiresolutions.com/logo.png',
+      },
+    },
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       {/* Hero Section */}
       <section className="bg-dark pt-40 pb-48 px-6 lg:px-10 relative overflow-hidden border-b border-white/[0.02]">
         {/* Cinematic abstract background */}

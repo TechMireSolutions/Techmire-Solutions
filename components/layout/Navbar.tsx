@@ -58,6 +58,7 @@ function StartProjectBtn({ onClick }: { onClick?: () => void }) {
     <div className="hidden sm:block">
       <MagneticButton
         href="/get-a-quote"
+        prefetch={true}
         onClick={onClick}
         className="group relative flex items-center gap-2.5 px-5 py-2.5 overflow-hidden rounded-full border border-white/10 bg-white/[0.02] transition-all duration-500 hover:border-white/30 hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]"
       >
