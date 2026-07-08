@@ -155,4 +155,5 @@ export interface ContactPageData {
 export interface AcademyPageData {
   hero: { title: string; subtitle: string; overline: string }
   intro: { title: string; description: string }
+  studentPortalUrl?: string
 }

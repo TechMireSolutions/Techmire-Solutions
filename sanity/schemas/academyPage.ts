@@ -22,5 +22,11 @@ export default {
         { name: 'description', title: 'Description', type: 'text' },
       ],
     },
+    {
+      name: 'studentPortalUrl',
+      title: 'Student Portal URL',
+      type: 'url',
+      description: 'The link to the student portal for enrolled students.',
+    },
   ],
 }

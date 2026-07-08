@@ -136,7 +136,7 @@ export default async function AcademyPage() {
                 Access your student portal, review course materials, and connect directly with your instructors.
               </p>
               <a 
-                href="https://student.techmiresolutions.com" 
+                href={pageData?.studentPortalUrl || "https://student.techmiresolutions.com"} 
                 target="_blank" 
                 rel="noreferrer"
                 className="group inline-flex items-center gap-3 bg-white/5 hover:bg-orange text-white hover:text-black border border-white/10 px-8 py-4 rounded-full transition-all duration-300 font-medium tracking-wide shadow-2xl"
