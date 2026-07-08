@@ -8,7 +8,13 @@ export default defineType({
     defineField({ name: 'siteName', title: 'Site Name', type: 'string' }),
     defineField({ name: 'tagline', title: 'Tagline', type: 'string' }),
     defineField({ name: 'logo', title: 'Logo', type: 'image' }),
-    defineField({ name: 'email', title: 'Email', type: 'string' }),
+    defineField({ name: 'email', title: 'Public Email (Footer/Header)', type: 'string' }),
+    defineField({ 
+      name: 'receiverEmail', 
+      title: 'Leads Receiver Email', 
+      type: 'string',
+      description: 'Email address where all contact and quote forms will be sent. If left empty, it will fall back to Public Email.'
+    }),
     defineField({ name: 'phone1', title: 'Phone 1', type: 'string' }),
     defineField({ name: 'phone2', title: 'Phone 2', type: 'string' }),
     defineField({ name: 'address', title: 'Address', type: 'text' }),

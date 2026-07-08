@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     const settings = await client.fetch(siteSettingsQuery).catch(() => null)
-    const receiverEmail = settings?.email || 'connect@techmiresolutions.com'
+    const receiverEmail = settings?.receiverEmail || settings?.email || 'connect@techmiresolutions.com'
 
     if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
       const nodemailer = await import('nodemailer')

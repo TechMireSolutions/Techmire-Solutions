@@ -9,6 +9,7 @@ export interface SiteSettings {
   tagline: string
   logo?: SanityImage
   email: string
+  receiverEmail?: string
   phone1: string
   phone2: string
   address: string
