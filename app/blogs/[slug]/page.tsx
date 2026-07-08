@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
 import { PortableText } from '@portabletext/react'
 import { client } from '@/sanity/lib/client'
 import { blogPostBySlugQuery, blogPostsQuery } from '@/sanity/lib/queries'
@@ -20,9 +21,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post: BlogPost = await client.fetch(blogPostBySlugQuery, { slug: params.slug }).catch(() => null)
   if (!post) return { title: 'Post Not Found' }
+  
+  const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'}/blogs/${post.slug.current}`
+  
   return {
     title: post.seo?.metaTitle || post.title,
     description: post.seo?.metaDescription || post.excerpt,
+    alternates: {
+      canonical: postUrl
+    },
     openGraph: post.coverImage
       ? { images: [urlFor(post.coverImage).width(1200).height(630).url()] }
       : undefined,
@@ -32,7 +39,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // Custom serializers for PortableText to style rich text with Tailwind
 const portableTextComponents = {
   types: {
-    image: ({ value }: any) => {
+    image: ({ value }: { value: any }) => {
       if (!value?.asset?._ref) return null
       return (
         <div className="relative w-full aspect-[16/9] rounded-[24px] overflow-hidden my-12 border border-white/[0.05] shadow-2xl group">
@@ -42,29 +49,29 @@ const portableTextComponents = {
     }
   },
   block: {
-    normal: ({ children }: any) => <p className="text-white/70 text-[17px] leading-[1.85] mb-8">{children}</p>,
-    h1: ({ children }: any) => <h1 className="text-white font-normal text-4xl sm:text-5xl mb-8 mt-16 leading-tight">{children}</h1>,
-    h2: ({ children }: any) => <h2 className="text-white font-normal text-3xl sm:text-4xl mb-6 mt-14 leading-[1.2]">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="text-white font-normal text-2xl sm:text-3xl mb-5 mt-12 leading-tight">{children}</h3>,
-    h4: ({ children }: any) => <h4 className="text-white font-normal text-xl sm:text-2xl mb-4 mt-10 leading-tight">{children}</h4>,
-    blockquote: ({ children }: any) => (
+    normal: ({ children }: { children?: React.ReactNode }) => <p className="text-white/70 text-[17px] leading-[1.85] mb-8">{children}</p>,
+    h1: ({ children }: { children?: React.ReactNode }) => <h1 className="text-white font-normal text-4xl sm:text-5xl mb-8 mt-16 leading-tight">{children}</h1>,
+    h2: ({ children }: { children?: React.ReactNode }) => <h2 className="text-white font-normal text-3xl sm:text-4xl mb-6 mt-14 leading-[1.2]">{children}</h2>,
+    h3: ({ children }: { children?: React.ReactNode }) => <h3 className="text-white font-normal text-2xl sm:text-3xl mb-5 mt-12 leading-tight">{children}</h3>,
+    h4: ({ children }: { children?: React.ReactNode }) => <h4 className="text-white font-normal text-xl sm:text-2xl mb-4 mt-10 leading-tight">{children}</h4>,
+    blockquote: ({ children }: { children?: React.ReactNode }) => (
       <blockquote className="relative pl-8 py-4 my-12 before:content-[''] before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-gradient-to-b before:from-orange before:to-orange/10 text-white/60 italic text-2xl sm:text-3xl leading-relaxed">
         {children}
       </blockquote>
     ),
   },
   list: {
-    bullet: ({ children }: any) => <ul className="list-disc list-outside ml-6 mb-10 space-y-4 text-white/70 marker:text-orange text-[17px]">{children}</ul>,
-    number: ({ children }: any) => <ol className="list-decimal list-outside ml-6 mb-10 space-y-4 text-white/70 marker:text-orange text-[17px]">{children}</ol>,
+    bullet: ({ children }: { children?: React.ReactNode }) => <ul className="list-disc list-outside ml-6 mb-10 space-y-4 text-white/70 marker:text-orange text-[17px]">{children}</ul>,
+    number: ({ children }: { children?: React.ReactNode }) => <ol className="list-decimal list-outside ml-6 mb-10 space-y-4 text-white/70 marker:text-orange text-[17px]">{children}</ol>,
   },
   listItem: {
-    bullet: ({ children }: any) => <li className="pl-3 leading-relaxed">{children}</li>,
-    number: ({ children }: any) => <li className="pl-3 leading-relaxed">{children}</li>,
+    bullet: ({ children }: { children?: React.ReactNode }) => <li className="pl-3 leading-relaxed">{children}</li>,
+    number: ({ children }: { children?: React.ReactNode }) => <li className="pl-3 leading-relaxed">{children}</li>,
   },
   marks: {
-    strong: ({ children }: any) => <strong className="font-semibold text-white tracking-wide">{children}</strong>,
-    em: ({ children }: any) => <em className="italic text-white/80">{children}</em>,
-    link: ({ children, value }: any) => {
+    strong: ({ children }: { children?: React.ReactNode }) => <strong className="font-semibold text-white tracking-wide">{children}</strong>,
+    em: ({ children }: { children?: React.ReactNode }) => <em className="italic text-white/80">{children}</em>,
+    link: ({ children, value }: { children?: React.ReactNode; value?: any }) => {
       const target = (value?.href || '').startsWith('http') ? '_blank' : undefined
       return (
         <a href={value?.href} target={target} rel={target === '_blank' ? 'noindex nofollow' : ''} className="text-orange hover:text-orange/80 underline underline-offset-[6px] decoration-orange/30 hover:decoration-orange transition-all duration-300">

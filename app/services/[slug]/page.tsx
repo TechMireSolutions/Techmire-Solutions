@@ -21,9 +21,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const service: Service = await client.fetch(serviceBySlugQuery, { slug: params.slug }).catch(() => null)
   if (!service) return { title: 'Service Not Found' }
+
+  const serviceUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'}/services/${service.slug.current}`
+
   return {
     title: service.seo?.metaTitle || service.title,
     description: service.seo?.metaDescription || service.shortDescription,
+    alternates: {
+      canonical: serviceUrl
+    }
   }
 }
 

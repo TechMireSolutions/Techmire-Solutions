@@ -4,11 +4,14 @@ export interface SanityImage {
   hotspot?: { x: number; y: number }
 }
 
+import type { PortableTextBlock } from '@portabletext/types'
+
 export interface SiteSettings {
   siteName: string
   tagline: string
   logo?: SanityImage
   favicon?: SanityImage
+  ogImage?: SanityImage
   email: string
   receiverEmail?: string
   phone1: string
@@ -60,7 +63,7 @@ export interface Service {
   parentCategory: string
   tagline?: string
   shortDescription: string
-  fullDescription?: any[]
+  fullDescription?: PortableTextBlock[]
   // featureList?: string[]
   processSteps?: { _key: string, title: string, description: string, icon?: string }[]
   subServices?: SubService[]
@@ -95,7 +98,7 @@ export interface BlogPost {
   category: string
   publishDate: string
   excerpt: string
-  body?: any[]
+  body?: PortableTextBlock[]
   seo?: SEO
 }
 
@@ -105,7 +108,7 @@ export interface AcademyCourse {
   slug: { current: string }
   coverImage?: SanityImage
   shortDescription: string
-  fullDescription?: any[]
+  fullDescription?: PortableTextBlock[]
   status: 'available' | 'coming-soon'
   ctaLink?: string
   order: number

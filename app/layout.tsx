@@ -33,14 +33,22 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   let icons = {}
-  if (settings?.favicon) {
+  let ogImage = undefined
+
+  if (settings?.favicon || settings?.ogImage) {
     const { urlFor } = await import('@/sanity/lib/image')
-    icons = { icon: urlFor(settings.favicon).url() }
+    if (settings.favicon) {
+      icons = { icon: urlFor(settings.favicon).url() }
+    }
+    if (settings.ogImage) {
+      ogImage = urlFor(settings.ogImage).width(1200).height(630).url()
+    }
   }
 
   const siteName = settings?.siteName || 'TechmireSolutions'
   const defaultTitle = `${siteName} — Software House and Design Studio`
   const description = settings?.tagline || "At Techmire Solutions, we're on a mission to redefine what a Software House can do. From web development to digital marketing, we build the future of your business."
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'
 
   return {
     title: {
@@ -48,8 +56,15 @@ export async function generateMetadata(): Promise<Metadata> {
       default: defaultTitle,
     },
     description,
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://techmiresolutions.com'),
-    openGraph: { siteName, type: 'website' },
+    metadataBase: new URL(baseUrl),
+    alternates: {
+      canonical: baseUrl,
+    },
+    openGraph: { 
+      siteName, 
+      type: 'website',
+      images: ogImage ? [ogImage] : undefined,
+    },
     robots: { index: true, follow: true },
     icons,
   }
