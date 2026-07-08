@@ -26,6 +26,9 @@ export async function POST(req: NextRequest) {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
         },
+        tls: {
+          rejectUnauthorized: false
+        }
       })
 
       await transporter.sendMail({
@@ -49,8 +52,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true })
-  } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
+  } catch (err: any) {
+    console.error('SMTP Error:', err)
+    return NextResponse.json({ error: err?.message || 'Failed to send message' }, { status: 500 })
   }
 }
