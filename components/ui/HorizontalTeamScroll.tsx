@@ -96,7 +96,7 @@ function Card({ member, index }: { member: TeamMember, index: number }) {
     <motion.div
       whileHover={{ scale: 0.98 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="group relative flex-shrink-0 w-[70vw] md:w-[400px] aspect-[3/4] rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing border border-white/10 bg-white/5"
+      className="group relative flex-shrink-0 w-[80vw] md:w-[400px] aspect-[3/4] rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing border border-white/10 bg-white/5"
     >
       {member.photo ? (
         <motion.div 
@@ -123,18 +123,18 @@ function Card({ member, index }: { member: TeamMember, index: number }) {
       {/* Dynamic Overlay & Text */}
       <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent pointer-events-none transition-opacity duration-500 opacity-80 group-hover:opacity-100" />
       
-      <div className="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-        <h4 className="text-3xl font-medium text-white mb-2 tracking-tight">{member.name}</h4>
-        <p className="text-white/60 text-sm tracking-[0.2em] uppercase font-light">{member.role}</p>
+      <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+        <h4 className="text-2xl md:text-3xl font-medium text-white mb-1 md:mb-2 tracking-tight leading-tight">{member.name}</h4>
+        <p className="text-white/70 text-[11px] md:text-sm tracking-wider md:tracking-[0.2em] uppercase font-light leading-relaxed">{member.role}</p>
         
         {member.linkedin && (
           <a
             href={member.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm font-light uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
+            className="mt-4 md:mt-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-xs md:text-sm font-light uppercase tracking-wider opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
           >
-            <span className="w-8 h-[1px] bg-white/40 group-hover:bg-white transition-colors" />
+            <span className="w-6 md:w-8 h-[1px] bg-white/40 group-hover:bg-white transition-colors" />
             LinkedIn
           </a>
         )}
