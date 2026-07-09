@@ -38,7 +38,7 @@ export default defineConfig({
             orderableDocumentListDeskItem({ type: 'teamMember', title: 'Team Members', S, context }),
             S.documentTypeListItem('clientLogo').title('Client Logos'),
             S.documentTypeListItem('blogPost').title('Blog Posts'),
-            S.documentTypeListItem('academyCourse').title('Academy Courses'),
+            orderableDocumentListDeskItem({ type: 'academyCourse', title: 'Academy Courses', S, context }),
             S.documentTypeListItem('promiseItem').title('Promise Items'),
             S.documentTypeListItem('valuePillar').title('Value Pillars'),
             S.divider(),

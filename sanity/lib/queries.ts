@@ -28,7 +28,7 @@ export const blogPostBySlugQuery = groq`
   *[_type == "blogPost" && slug.current == $slug][0]
 `
 
-export const academyCoursesQuery = groq`*[_type == "academyCourse"] | order(order asc)`
+export const academyCoursesQuery = groq`*[_type == "academyCourse"] | order(orderRank)`
 
 export const promiseItemsQuery = groq`*[_type == "promiseItem"] | order(order asc)`
 
