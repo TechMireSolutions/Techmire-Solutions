@@ -1,38 +1,29 @@
-name: Techmire Production Deployment Pipeline			
-			
-on:			
-push:			
-branches: [ main ] 			
-			
-jobs:			
-deploy:			
-runs-on: ubuntu-latest			
-			
-steps:			
-- name: Checkout Repository Code			
-uses: actions/checkout@v4			
-			
-- name: Executing Remote SSH Commands for Build and Deploy			
-uses: appleboy/ssh-action@master			
-with:			
-host: ${{ secrets.SSH_HOST }}			
-username: ${{ secrets.SSH_USERNAME }}			
-key: ${{ secrets.SSH_KEY }}			
-port: ${{ secrets.SSH_PORT }}			
-script: |			
-# 1. open folder			
-cd /www/wwwroot/techmiresolutions.com			
-			
-# 2. Latest code pull 			
-git pull origin main			
-			
-# 3. Dependencies install 			
-npm install			
-			
-# 4. Fresh production build 			
-npm run build			
-			
-# 5. Port 3001 fresh			
-npx pm2 delete techmire-frontend || true			
-PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start -p 3001			
-npx pm2 save
+name: Techmire Production Deployment Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    - name: Executing Remote SSH Commands for Build and Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /www/wwwroot/techmiresolutions.com
+          git pull origin main
+          npm install
+          npm run build
+          npx pm2 delete techmire-frontend || true
+          PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start -p 3001
+          npx pm2 save
