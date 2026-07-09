@@ -17,8 +17,8 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        password: ${{ secrets.SSH_PASSWORD }} # <-- Key ki jagah direct password check
+        port: 22 # <-- Isko strictly 22 (ya aapka asli SSH terminal port) rakhein
         script: |
           cd /www/wwwroot/techmiresolutions.com
           git pull origin main
