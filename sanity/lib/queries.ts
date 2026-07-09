@@ -14,7 +14,7 @@ export const serviceBySlugQuery = groq`
   *[_type == "service" && slug.current == $slug][0]
 `
 
-export const teamMembersQuery = groq`*[_type == "teamMember"] | order(order asc)`
+export const teamMembersQuery = groq`*[_type == "teamMember"] | order(orderRank)`
 
 export const clientLogosQuery = groq`*[_type == "clientLogo"] | order(order asc)`
 

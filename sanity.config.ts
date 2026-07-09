@@ -2,6 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './sanity/schemas'
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!
@@ -14,7 +15,7 @@ export default defineConfig({
   schema: { types: schemaTypes },
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title('Content')
           .items([
@@ -34,7 +35,7 @@ export default defineConfig({
               .child(S.document().schemaType('academyPage').documentId('academyPage')),
             S.divider(),
             S.documentTypeListItem('service').title('Services'),
-            S.documentTypeListItem('teamMember').title('Team Members'),
+            orderableDocumentListDeskItem({ type: 'teamMember', title: 'Team Members', S, context }),
             S.documentTypeListItem('clientLogo').title('Client Logos'),
             S.documentTypeListItem('blogPost').title('Blog Posts'),
             S.documentTypeListItem('academyCourse').title('Academy Courses'),

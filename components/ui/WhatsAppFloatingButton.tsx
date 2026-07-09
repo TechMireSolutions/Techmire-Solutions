@@ -1,9 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 export default function WhatsAppFloatingButton({ whatsappNumber }: { whatsappNumber?: string }) {
-  if (!whatsappNumber) return null
+  const pathname = usePathname()
+  
+  if (!whatsappNumber || pathname?.startsWith('/studio')) return null
 
   // Remove any spaces or special characters from the number to construct the wa.me link
   const formattedNumber = whatsappNumber.replace(/[^0-9]/g, '')
