@@ -18,12 +18,27 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }} # <-- Yeh lazmi aisa hona chahiye, 22 nahi hona chahiye
+        port: ${{ secrets.SSH_PORT }}
         script: |
+          # 1. Project folder mein jayein
           cd /www/wwwroot/techmiresolutions.com
-          git pull origin main
+          
+          # 2. Hard pull karein taake agar server par koi file conflict ho toh solve ho jaye
+          git fetch --all
+          git reset --hard origin/main
+          
+          # 3. Fresh dependencies aur build nikaalein
           npm install
           npm run build
-          npx pm2 delete techmire-frontend || true
-          PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start -p 3001
-          npx pm2 save
+          
+          # 4. Global PATH set karke aaPanel ke asal PM2 ko reload/restart karein
+          export PATH=$PATH:/usr/local/bin:/usr/bin
+          
+          # 5. Purane root standard processes ko kill karke strictly direct production refresh karein
+          pm2 delete techmire-frontend || npx pm2 delete techmire-frontend || true
+          
+          # 6. Global format par port override ke sath run karein
+          PORT=3001 pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001 || PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001
+          
+          # 7. State save karein taake server reboot par automatic chalu rahe
+          pm2 save || npx pm2 save
