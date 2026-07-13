@@ -27,19 +27,31 @@ jobs:
           git fetch --all
           git reset --hard origin/main
           
-          # 3. Purana build saaf karein aur fresh dependencies + build nikaalein
-          rm -rf .next .cache
-          npm install
-          npm run build
+          # 3. Server par env files restore karein (git inko ignore karta hai)
+          if [ ! -f .env.local ]; then
+            echo "WARNING: .env.local not found on server!"
+          fi
           
-          # 4. Global PATH set karke aaPanel ke asal PM2 ko reload/restart karein
+          # 4. Purana build saaf karein taake stale chunks na rahein
+          rm -rf .next .cache
+          
+          # 5. Fresh dependencies install karein
+          npm install
+          
+          # 6. Build karein — agar build fail ho toh deploy roko
+          npm run build || { echo "BUILD FAILED"; exit 1; }
+          
+          # 7. Global PATH set karke aaPanel ke asal PM2 ko reload/restart karein
           export PATH=$PATH:/usr/local/bin:/usr/bin
           
-          # 5. Purane root standard processes ko kill karke strictly direct production refresh karein
+          # 8. Purane process ko kill karke fresh start karein
           pm2 delete techmire-frontend || npx pm2 delete techmire-frontend || true
           
-          # 6. Global format par port override ke sath run karein
+          # 9. PM2 par start karein
           PORT=3001 pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001 || PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001
           
-          # 7. State save karein taake server reboot par automatic chalu rahe
+          # 10. State save karein taake server reboot par automatic chalu rahe
           pm2 save || npx pm2 save
+          
+          # 11. Verify karein ki build sahi hai
+          ls -la .next/static/chunks/ | head -5
