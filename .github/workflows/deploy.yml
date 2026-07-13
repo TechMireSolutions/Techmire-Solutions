@@ -20,38 +20,47 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          set -e
+          
           # 1. Project folder mein jayein
           cd /www/wwwroot/techmiresolutions.com
           
-          # 2. Hard pull karein taake agar server par koi file conflict ho toh solve ho jaye
+          # 2. Hard pull karein
           git fetch --all
           git reset --hard origin/main
           
-          # 3. Server par env files restore karein (git inko ignore karta hai)
+          # 3. Check env file aur SMTP_FROM fix karein (angle brackets env parser todte hain)
           if [ ! -f .env.local ]; then
-            echo "WARNING: .env.local not found on server!"
+            echo "ERROR: .env.local not found on server!"
+            exit 1
           fi
+          sed -i 's|^SMTP_FROM=Techmire Solutions <connect@techmiresolutions.com>$|SMTP_FROM="Techmire Solutions <connect@techmiresolutions.com>"|' .env.local
           
-          # 4. Purana build saaf karein taake stale chunks na rahein
+          # 4. Purana build saaf karein
           rm -rf .next .cache
           
-          # 5. Fresh dependencies install karein
+          # 5. Fresh dependencies install
           npm install
           
-          # 6. Build karein — agar build fail ho toh deploy roko
-          npm run build || { echo "BUILD FAILED"; exit 1; }
+          # 6. Sirf next build karein (next-sitemap ko skip karein taake env error na aaye)
+          npx next build
           
-          # 7. Global PATH set karke aaPanel ke asal PM2 ko reload/restart karein
+          # 7. Verify karein ki chunks bane hain
+          if [ ! -d ".next/static/chunks" ]; then
+            echo "ERROR: Build incomplete — .next/static/chunks missing!"
+            exit 1
+          fi
+          echo "Build verified: chunks exist"
+          ls .next/static/chunks/ | head -5
+          
+          # 8. Global PATH
           export PATH=$PATH:/usr/local/bin:/usr/bin
           
-          # 8. Purane process ko kill karke fresh start karein
+          # 9. Purane process ko kill karke fresh start
           pm2 delete techmire-frontend || npx pm2 delete techmire-frontend || true
           
-          # 9. PM2 par start karein
-          PORT=3001 pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001 || PORT=3001 npx pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001
+          # 10. PM2 par start
+          PORT=3001 pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001
           
-          # 10. State save karein taake server reboot par automatic chalu rahe
+          # 11. State save
           pm2 save || npx pm2 save
-          
-          # 11. Verify karein ki build sahi hai
-          ls -la .next/static/chunks/ | head -5
