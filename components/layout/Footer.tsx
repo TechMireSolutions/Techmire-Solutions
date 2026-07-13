@@ -7,10 +7,10 @@ interface FooterProps { logoUrl?: string | null }
 const SERVICES = [
   { l: 'All Services',       h: '/services' },
   { l: 'Web Development',    h: '/services/web-development' },
-  { l: 'Software Dev',       h: '/services/software-solution' },
+  { l: 'Software Development', h: '/services/software-development' },
   { l: 'Graphic Design',     h: '/services/graphic-design' },
   { l: 'Digital Marketing',  h: '/services/digital-marketing' },
-  { l: 'SEO',                h: '/services/search-engine-optimization' },
+  { l: 'SEO',                h: '/services/seo' },
 ]
 const COMPANY = [
   { l: 'About Us',   h: '/about-us' },
