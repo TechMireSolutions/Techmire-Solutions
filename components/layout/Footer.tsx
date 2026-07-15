@@ -36,8 +36,8 @@ export default function Footer({ logoUrl }: FooterProps) {
 
           {/* Office */}
           <div>
-            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/15 mb-7 font-medium">Office</p>
-            <address className="not-italic space-y-2.5 text-white/30 text-[12.5px] leading-relaxed font-light">
+            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/50 mb-7 font-medium">Office</p>
+            <address className="not-italic space-y-2.5 text-white/60 text-[12.5px] leading-relaxed font-light">
               <p>R-591, F.B Area Block 20</p>
               <p>Karachi, Sindh, Pakistan</p>
               <a href="tel:+923172225152" className="block hover:text-white transition-colors mt-3">
@@ -51,11 +51,11 @@ export default function Footer({ logoUrl }: FooterProps) {
 
           {/* Services */}
           <div>
-            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/15 mb-7 font-medium">Services</p>
+            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/50 mb-7 font-medium">Services</p>
             <ul className="space-y-3">
               {SERVICES.map(i => (
                 <li key={i.h}>
-                  <Link href={i.h} className="text-white/30 text-[12.5px] hover:text-white transition-colors font-light">
+                  <Link href={i.h} className="text-white/60 text-[12.5px] hover:text-white transition-colors font-light">
                     {i.l}
                   </Link>
                 </li>
@@ -65,11 +65,11 @@ export default function Footer({ logoUrl }: FooterProps) {
 
           {/* Company */}
           <div>
-            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/15 mb-7 font-medium">Company</p>
+            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/50 mb-7 font-medium">Company</p>
             <ul className="space-y-3">
               {COMPANY.map(i => (
                 <li key={i.h}>
-                  <Link href={i.h} className="text-white/30 text-[12.5px] hover:text-white transition-colors font-light">
+                  <Link href={i.h} className="text-white/60 text-[12.5px] hover:text-white transition-colors font-light">
                     {i.l}
                   </Link>
                 </li>
@@ -79,7 +79,7 @@ export default function Footer({ logoUrl }: FooterProps) {
 
           {/* Social + CTA */}
           <div>
-            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/15 mb-7 font-medium">Follow</p>
+            <p className="text-[9.5px] uppercase tracking-[0.3em] text-white/50 mb-7 font-medium">Follow</p>
             <ul className="space-y-3">
               {SOCIAL.map(i => (
                 <li key={i.l}>
@@ -87,7 +87,7 @@ export default function Footer({ logoUrl }: FooterProps) {
                     href={i.h}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-1.5 text-white/30 text-[12.5px] hover:text-white transition-colors font-light"
+                    className="group flex items-center gap-1.5 text-white/60 text-[12.5px] hover:text-white transition-colors font-light"
                   >
                     {i.l}
                     <ArrowUpRight
@@ -117,7 +117,7 @@ export default function Footer({ logoUrl }: FooterProps) {
         </div>
 
         {/* Copyright strip */}
-        <div className="flex items-center justify-between py-5 text-white/12 text-[11px] font-light">
+        <div className="flex items-center justify-between py-5 text-white/50 text-[11px] font-light">
           <div className="flex items-center gap-3">
             <LogoMark size={22} src={logoUrl} />
             <span>&copy; 2026 TechmireSolutions</span>
@@ -130,13 +130,14 @@ export default function Footer({ logoUrl }: FooterProps) {
 
       {/* Mega brand watermark */}
       <div className="overflow-hidden border-t border-white/[0.04]">
-        <p
+        <div
           className="font-[200] text-white/[0.06] leading-[0.82] tracking-[-0.05em] whitespace-nowrap px-2 pt-4 pb-6 select-none"
           style={{ fontSize: 'clamp(80px, 19vw, 300px)' }}
-          aria-hidden
+          aria-hidden="true"
+          role="presentation"
         >
           TechmireSolutions
-        </p>
+        </div>
       </div>
 
     </footer>

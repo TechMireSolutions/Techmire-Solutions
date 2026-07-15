@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import NavbarWrapper from '@/components/layout/NavbarWrapper'
 import FooterWrapper from '@/components/layout/FooterWrapper'
@@ -12,6 +13,21 @@ const inter = Inter({
   subsets: ['latin'],
   weight: ['200', '300', '400', '500', '600', '700'],
   variable: '--font-inter',
+  display: 'swap',
+})
+
+const alliance = localFont({
+  src: [
+    { path: '../public/fonts/AllianceNo2-Light.otf', weight: '200', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-Light.otf', weight: '300', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-Regular.otf', weight: '400', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-Medium.otf', weight: '500', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-SemiBold.otf', weight: '600', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-Bold.otf', weight: '700', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-ExtraBold.otf', weight: '800', style: 'normal' },
+    { path: '../public/fonts/AllianceNo2-Black.otf', weight: '900', style: 'normal' },
+  ],
+  variable: '--font-alliance',
   display: 'swap',
 })
 
@@ -73,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${alliance.variable}`} suppressHydrationWarning>
       <body className="antialiased font-sans" suppressHydrationWarning>
         <LenisProvider>
           <Grain />

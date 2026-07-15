@@ -65,6 +65,15 @@ export default function HeroSection({ data }: HeroProps) {
   const gridX = useTransform(smoothX, [-1, 1], [-20, 20])
   const gridY = useTransform(smoothY, [-1, 1], [-20, 20])
 
+  const [isMobile, setIsMobile] = useState(true)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window
@@ -81,24 +90,26 @@ export default function HeroSection({ data }: HeroProps) {
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
       {/* ── Dynamic Floating Lines Background ── */}
-      <motion.div
-        style={{ y: y1, opacity }}
-        className="absolute inset-0 overflow-hidden"
-      >
-        <FloatingLines 
-          enabledWaves={["top","middle","bottom"]}
-          topWavePosition={undefined as any}
-          middleWavePosition={undefined as any}
-          lineCount={[8, 8, 8]}
-          lineDistance={[8, 8, 8]}
-          bendRadius={8}
-          bendStrength={-2}
-          interactive
-          parallax={true}
-          animationSpeed={1}
-          linesGradient={["#EF6525", "#6f6f6f", "#6a6a6a"]}
-        />
-      </motion.div>
+      {!isMobile && (
+        <motion.div
+          style={{ y: y1, opacity }}
+          className="absolute inset-0 overflow-hidden"
+        >
+          <FloatingLines 
+            enabledWaves={["top","middle","bottom"]}
+            topWavePosition={undefined as any}
+            middleWavePosition={undefined as any}
+            lineCount={[8, 8, 8]}
+            lineDistance={[8, 8, 8]}
+            bendRadius={8}
+            bendStrength={-2}
+            interactive
+            parallax={true}
+            animationSpeed={1}
+            linesGradient={["#EF6525", "#6f6f6f", "#6a6a6a"]}
+          />
+        </motion.div>
+      )}
 
       {/* ── Dynamic Grid backdrop ── */}
       <motion.div

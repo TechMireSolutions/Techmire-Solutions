@@ -17,8 +17,8 @@ export default function MarqueeTicker({ text, repeat = 10, speed = 55, variant =
     : [...ITEMS, ...ITEMS, ...ITEMS]
 
   const bg = variant === 'orange' ? 'bg-orange' : variant === 'light' ? 'bg-light' : 'bg-dark border-y border-white/[0.06]'
-  const fg = variant === 'orange' ? 'text-white/70' : variant === 'light' ? 'text-dark/40' : 'text-white/20'
-  const sep = variant === 'orange' ? 'text-white/30' : 'text-current opacity-30'
+  const fg = variant === 'orange' ? 'text-white' : variant === 'light' ? 'text-dark/70' : 'text-white/50'
+  const sep = variant === 'orange' ? 'text-white/60' : 'text-current opacity-60'
 
   return (
     <div className={`overflow-hidden py-5 ${bg}`}>
