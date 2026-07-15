@@ -50,6 +50,20 @@ html.lenis { height: auto; }
 .page-enter { opacity: 0; transform: translateY(12px); }
 .page-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1); }
 
+/* ── CSS Animations for Hero (LCP Optimization) ── */
+@keyframes slideUpFade {
+  0% { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up-fade {
+  opacity: 0;
+  animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+.page-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+
 /* ── Focus visible — keyboard nav accessibility ── */
 :focus-visible {
   outline: 2px solid var(--orange);

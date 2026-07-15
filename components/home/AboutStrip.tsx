@@ -81,7 +81,7 @@ export default function AboutStrip({ data }: { data: HomepageData | null }) {
               alt="Techmire Solutions Team"
               fill
               quality={60}
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 768px) 70vw, 50vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-dark/60 via-transparent to-transparent pointer-events-none" />

@@ -127,8 +127,8 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
             src={backgroundImage ? urlFor(backgroundImage).url() : "/services-bg.png"}
             alt="Services Background"
             fill
-            quality={60}
-            sizes="(max-width: 1024px) 100vw, 66vw"
+            quality={40}
+            sizes="(max-width: 768px) 50vw, 33vw"
             className="object-cover opacity-20 mix-blend-luminosity group-hover/panel:opacity-30 transition-opacity duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-dark/90 to-dark/40" />

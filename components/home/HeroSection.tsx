@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
@@ -90,10 +91,43 @@ export default function HeroSection({ data }: HeroProps) {
   return (
     <section className="relative min-h-screen bg-dark overflow-hidden">
       {/* ── Dynamic Floating Lines Background ── */}
-      {!isMobile && (
+      {isMobile ? (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Animated Aurora Orbs for Mobile */}
+          <motion.div
+            animate={{
+              x: ['-10%', '20%', '-10%'],
+              y: ['-10%', '10%', '-10%'],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 left-0 w-[80vw] h-[80vw] rounded-full mix-blend-screen filter blur-[70px] opacity-40"
+            style={{ background: 'radial-gradient(circle, #E8522A 0%, transparent 70%)' }}
+          />
+          <motion.div
+            animate={{
+              x: ['20%', '-20%', '20%'],
+              y: ['20%', '-10%', '20%'],
+              scale: [0.8, 1.1, 0.8],
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[30%] right-[-10%] w-[90vw] h-[90vw] rounded-full mix-blend-screen filter blur-[80px] opacity-30"
+            style={{ background: 'radial-gradient(circle, #ff8c6b 0%, transparent 70%)' }}
+          />
+          <motion.div
+            animate={{
+              x: ['0%', '10%', '-10%', '0%'],
+              y: ['10%', '-20%', '10%'],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-[-10%] left-[20%] w-[100vw] h-[100vw] rounded-full mix-blend-screen filter blur-[90px] opacity-20"
+            style={{ background: 'radial-gradient(circle, #E8522A 0%, transparent 70%)' }}
+          />
+        </div>
+      ) : (
         <motion.div
           style={{ y: y1, opacity }}
-          className="absolute inset-0 overflow-hidden"
+          className="absolute inset-0 overflow-hidden pointer-events-none"
         >
           <FloatingLines 
             enabledWaves={["top","middle","bottom"]}
@@ -237,15 +271,12 @@ export default function HeroSection({ data }: HeroProps) {
           {/* ── Description + Stats row ── */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
 
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.68 }}
-              className="text-white/40 font-light leading-[1.82] max-w-[420px]"
+            <p
+              className="text-white/40 font-light leading-[1.82] max-w-[420px] animate-slide-up-fade animation-delay-600"
               style={{ fontSize: '15px' }}
             >
               {data?.heroSubtitle || "At Techmire Solutions, we're on a mission to redefine what a Software House can do. From turning napkin sketches into full-blown apps to spearheading the Digital Transformation of your business, we’ve mastered the art of making magic happen."}
-            </motion.p>
+            </p>
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
