@@ -2,14 +2,16 @@ import { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
 import { homepageQuery, servicesQuery, clientLogosQuery, valuePillarsQuery, promiseItemsQuery } from '@/sanity/lib/queries'
 import HeroSection from '@/components/home/HeroSection'
-import ExpertiseSection from '@/components/home/ExpertiseSection'
-import AboutStrip from '@/components/home/AboutStrip'
-import ServicesCarousel from '@/components/home/ServicesCarousel'
-import WhyUsSection from '@/components/home/WhyUsSection'
-import CTABanner from '@/components/home/CTABanner'
-import ClientsSection from '@/components/home/ClientsSection'
-import PromiseSection from '@/components/home/PromiseSection'
-import MarqueeTicker from '@/components/ui/MarqueeTicker'
+import dynamic from 'next/dynamic'
+
+const ExpertiseSection = dynamic(() => import('@/components/home/ExpertiseSection'), { ssr: true })
+const AboutStrip = dynamic(() => import('@/components/home/AboutStrip'), { ssr: true })
+const ServicesCarousel = dynamic(() => import('@/components/home/ServicesCarousel'), { ssr: true })
+const WhyUsSection = dynamic(() => import('@/components/home/WhyUsSection'), { ssr: true })
+const CTABanner = dynamic(() => import('@/components/home/CTABanner'), { ssr: true })
+const ClientsSection = dynamic(() => import('@/components/home/ClientsSection'), { ssr: true })
+const PromiseSection = dynamic(() => import('@/components/home/PromiseSection'), { ssr: true })
+const MarqueeTicker = dynamic(() => import('@/components/ui/MarqueeTicker'), { ssr: true })
 
 export const revalidate = 60
 

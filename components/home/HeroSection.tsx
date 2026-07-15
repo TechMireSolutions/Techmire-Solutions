@@ -7,8 +7,13 @@ import { ArrowUpRight, MoveRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
 import MagneticButton from '@/components/ui/MagneticButton'
 import AnimatedText from '@/components/ui/AnimatedText'
-import FloatingLines from '@/components/FloatingLines'
+import dynamic from 'next/dynamic'
 import type { HomepageData } from '@/sanity/lib/types'
+
+const FloatingLines = dynamic(() => import('@/components/FloatingLines'), { 
+  ssr: false, 
+  loading: () => null 
+})
 
 function Counter({ to, suffix = '' }: { to: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement>(null)
@@ -63,6 +68,7 @@ export default function HeroSection({ data }: HeroProps) {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window
+      if (innerWidth < 768) return // Disable heavy mouse spring updates on mobile
       const x = (e.clientX / innerWidth) * 2 - 1
       const y = (e.clientY / innerHeight) * 2 - 1
       mouseX.set(x)
