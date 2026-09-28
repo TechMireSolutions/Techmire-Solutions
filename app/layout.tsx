@@ -11,7 +11,6 @@ import WhatsAppWrapper from '@/components/layout/WhatsAppWrapper'
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700'],
   variable: '--font-inter',
   display: 'swap',
 })
