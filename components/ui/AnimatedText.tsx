@@ -10,6 +10,7 @@ interface AnimatedTextProps {
   once?: boolean
   type?: 'word' | 'character'
   delay?: number
+  disableAnimation?: boolean
 }
 
 export default function AnimatedText({
@@ -19,9 +20,19 @@ export default function AnimatedText({
   once = true,
   type = 'word',
   delay = 0,
+  disableAnimation = false,
 }: AnimatedTextProps) {
   const textRef = useRef<HTMLSpanElement>(null)
   const isInView = useInView(textRef, { once, margin: '-20%' })
+
+  if (disableAnimation) {
+    const WrapperComponent = Wrapper as any
+    return (
+      <WrapperComponent className={className}>
+        {text}
+      </WrapperComponent>
+    )
+  }
 
   const words = text.split(' ')
 

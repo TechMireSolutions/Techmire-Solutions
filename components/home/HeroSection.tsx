@@ -227,7 +227,8 @@ export default function HeroSection({ data }: HeroProps) {
                 text="Believe in the"
                 type="word"
                 delay={0.1}
-                className="font-light text-white/28 leading-[1.15] tracking-[-0.01em]"
+                disableAnimation={true}
+                className="font-light text-white/40 leading-[1.15] tracking-[-0.01em]"
               />
             </div>
           </div>
@@ -240,6 +241,7 @@ export default function HeroSection({ data }: HeroProps) {
                 text="Software House"
                 type="character"
                 delay={0.3}
+                disableAnimation={true}
                 className="text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50 font-[200] leading-[0.86] tracking-[-0.045em] pb-2"
               />
             </div>
@@ -253,7 +255,8 @@ export default function HeroSection({ data }: HeroProps) {
                 text="You Can Trust"
                 type="word"
                 delay={0.9}
-                className="font-[200] leading-[0.86] tracking-[-0.045em] text-white/16"
+                disableAnimation={true}
+                className="font-[200] leading-[0.86] tracking-[-0.045em] text-white/30"
               />
             </div>
           </div>

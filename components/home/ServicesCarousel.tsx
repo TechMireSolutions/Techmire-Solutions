@@ -99,12 +99,12 @@ export default function ServicesCarousel({ heading, backgroundImage, services }:
               >
                 <div className="flex items-center gap-4">
                   <span className={`text-[9px] tabular-nums font-medium tracking-[0.12em] transition-colors duration-300 ${
-                    isActive ? 'text-orange' : 'text-white/70'
+                    isActive ? 'text-orange' : 'text-white/80'
                   }`}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className={`text-[13.5px] font-light tracking-[-0.01em] transition-colors duration-300 ${
-                    isActive ? 'text-white' : 'text-white/70 group-hover:text-white'
+                    isActive ? 'text-white' : 'text-white/80 group-hover:text-white'
                   }`}>
                     {s.title}
                   </span>
