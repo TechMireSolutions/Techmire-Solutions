@@ -131,7 +131,7 @@ export default function Footer({ logoUrl }: FooterProps) {
       {/* Mega brand watermark */}
       <div className="overflow-hidden border-t border-white/[0.04]">
         <div
-          className="font-[200] text-white/[0.06] leading-[0.82] tracking-[-0.05em] whitespace-nowrap px-2 pt-4 pb-6 select-none"
+          className="font-[200] text-white/20 leading-[0.82] tracking-[-0.05em] whitespace-nowrap px-2 pt-4 pb-6 select-none"
           style={{ fontSize: 'clamp(80px, 19vw, 300px)' }}
           aria-hidden="true"
           role="presentation"

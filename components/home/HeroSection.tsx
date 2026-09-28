@@ -204,26 +204,16 @@ export default function HeroSection({ data }: HeroProps) {
 
         {/* ── Overline bar ── */}
         <div className="pt-[108px] flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.65, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-3"
-          >
+          <div className="flex items-center gap-3">
             <span className="w-5 h-px bg-orange/60" />
-            <span className="text-[10.5px] uppercase tracking-[0.28em] text-white/28 font-medium">
+            <span className="text-[10.5px] uppercase tracking-[0.28em] text-white/60 font-medium">
               Software House{' '}&#183;{' '}Design Studio{' '}&#183;{' '}Karachi
             </span>
-          </motion.div>
+          </div>
 
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-[10.5px] text-white/14 tracking-[0.2em] font-light hidden sm:block"
-          >
+          <span className="text-[10.5px] text-white/50 tracking-[0.2em] font-light hidden sm:block">
             Est. 2020
-          </motion.span>
+          </span>
         </div>
 
         {/* ── Three-line typographic heading ── */}
