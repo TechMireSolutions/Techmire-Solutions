@@ -1,66 +1,34 @@
-name: Techmire Production Deployment Pipeline
+name: Deploy to VPS
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository Code
-      uses: actions/checkout@v5
-
-    - name: Executing Remote SSH Commands for Build and Deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          set -e
-          
-          # 1. Project folder mein jayein
-          cd /www/wwwroot/techmiresolutions.com
-          
-          # 2. Hard pull karein
-          git fetch --all
-          git reset --hard origin/main
-          
-          # 3. Check env file aur SMTP_FROM fix karein (angle brackets env parser todte hain)
-          if [ ! -f .env.local ]; then
-            echo "ERROR: .env.local not found on server!"
-            exit 1
-          fi
-          sed -i 's|^SMTP_FROM=Techmire Solutions <connect@techmiresolutions.com>$|SMTP_FROM="Techmire Solutions <connect@techmiresolutions.com>"|' .env.local
-          
-          # 4. Purana build saaf karein
-          rm -rf .next .cache
-          
-          # 5. Fresh dependencies install
-          npm install
-          
-          # 6. Sirf next build karein (next-sitemap ko skip karein taake env error na aaye)
-          npx next build
-          
-          # 7. Verify karein ki chunks bane hain
-          if [ ! -d ".next/static/chunks" ]; then
-            echo "ERROR: Build incomplete — .next/static/chunks missing!"
-            exit 1
-          fi
-          echo "Build verified: chunks exist"
-          ls .next/static/chunks/ | head -5
-          
-          # 8. Global PATH
-          export PATH=$PATH:/usr/local/bin:/usr/bin
-          
-          # 9. Purane process ko kill karke fresh start
-          pm2 delete techmire-frontend || npx pm2 delete techmire-frontend || true
-          
-          # 10. PM2 par start
-          PORT=3001 pm2 start node_modules/next/dist/bin/next --name "techmire-frontend" -- start --port 3001
-          
-          # 11. State save
-          pm2 save || npx pm2 save
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.0.3 
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_B64 }}
+          script: |
+            # Set the project path based on your VPS setup
+            # If your app is in a specific directory, cd into it
+            # Using the previous workflow's path as an example, but adjust if needed
+            PROJECT_DIR="/www/wwwroot/techmiresolutions.com"
+            cd $PROJECT_DIR
+            
+            # Fetch the latest code and hard reset to the deployed commit
+            git fetch origin main
+            git reset --hard ${{ github.sha }}
+            
+            # Ensure the script is executable
+            chmod +x scripts/deploy-remote.sh
+            
+            # Run the deployment script
+            ./scripts/deploy-remote.sh
