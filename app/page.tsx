@@ -9,7 +9,6 @@ const AboutStrip = dynamic(() => import('@/components/home/AboutStrip'), { ssr: 
 const ServicesCarousel = dynamic(() => import('@/components/home/ServicesCarousel'), { ssr: true })
 const WhyUsSection = dynamic(() => import('@/components/home/WhyUsSection'), { ssr: true })
 const CTABanner = dynamic(() => import('@/components/home/CTABanner'), { ssr: true })
-const ClientsSection = dynamic(() => import('@/components/home/ClientsSection'), { ssr: true })
 const PromiseSection = dynamic(() => import('@/components/home/PromiseSection'), { ssr: true })
 const MarqueeTicker = dynamic(() => import('@/components/ui/MarqueeTicker'), { ssr: true })
 
@@ -55,8 +54,7 @@ export default async function HomePage() {
       <AboutStrip data={homepage} />
       <ServicesCarousel heading={homepage?.servicesHeading || 'What We Do Best'} backgroundImage={homepage?.servicesBackgroundImage} services={services} />
       <WhyUsSection heading={homepage?.whyUsHeading || 'We Are On Our Way To Be The Best'} pillars={pillars} />
-      <CTABanner data={homepage} />
-      <ClientsSection heading={homepage?.clientsHeading || 'Our Amazing Clients'} clients={clients} />
+      <CTABanner data={homepage} clients={clients} />
       <PromiseSection heading={homepage?.promiseHeading || 'Pinky Promise'} items={promises} />
     </>
   )

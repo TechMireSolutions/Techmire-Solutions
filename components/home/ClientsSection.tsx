@@ -18,31 +18,31 @@ const FALLBACK_NAMES = [
 ]
 
 export default function ClientsSection({ heading, clients }: { heading: string; clients: ClientLogo[] }) {
-  const items: (ClientLogo | { company: string, dummy: true })[] = clients.length > 0 
+  const items: (ClientLogo | { company: string, dummy: true })[] = clients?.length > 0 
     ? clients 
     : FALLBACK_NAMES.map(name => ({ company: name, dummy: true }))
     
   const track = [...items, ...items, ...items, ...items]
 
   return (
-    <section className="bg-dark border-t border-white/[0.05] border-b border-white/[0.05] py-20 overflow-hidden">
+    <div className="-mx-8 lg:-mx-16 pt-10 lg:pt-16">
       <div className="px-8 lg:px-16 mb-10">
         <FadeUp>
           <div className="flex items-center gap-3">
-            <span className="w-4 h-px bg-orange/40" />
-            <span className="text-[10.5px] uppercase tracking-[0.24em] text-white/20 font-medium">
-              {heading || 'Trusted By'}
+            <span className="w-4 h-px bg-dark/25" />
+            <span className="text-[10.5px] uppercase tracking-[0.24em] text-dark/30 font-medium">
+              {heading || 'Our Amazing Clients'}
             </span>
           </div>
         </FadeUp>
       </div>
 
       <div className="relative overflow-hidden">
-        <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-light to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-light to-transparent z-10 pointer-events-none" />
 
         <motion.div
-          className="flex items-center gap-16 md:gap-24 whitespace-nowrap px-4"
+          className="flex items-center gap-6 md:gap-10 whitespace-nowrap px-4"
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
         >
@@ -61,7 +61,7 @@ export default function ClientsSection({ heading, clients }: { heading: string; 
                     />
                   </div>
                 ) : (
-                  <span className="text-[24px] font-bold text-white/80 hover:text-white transition-colors duration-300 tracking-wider">
+                  <span className="text-[24px] font-bold text-dark/40 hover:text-dark transition-colors duration-300 tracking-wider">
                     {item.company}
                   </span>
                 )}
@@ -70,6 +70,6 @@ export default function ClientsSection({ heading, clients }: { heading: string; 
           })}
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }

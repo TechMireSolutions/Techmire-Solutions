@@ -6,11 +6,12 @@ import { ArrowUpRight, MoveRight } from 'lucide-react'
 import FadeUp from '@/components/ui/FadeUp'
 import MagneticButton from '@/components/ui/MagneticButton'
 import AnimatedText from '@/components/ui/AnimatedText'
-import type { HomepageData } from '@/sanity/lib/types'
+import type { HomepageData, ClientLogo } from '@/sanity/lib/types'
+import ClientsSection from './ClientsSection'
 
-export default function CTABanner({ data }: { data: HomepageData | null }) {
+export default function CTABanner({ data, clients }: { data: HomepageData | null; clients: ClientLogo[] }) {
   return (
-    <section className="bg-light py-28 lg:py-44 px-8 lg:px-16 overflow-hidden">
+    <section className="bg-light pt-28 lg:pt-44 pb-16 lg:pb-24 px-8 lg:px-16 overflow-hidden">
 
       <FadeUp>
         <div className="flex items-center gap-3 mb-14">
@@ -54,7 +55,7 @@ export default function CTABanner({ data }: { data: HomepageData | null }) {
 
               <Link
                 href="/get-a-quote"
-                className="group inline-flex items-center gap-2.5 text-[12.5px] text-dark/32 hover:text-dark transition-colors duration-300 min-h-[44px]"
+                className="group inline-flex items-center gap-2.5 text-[12.5px] font-medium text-dark/80 hover:text-orange transition-colors duration-300 min-h-[44px]"
               >
                 Get a quote
                 <MoveRight
@@ -74,8 +75,10 @@ export default function CTABanner({ data }: { data: HomepageData | null }) {
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-20 lg:mt-28 h-px bg-dark/[0.07] origin-left"
+        className="mt-16 lg:mt-20 h-px bg-dark/[0.07] origin-left"
       />
+
+      <ClientsSection heading={data?.clientsHeading || 'Our Amazing Clients'} clients={clients} />
     </section>
   )
 }
